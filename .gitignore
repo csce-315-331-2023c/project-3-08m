@@ -131,4 +131,4 @@ dist
 
 # test files
 test.html
-views/test.ejs
+server/views/*
