@@ -8,19 +8,20 @@ const port = 3000;
 
 app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
-    const data = {menu: []};
-    res.send(data);
-    // res.render('index', data);
-})
+// app.get('/', (req, res) => {
+//     const data = {menu: []};
+//     res.send(data);
+//     // res.render('index', data);
+// })
 
-app.get('/test', async (req, res) => {
+app.get('/', async (req, res) => {
     const menu = await getMenu();
     const menuItem = await getSingleMenuItem(1);
+    const order2 = await getSingleOrder(2);
     console.log(menuItem);
     console.log('after');
     // console.log(menu);
-    res.render('test', {menu: menu, menuItem: menuItem});
+    res.render('test', {menu: menu, menuItem: menuItem, order: order2});
     // res.render('test', {menuItem: menuItem});
 });
 
@@ -56,7 +57,7 @@ async function getMenu() {
 }
 
 async function getSingleMenuItem(id) {
-    var menuItem = []
+    var menuItem = [];
     await pool
         .query('SELECT * FROM MENU WHERE id = '+id+';')
         .then(query_res => {
@@ -66,6 +67,30 @@ async function getSingleMenuItem(id) {
         });
     // console.log(menuItem);
     return menuItem[0];
+}
+
+async function getSingleOrder(id) {
+    var order = [];
+    await pool
+        .query('SELECT * FROM orders WHERE id = '+ id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                order.push(query_res.rows[i]);
+            }
+        });
+    return order[0];
+}
+
+async function getOrders() {
+    var orders = [];
+    await pool
+        .query('SELECT * FROM orders;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                orders.push(query_res.rows[i]);
+            }
+        });
+    return orders;
 }
 
 process.on('SIGINT', function() {
