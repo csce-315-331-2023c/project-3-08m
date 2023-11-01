@@ -1,4 +1,4 @@
-const express = require('express');
+// const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 
@@ -15,7 +15,7 @@ const pool = new Pool({
     ssl: {rejectUnauthorized: false}
 });
 
-var getMenu = function() {
+function getMenu() {
     menu = []
     // router.post(function() {
     pool
@@ -29,7 +29,7 @@ var getMenu = function() {
     return menu;
 }
 
-var getSingleMenuItem = function(router, id) {
+function getSingleMenuItem(id) {
     menuItem = []
     pool
         .query('SELECT * FROM MENU WHERE id = '+id+';')
