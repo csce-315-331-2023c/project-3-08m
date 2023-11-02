@@ -36,38 +36,183 @@ const pool = new Pool({
 
 // pool.connect();
 
+// MENU-INVENTORY JUNCTION
+
+async function getMenuItemInventoryItems(id) {
+    var inventoryItems = [];
+    try {
+        await pool
+            .query("")
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+
+                }
+            });
+        return inventoryItems;
+    }
+    catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+async function updateMenuItemInventoryItems(id, newInventoryItems) {
+    try {
+        await pool
+            .query("");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+// MENU
+
 async function getMenu() {
-    var menu = [];
+    var menu = null;
     // router.post(function() {
-    await pool
-        .query('SELECT * FROM MENU;')
-        .then(query_res => {
-            console.log(query_res.rowCount);
-            console.log(query_res.rows.length);
-            for(let i = 0; i < query_res.rowCount; i++) {
-                // console.log(i);
-                menu.push(query_res.rows[i]);
-            }
-            console.log("got menu");
-            // console.log(menu);
-            return menu;
-        });
+    try {
+        await pool
+            .query('SELECT * FROM menu;')
+            .then(query_res => {
+                // console.log(query_res.rowCount);
+                // console.log(query_res.rows.length);
+                menu = [];
+                for(let i = 0; i < query_res.rowCount; i++) {
+                    // console.log(i);
+                    menu.push(query_res.rows[i]);
+                }
+                // console.log("got menu");
+                // console.log(menu);
+                return menu;
+            });
+    }
+    catch (error) {
+        console.log(error);
+    }
     // })
     return menu;
 }
 
 async function getSingleMenuItem(id) {
-    var menuItem = [];
+    var menuItem = null;
+    try {
+        await pool
+            .query('SELECT * FROM menu WHERE id = '+id+';')
+            .then(query_res => {
+                // for (let i = 0; i < query_res.rowCount; i++) {
+                //     menuItem.push(query_res.rows[i]);
+                // }
+                menuItem = query_res.rows[0];
+            });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    // console.log(menuItem);
+    return menuItem;
+}
+
+async function addMenuItem(id, name, price, inventoryIds, addOnIds) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO menu (id, name, price) VALUES"+
+                "(" + id + ", \'" + name + "\', " + price + ");"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function deleteMenuItem(id) {
+    try {
+        await pool
+            .query(
+                "DELETE FROM menu WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateMenuItemName(id, newName) {
+    try {
+        await pool
+            .query(
+                "UPDATE menu SET name = \'" + newName + "\' WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateMenuItemPrice(id, newPrice) {
+    try {
+        await pool
+            .query(
+                "UPDATE menu SET price = " + newPrice + " WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+// MENU-ADD-ON JUNCTION
+
+async function updateMenuItemAddOns(id, newAddOns) {
+    try {
+        await pool
+            .query("");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+// ADD-ON SECTION
+
+async function getAddOns() {
+    var addOns = [];
     await pool
-        .query('SELECT * FROM MENU WHERE id = '+id+';')
+        .query('SELECT * FROM add_on;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++) {
-                menuItem.push(query_res.rows[i]);
+                addOns.push(query_res.rows[i]);
             }
         });
-    // console.log(menuItem);
-    return menuItem[0];
+    return addOns;
 }
+
+async function getSingleAddOn(id) {
+    var addOn = [];
+    await pool
+        .query('SELECT * FROM add_on WHERE id = ' + id + ';')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                addOn.push(query_res.rows[i]);
+            }
+        });
+    return addOn;
+}
+
+// ORDERS SECTION
 
 async function getSingleOrder(id) {
     var order = [];
