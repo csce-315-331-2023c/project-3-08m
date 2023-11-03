@@ -95,7 +95,7 @@ async function getMenu() {
     // router.post(function() {
     try {
         await pool
-            .query('SELECT * FROM menu;')
+            .query('SELECT * FROM menu ORDER BY id;')
             .then(query_res => {
                 // console.log(query_res.rowCount);
                 // console.log(query_res.rows.length);
@@ -253,7 +253,7 @@ async function updateMenuItemAddOns(id, newAddOns) {
 async function getAddOns() {
     var addOns = [];
     await pool
-        .query('SELECT * FROM add_on;')
+        .query('SELECT * FROM add_on ORDER BY id;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++) {
                 addOns.push(query_res.rows[i]);
@@ -366,7 +366,7 @@ async function getSingleOrder(id) {
 async function getOrders() {
     var orders = [];
     await pool
-        .query('SELECT * FROM orders;')
+        .query('SELECT * FROM orders ORDER BY id;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++) {
                 orders.push(query_res.rows[i]);
@@ -401,6 +401,20 @@ async function addOrder(price, menuItemIds, addOnIds) {
                 if (i < menuItemIds.length - 1) {
                     orderMenuQueryString += ", ";
                 }
+
+                var menuItemInventoryItems = await getMenuItemInventoryItems(menuItemIds[i]);
+                var hasInventory = (menuItemInventoryItems.length > 0);
+                var inventoryUpdateString = "UPDATE inventory SET amount_remaining = (amount_remaining - 1), amount_used = (amount_used + 1) WHERE id in (";
+                for (let j = 0; j < menuItemInventoryItems.length; j++) {
+                    inventoryUpdateString += menuItemInventoryItems[j].inventory_id;
+                    if (j < menuItemInventoryItems.length - 1) {
+                        inventoryUpdateString += ",";
+                    }
+                }
+                inventoryUpdateString += ");";
+                if (hasInventory) {
+                    await pool.query(inventoryUpdateString);
+                }
             }
             await pool.query(orderMenuQueryString);
             var hasAddOns = false;
@@ -412,6 +426,13 @@ async function addOrder(price, menuItemIds, addOnIds) {
                     if (j < addOnIds[i].length - 1) {
                         orderAddOnsQueryString += ",";
                     }
+
+                    var addOn = await getSingleAddOn(addOnIds[i][j]);
+                    await pool
+                        .query(
+                            "UPDATE inventory SET amount_remaining = (amount_remaining - 1), amount_used = (amount_used + 1) WHERE id = " + addOn.inventory_id + ";"
+                        );
+                    
                 }
                 if (i < addOnIds.length - 1 && addOnIds[i].length != 0) {
                     orderAddOnsQueryString += ",";
