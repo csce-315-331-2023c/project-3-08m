@@ -136,6 +136,14 @@ async function deleteMenuItem(id) {
             .query(
                 "DELETE FROM menu WHERE id = " + id + ";"
             );
+        await pool
+            .query(
+                "DELETE FROM menu_add_on WHERE menu_id = " + id + ";"
+            );
+        await pool
+            .query(
+                "DELETE FROM menu_inventory WHERE menu_id = " + id + ";"
+            );
         return true;
     }
     catch (error) {
@@ -174,10 +182,44 @@ async function updateMenuItemPrice(id, newPrice) {
 
 // MENU-ADD-ON JUNCTION
 
+async function getMenuItemAddOns(id) {
+    var addOns = null;
+    try {
+        await pool
+            .query(
+                "SELECT * FROM menu_add_on WHERE menu_id = " + id + ";"
+            )
+            .then(query_res => {
+                addOns = [];
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    addOns.push(query_res.rows[i]);
+                }
+            });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return addOns;
+}
+
 async function updateMenuItemAddOns(id, newAddOns) {
     try {
         await pool
-            .query("");
+            .query(
+                "DELETE FROM menu_add_on WHERE menu_id = " + id + ";"
+            );
+        if (newAddOns.length != 0) {
+            var queryString = "INSERT INTO menu_add_on (menu_id, add_on_id) VALUES ";
+            for (let i = 0; i < newAddOns.length; i++) {
+                queryString += "(" + id + ", " + newAddOns[i] + ")";
+                if (i < newAddOns.length - 1) {
+                    queryString += ",";
+                }
+            }
+            queryString += ";"
+            await pool
+                .query(queryString);
+        }
         return true;
     }
     catch (error) {
@@ -212,6 +254,66 @@ async function getSingleAddOn(id) {
     return addOn;
 }
 
+async function deleteAddOn(id) {
+    try {
+        await pool
+            .query(
+                "DELETE FROM add_on WHERE id = " + id + ";"
+            );
+        await pool
+            .query(
+                "DELETE FROM menu_add_on WHERE add_on_id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function setAddOnName(id, newName) {
+    try {
+        await pool
+            .query(
+                "UPDATE add_on SET name = \'" + newName + "\' WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function setAddOnPrice(id, newPrice) {
+    try {
+        await pool
+            .query(
+                "UPDATE add_on SET price = " + newPrice + " WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function setAddOnInventoryItem(id, newInventoryItemMapping) {
+    try {
+        await pool
+            .query(
+                "UPDATE add_on SET inventory_id = " + newInventoryItemMapping + " WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // ORDERS SECTION
 
 async function getSingleOrder(id) {
@@ -237,6 +339,8 @@ async function getOrders() {
         });
     return orders;
 }
+
+// OTHER STUFF
 
 process.on('SIGINT', function() {
     pool.end();
