@@ -42,10 +42,12 @@ async function getMenuItemInventoryItems(id) {
     var inventoryItems = [];
     try {
         await pool
-            .query("")
+            .query(
+                "SELECT * FROM menu_inventory WHERE menu_id = " + id + ";"
+            )
             .then(query_res => {
                 for (let i = 0; i < query_res.rowCount; i++) {
-
+                    inventoryItems.push(query_res.rows[i]);
                 }
             });
         return inventoryItems;
@@ -59,7 +61,19 @@ async function getMenuItemInventoryItems(id) {
 async function updateMenuItemInventoryItems(id, newInventoryItems) {
     try {
         await pool
-            .query("");
+            .query(
+                "DELETE FROM menu_inventory WHERE menu_id = " + id + ";"
+            );
+        if (newInventoryItems.length != 0) {
+            var queryString = "INSERT INTO menu_inventory (menu_id, inventory_id) VALUES ";
+            for (let i = 0; i < newInventoryItems.length; i++) {
+                queryString += "(" + id + ", " + newInventoryItems[i] + ")";
+                if (i < newInventoryItems.length - 1) {
+                    queryString += ",";
+                }
+            }
+            await pool.query(queryString);
+        }
         return true;
     }
     catch (error) {
@@ -251,7 +265,7 @@ async function getSingleAddOn(id) {
                 addOn.push(query_res.rows[i]);
             }
         });
-    return addOn;
+    return addOn[0];
 }
 
 async function deleteAddOn(id) {
