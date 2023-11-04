@@ -692,6 +692,22 @@ async function updateShiftStartTime(id, newStartTime) {
     }
 }
 
+async function updateShiftEndTime(id, newEndTime) {
+    try {
+        await pool
+            .query(
+                "UPDATE shifts " +
+                "SET end_time = " + newEndTime + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
