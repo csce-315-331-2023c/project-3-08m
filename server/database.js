@@ -510,7 +510,19 @@ async function getEmployees() {
     return employees;
 }
 
-
+async function addEmployee(id, userName, password, name, startDate, salary, position) {
+    try {
+        await pool
+            .query("INSERT INTO employee (id, username, password, name, start_date, salary, position) VALUES (" +
+            id + ", \'" + userName + "\', \'" + password + "\', \'" + name + "\', \'" + startDate +
+            "\', " + salary + ", \'" + position + "\');");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
 
 // OTHER STUFF
 
