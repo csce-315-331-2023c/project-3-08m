@@ -967,6 +967,23 @@ async function restockInventoryItem(id, restockDate, restockAmount) {
     }
 }
 
+async function useInventoryItem(id) {
+    try {
+        var item = getSingleInventoryItem(id);
+        var amountRemaining = item.amount_remaining;
+        var amountUsed = item.amount_used;
+        amountRemaining--;
+        amountUsed++;
+        var updatedAmtRem = updateInventoryItemAmountRemaining(id, amountRemaining);
+        var updatedAmtUsed = updateInventoryItemAmountUsed(id, amountUsed);
+        return updatedAmtRem && updatedAmtUsed;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
