@@ -569,7 +569,21 @@ async function updateEmployeePassword(id, newPassword) {
     }
 }
 
-
+async function updateEmployeeName(id, newName) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET name = \'" + newName + "\' " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }  
+}
 
 // OTHER STUFF
 
