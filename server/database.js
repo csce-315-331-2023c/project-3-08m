@@ -553,6 +553,24 @@ async function updateEmployeeUsername(id, newUsername) {
     }
 }
 
+async function updateEmployeePassword(id, newPassword) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET password = \'" + newPassword + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
