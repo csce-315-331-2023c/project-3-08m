@@ -807,6 +807,22 @@ async function updateEmployeeId(id, newEmployeeId) {
     }
 }
 
+async function updateMonth(id, newMonth) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET month = " + newMonth + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
