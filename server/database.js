@@ -823,6 +823,22 @@ async function updateMonth(id, newMonth) {
     }
 }
 
+async function updateDayOfWeek(id, newDayOfWeek) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET day_of_week = " + newDayOfWeek + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
