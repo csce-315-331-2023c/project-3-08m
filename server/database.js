@@ -892,6 +892,22 @@ async function deleteInventoryItem(id) {
     }
 }
 
+async function updateInventoryItemAmountRemaining(id, newAmountRemaining) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET amount_remaining = " + newAmountRemaining + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 
 // OTHER STUFF
 
