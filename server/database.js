@@ -940,6 +940,33 @@ async function updateInventoryItemName(id, newName) {
     }
 }
 
+async function restockInventoryItem(id, restockDate, restockAmount) {
+    try {
+        var item = [];
+        await pool
+            .query("SELECT * FROM inventory WHERE id = "+ id + ";")
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    item.push(query_res.rows[i]);
+                }
+            });
+        var rem = item[0].amount_remaining;
+        await pool
+            .query(
+                "UPDATE inventory " + 
+                "SET amount_remaining = " + (rem + restockAmount) + ", " + 
+                "last_restock_date = \'" + restockDate + "\', " + 
+                "amount_used = 0 " +    // amount_used is the amount used after the last restock
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
