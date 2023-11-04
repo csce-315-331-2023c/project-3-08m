@@ -484,6 +484,20 @@ async function deleteOrder(id) {
     }
 }
 
+// EMPLOYEE SECTION
+
+async function getSingleEmployee(id) {
+    var employee = [];
+    await pool
+        .query("SELECT * FROM employee where id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                employee.push(query_res.rows[i]);
+            }
+        });
+    return employee[0];
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
