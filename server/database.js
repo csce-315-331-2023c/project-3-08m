@@ -880,6 +880,18 @@ async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amou
     }
 }
 
+async function deleteInventoryItem(id) {
+    try {
+        await pool
+            .query("DELETE FROM inventory WHERE id = " + id + ";");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 
 // OTHER STUFF
 
