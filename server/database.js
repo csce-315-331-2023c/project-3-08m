@@ -865,6 +865,22 @@ async function getInventory() {
     return items;
 }
 
+async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amountUsed) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO inventory (id, name, last_restock_date, amount_remaining, amount_used) VALUES (" +
+                id + ", \'" + name + "\', \'" + lastRestockDate + "\', " + amountRemaining + ", " + amountUsed + ");"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
