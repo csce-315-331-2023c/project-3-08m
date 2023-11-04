@@ -484,6 +484,506 @@ async function deleteOrder(id) {
     }
 }
 
+// EMPLOYEE SECTION
+
+async function getSingleEmployee(id) {
+    var employee = [];
+    await pool
+        .query("SELECT * FROM employee where id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                employee.push(query_res.rows[i]);
+            }
+        });
+    return employee[0];
+}
+
+async function getEmployees() {
+    var employees = [];
+    await pool
+        .query("SELECT * FROM employee;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                employees.push(query_res.rows[i]);
+            }
+        });
+    return employees;
+}
+
+async function addEmployee(id, userName, password, name, startDate, salary, position) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO employee (id, username, password, name, start_date, salary, position) VALUES (" +
+                id + ", \'" + userName + "\', \'" + password + "\', \'" + name + "\', \'" + startDate +
+                "\', " + salary + ", \'" + position + "\');");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function deleteEmployee(id) {
+    try {
+        await pool
+            .query("DELETE FROM employee WHERE id = " + id + ";");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateEmployeeUsername(id, newUsername) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET username = \'" + newUsername + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateEmployeePassword(id, newPassword) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET password = \'" + newPassword + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateEmployeeName(id, newName) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET name = \'" + newName + "\' " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }  
+}
+
+async function updateEmployeeStartDate(id, newStartDate) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET start_date = \'" + newStartDate + "\' " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }  
+}
+
+async function updateEmployeeSalary(id, newSalary) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET salary = " + newSalary + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }  
+}
+
+async function updateEmployeePosition(id, newPosition) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET position = \'" + newPosition + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }  
+}
+
+// SHIFTS SECTION
+
+async function getSingleShift(id) {
+    var shift = [];
+    await pool
+        .query("SELECT * FROM shifts WHERE id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shift.push(query_res.rows[i]);
+            }
+        });
+    return shift[0];
+}
+
+async function addShift(id, startTime, endTime) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO shifts (id, start_time, end_time) VALUES(" +
+                id + ", " + startTime + ", " + endTime + ");"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function deleteShift(id) {
+    try {
+        await pool
+            .query(
+                "DELETE FROM shifts WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateShiftStartTime(id, newStartTime) {
+    try {
+        await pool
+            .query(
+                "UPDATE shifts " +
+                "SET start_time = " + newStartTime + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateShiftEndTime(id, newEndTime) {
+    try {
+        await pool
+            .query(
+                "UPDATE shifts " +
+                "SET end_time = " + newEndTime + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function getAllShifts() {
+    var shifts = [];
+    await pool
+        .query("SELECT * FROM shifts;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shifts.push(query_res.rows[i]);
+            }
+        });
+    return shifts;
+}
+
+// EMPLOYEE SHIFTS JUNCTION TABLE SECTION
+
+async function getSingleEmployeeShifts(id) {
+    var shifts = [];
+    await pool
+        .query("SELECT * FROM employee_shift WHERE employee_id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shifts.push(query_res.rows[i]);
+            }
+        });
+    return shifts;
+}
+
+async function getAllEmployeeShifts() {
+    var shifts = [];
+    await pool
+        .query("SELECT * FROM employee_shift;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shifts.push(query_res.rows[i]);
+            }
+        });
+    return shifts;
+}
+
+async function addEmployeeShift(id, shiftId, employeeId, month, dayOfWeek) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO employee_shift (id, shift_id, employee_id, month, day_of_week) VALUES (" +
+                id + ", " + shiftId + ", " + employeeId + ", " + month + ", " + dayOfWeek + ");"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function deleteEmployeeShift(id) {
+    try {
+        await pool
+            .query(
+                "DELETE FROM employee_shift WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateShiftId(id, newShiftId) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET shift_id = " + newShiftId + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateEmployeeId(id, newEmployeeId) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET employee_id = " + newEmployeeId + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateMonth(id, newMonth) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET month = " + newMonth + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateDayOfWeek(id, newDayOfWeek) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET day_of_week = " + newDayOfWeek + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+// INVENTORY SECTION
+
+async function getSingleInventoryItem(id) {
+    var item = [];
+    await pool
+        .query("SELECT * FROM inventory where id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                item.push(query_res.rows[i]);
+            }
+        });
+    return item[0];
+}
+
+async function getInventory() {
+    var items = [];
+    await pool
+        .query("SELECT * FROM inventory;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                items.push(query_res.rows[i]);
+            }
+        });
+    return items;
+}
+
+async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amountUsed) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO inventory (id, name, last_restock_date, amount_remaining, amount_used) VALUES (" +
+                id + ", \'" + name + "\', \'" + lastRestockDate + "\', " + amountRemaining + ", " + amountUsed + ");"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function deleteInventoryItem(id) {
+    try {
+        await pool
+            .query("DELETE FROM inventory WHERE id = " + id + ";");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateInventoryItemAmountRemaining(id, newAmountRemaining) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET amount_remaining = " + newAmountRemaining + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateInventoryItemAmountUsed(id, newAmountUsed) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET amount_used = " + newAmountUsed + " " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateInventoryItemName(id, newName) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET name = \'" + newName + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function restockInventoryItem(id, restockDate, restockAmount) {
+    try {
+        var item = [];
+        await pool
+            .query("SELECT * FROM inventory WHERE id = "+ id + ";")
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    item.push(query_res.rows[i]);
+                }
+            });
+        var rem = item[0].amount_remaining;
+        await pool
+            .query(
+                "UPDATE inventory " + 
+                "SET amount_remaining = " + (rem + restockAmount) + ", " + 
+                "last_restock_date = \'" + restockDate + "\', " + 
+                "amount_used = 0 " +    // amount_used is the amount used after the last restock
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function useInventoryItem(id) {
+    try {
+        var item = getSingleInventoryItem(id);
+        var amountRemaining = item.amount_remaining;
+        var amountUsed = item.amount_used;
+        amountRemaining--;
+        amountUsed++;
+        var updatedAmtRem = updateInventoryItemAmountRemaining(id, amountRemaining);
+        var updatedAmtUsed = updateInventoryItemAmountUsed(id, amountUsed);
+        return updatedAmtRem && updatedAmtUsed;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
