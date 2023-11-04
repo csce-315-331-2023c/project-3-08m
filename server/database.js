@@ -676,6 +676,22 @@ async function deleteShift(id) {
     }
 }
 
+async function updateShiftStartTime(id, newStartTime) {
+    try {
+        await pool
+            .query(
+                "UPDATE shifts " +
+                "SET start_time = " + newStartTime + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
