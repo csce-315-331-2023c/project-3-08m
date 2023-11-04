@@ -513,9 +513,22 @@ async function getEmployees() {
 async function addEmployee(id, userName, password, name, startDate, salary, position) {
     try {
         await pool
-            .query("INSERT INTO employee (id, username, password, name, start_date, salary, position) VALUES (" +
-            id + ", \'" + userName + "\', \'" + password + "\', \'" + name + "\', \'" + startDate +
-            "\', " + salary + ", \'" + position + "\');");
+            .query(
+                "INSERT INTO employee (id, username, password, name, start_date, salary, position) VALUES (" +
+                id + ", \'" + userName + "\', \'" + password + "\', \'" + name + "\', \'" + startDate +
+                "\', " + salary + ", \'" + position + "\');");
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function deleteEmployee(id) {
+    try {
+        await pool
+            .query("DELETE FROM employee WHERE id = " + id + ";");
         return true;
     }
     catch (error) {
