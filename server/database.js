@@ -585,6 +585,22 @@ async function updateEmployeeName(id, newName) {
     }  
 }
 
+async function updateEmployeeStartDate(id, newStartDate) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET start_date = \'" + newStartDate + "\' " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }  
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
