@@ -734,6 +734,18 @@ async function getSingleEmployeeShifts(id) {
     return shifts;
 }
 
+async function getAllEmployeeShifts() {
+    var shifts = [];
+    await pool
+        .query("SELECT * FROM employee_shift;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shifts.push(query_res.rows[i]);
+            }
+        });
+    return shifts;
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
