@@ -633,6 +633,20 @@ async function updateEmployeePosition(id, newPosition) {
     }  
 }
 
+// SHIFTS SECTION
+
+async function getSingleShift(id) {
+    var shift = [];
+    await pool
+        .query("SELECT * FROM shifts WHERE id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shift.push(query_res.rows[i]);
+            }
+        });
+    return shift[0];
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
