@@ -761,6 +761,20 @@ async function addEmployeeShift(id, shiftId, employeeId, month, dayOfWeek) {
     }
 }
 
+async function deleteEmployeeShift(id) {
+    try {
+        await pool
+            .query(
+                "DELETE FROM employee_shift WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
