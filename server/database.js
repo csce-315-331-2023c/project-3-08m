@@ -924,6 +924,22 @@ async function updateInventoryItemAmountUsed(id, newAmountUsed) {
     }
 }
 
+async function updateInventoryItemName(id, newName) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET name = \'" + newName + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
