@@ -708,6 +708,18 @@ async function updateShiftEndTime(id, newEndTime) {
     }
 }
 
+async function getAllShifts() {
+    var shifts = [];
+    await pool
+        .query("SELECT * FROM shifts;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shifts.push(query_res.rows[i]);
+            }
+        });
+    return shifts;
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
