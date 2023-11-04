@@ -839,6 +839,20 @@ async function updateDayOfWeek(id, newDayOfWeek) {
     }
 }
 
+// INVENTORY SECTION
+
+async function getSingleInventoryItem(id) {
+    var item = [];
+    await pool
+        .query("SELECT * FROM inventory where id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                item.push(query_res.rows[i]);
+            }
+        });
+    return item;
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
