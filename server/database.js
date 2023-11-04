@@ -498,6 +498,20 @@ async function getSingleEmployee(id) {
     return employee[0];
 }
 
+async function getEmployees() {
+    var employees = [];
+    await pool
+        .query("SELECT * FROM employee;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                employees.push(query_res.rows[i]);
+            }
+        });
+    return employees;
+}
+
+
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
