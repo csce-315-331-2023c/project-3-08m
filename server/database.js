@@ -647,6 +647,21 @@ async function getSingleShift(id) {
     return shift[0];
 }
 
+async function addShift(id, startTime, endTime) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO shifts (id, start_time, end_time) VALUES(" +
+                id + ", " + startTime + ", " + endTime + ");"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
