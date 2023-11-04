@@ -850,7 +850,19 @@ async function getSingleInventoryItem(id) {
                 item.push(query_res.rows[i]);
             }
         });
-    return item;
+    return item[0];
+}
+
+async function getInventory() {
+    var items = [];
+    await pool
+        .query("SELECT * FROM inventory;")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                items.push(query_res.rows[i]);
+            }
+        });
+    return items;
 }
 
 // OTHER STUFF
