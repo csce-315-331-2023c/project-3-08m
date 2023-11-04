@@ -775,6 +775,22 @@ async function deleteEmployeeShift(id) {
     }
 }
 
+async function updateShiftId(id, newShiftId) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET shift_id = " + newShiftId + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
