@@ -662,6 +662,20 @@ async function addShift(id, startTime, endTime) {
     }
 }
 
+async function deleteShift(id) {
+    try {
+        await pool
+            .query(
+                "DELETE FROM shifts WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
