@@ -720,6 +720,20 @@ async function getAllShifts() {
     return shifts;
 }
 
+// EMPLOYEE SHIFTS JUNCTION TABLE SECTION
+
+async function getSingleEmployeeShifts(id) {
+    var shifts = [];
+    await pool
+        .query("SELECT * FROM employee_shift WHERE employee_id = " + id + ";")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                shifts.push(query_res.rows[i]);
+            }
+        });
+    return shifts;
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
