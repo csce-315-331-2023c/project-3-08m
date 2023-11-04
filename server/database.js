@@ -908,6 +908,21 @@ async function updateInventoryItemAmountRemaining(id, newAmountRemaining) {
     }
 }
 
+async function updateInventoryItemAmountUsed(id, newAmountUsed) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET amount_used = " + newAmountUsed + " " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
 
 // OTHER STUFF
 
