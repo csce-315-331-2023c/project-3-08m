@@ -791,6 +791,22 @@ async function updateShiftId(id, newShiftId) {
     }
 }
 
+async function updateEmployeeId(id, newEmployeeId) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee_shift " + 
+                "SET employee_id = " + newEmployeeId + " " + 
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
