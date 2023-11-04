@@ -746,6 +746,21 @@ async function getAllEmployeeShifts() {
     return shifts;
 }
 
+async function addEmployeeShift(id, shiftId, employeeId, month, dayOfWeek) {
+    try {
+        await pool
+            .query(
+                "INSERT INTO employee_shift (id, shift_id, employee_id, month, day_of_week) VALUES (" +
+                id + ", " + shiftId + ", " + employeeId + ", " + month + ", " + dayOfWeek + ");"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
