@@ -537,6 +537,22 @@ async function deleteEmployee(id) {
     }
 }
 
+async function updateEmployeeUsername(id, newUsername) {
+    try {
+        await pool
+            .query(
+                "UPDATE employee " + 
+                "SET username = \'" + newUsername + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 // OTHER STUFF
 
 process.on('SIGINT', function() {
