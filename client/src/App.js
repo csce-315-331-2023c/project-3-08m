@@ -1,17 +1,16 @@
-import './App.css';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import ManagerPOS from './ManagerPOS/ManagerPOS';
+import './App.css'; // Assuming your CSS is in this file
 
 function App() {
-  //TODO
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Menu Items:
-
-          
-        </p>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <ManagerPOS />
+      </div>
+    </Router>
   );
 }
 
