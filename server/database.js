@@ -1069,7 +1069,7 @@ process.on('SIGINT', function() {
     process.exit(0);
 });
 
-app.listen(port, "localhost", () => {
+app.listen(port, () => {
     console.log(`listening at localhost:${port}`);
 });
 
