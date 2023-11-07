@@ -67,7 +67,7 @@ app.post('/updateMenu', async (req, res) => {
     // console.log(typeof(request));
     // console.log(req.body);
     console.log(request);
-    var updateSuccess = false;
+    var updateSuccess = [];
     for (const entry in request) {
         // console.log(entry);
             // console.log(dictEntry);
@@ -76,12 +76,30 @@ app.post('/updateMenu', async (req, res) => {
         // }
         if (entry == 'name') {
             // console.log(entry);
-            var menuItem = await getSingleMenuItem(request['id']);
+            // var menuItem = await getSingleMenuItem(request['id']);
             // console.log(menuItem.name);
             // console.log(request[entry]);
-            updateSuccess = await updateMenuItemName(request['id'],request[entry]);
-            menuItem = await getSingleMenuItem(request['id']);
+            var success = await updateMenuItemName(request['id'],request[entry]);
+            // menuItem = await getSingleMenuItem(request['id']);
             // console.log(menuItem.name);
+            updateSuccess.push(success);
+            
+        }
+        else if (entry == 'price') {
+            var success = await updateMenuItemPrice(request['id'],request[entry]);
+            updateSuccess.push(success);
+        }
+        else if (entry == 'addOns') {
+            var success = await updateMenuItemAddOns(request['id'],request[entry]);
+            updateSuccess.push(success);
+        }
+        else if (entry == 'inventoryItems') {
+            var success = await updateMenuItemInventoryItems(request['id'],request[entry]);
+            updateSuccess.push(success);
+        }
+        else if (entry == 'delete') {
+            var success = await deleteMenuItem(request[entry]);
+            updateSuccess.push(success);
         }
     }
     res.json({updateSuccess});
