@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import ManagerPOS from './ManagerPOS/ManagerPOS';
+import CashierPOS from './CashierPOS/CashierPOS';
 import { NavLink, Routes, Route } from 'react-router-dom';
 import './App.css'; // Assuming your CSS is in this file
 
@@ -23,11 +24,15 @@ const LandingPage = () => {
           <li>
             <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
           </li>
+          <li>
+            <NavLink to="/cashier" className={({ isActive }) => isActive ? 'active' : ''}>Cashier</NavLink>
+          </li>
         </ul>
       </nav>
 
       <Routes>
         <Route path="/manager" element={<ManagerPOS />} />
+        <Route path="/cashier" element={<CashierPOS />} />
       </Routes>
     </div>
   );
