@@ -142,7 +142,9 @@ async function addMenuItem(id, name, price, inventoryIds, addOnIds) {
                 "INSERT INTO menu (id, name, price) VALUES"+
                 "(" + id + ", \'" + name + "\', " + price + ");"
             );
-        return true;
+        var a = updateMenuItemInventoryItems(id, inventoryIds);
+        var b = updateMenuItemAddOns(id, addOnIds);
+        return a && b;
     }
     catch (error) {
         console.log(error);
