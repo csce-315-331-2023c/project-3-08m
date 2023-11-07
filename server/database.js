@@ -1,12 +1,15 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
-const port = 3000;
+app.use(cors());
+app.use(express.json())
+const port = 9000;
 // var router = express.Router();
 
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
 // app.get('/', (req, res) => {
 //     const data = {menu: []};
@@ -14,22 +17,75 @@ app.set("view engine", "ejs");
 //     // res.render('index', data);
 // })
 
-app.get('/', async (req, res) => {
+// app.get('/', async (req, res) => {
+//     const menu = await getMenu();
+//     const menuItem = await getSingleMenuItem(1);
+//     const order2 = await getSingleOrder(2);
+//     const orderAdd = await addOrder(9.99, [1,2,3], [[1,2,3],[],[3,4]]);
+//     for (let i = 57037; i < 57046; i++) {
+//         await deleteOrder(i);
+//     }
+//     // const orderDelete = await deleteOrder(57037);
+//     // const orderDelete2 = await deleteOrder(57038);
+//     console.log(menuItem);
+//     console.log('after');
+//     // console.log(menu);
+//     res.render('test', {menu: menu, menuItem: menuItem, order: order2});
+//     // res.render('test', {menuItem: menuItem});
+// });
+
+app.get('/employees', async (req, res) => {
+    const employees = await getEmployees();
+    console.log(employees);
+    res.json({employees});
+})
+
+app.get('/menu', async (req, res) => {
     const menu = await getMenu();
-    const menuItem = await getSingleMenuItem(1);
-    const order2 = await getSingleOrder(2);
-    const orderAdd = await addOrder(9.99, [1,2,3], [[1,2,3],[],[3,4]]);
-    for (let i = 57037; i < 57046; i++) {
-        await deleteOrder(i);
+    console.log(menu);
+    for (let i = 0; i < menu.length; i++) {
+        console.log(menu[i].id);
     }
-    // const orderDelete = await deleteOrder(57037);
-    // const orderDelete2 = await deleteOrder(57038);
-    console.log(menuItem);
-    console.log('after');
-    // console.log(menu);
-    res.render('test', {menu: menu, menuItem: menuItem, order: order2});
-    // res.render('test', {menuItem: menuItem});
-});
+    // res.render('test', {menu: menu});
+    res.json({menu});
+})
+
+app.get('/addOns', async (req, res) => {
+    const addOns = await getAddOns();
+    console.log(addOns);
+    res.json({addOns});
+})
+
+app.get('/inventory', async (req, res) => {
+    const inventory = await getInventory();
+    console.log(inventory);
+    res.json({inventory});
+})
+
+app.post('/updateMenu', async (req, res) => {
+    let request = req.body;
+    // console.log(typeof(request));
+    // console.log(req.body);
+    console.log(request);
+    var updateSuccess = false;
+    for (const entry in request) {
+        // console.log(entry);
+            // console.log(dictEntry);
+        // if (entry[0] == 'id') {
+        //     console.log(entry);
+        // }
+        if (entry == 'name') {
+            // console.log(entry);
+            var menuItem = await getSingleMenuItem(request['id']);
+            // console.log(menuItem.name);
+            // console.log(request[entry]);
+            updateSuccess = await updateMenuItemName(request['id'],request[entry]);
+            menuItem = await getSingleMenuItem(request['id']);
+            // console.log(menuItem.name);
+        }
+    }
+    res.json({updateSuccess});
+})
 
 const pool = new Pool({
     user: process.env.PSQL_USER,
@@ -995,7 +1051,7 @@ process.on('SIGINT', function() {
 });
 
 app.listen(port, () => {
-    console.log("listening at localhost:${port}");
+    console.log(`listening at localhost:${port}`);
 });
 
 module.exports = {
