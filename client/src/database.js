@@ -1,12 +1,12 @@
-const express = require('express');
+// const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 
-const app = express();
+// const app = express();
 const port = 3000;
 // var router = express.Router();
 
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
 // app.get('/', (req, res) => {
 //     const data = {menu: []};
@@ -14,22 +14,22 @@ app.set("view engine", "ejs");
 //     // res.render('index', data);
 // })
 
-app.get('/', async (req, res) => {
-    const menu = await getMenu();
-    const menuItem = await getSingleMenuItem(1);
-    const order2 = await getSingleOrder(2);
-    const orderAdd = await addOrder(9.99, [1,2,3], [[1,2,3],[],[3,4]]);
-    for (let i = 57037; i < 57046; i++) {
-        await deleteOrder(i);
-    }
-    // const orderDelete = await deleteOrder(57037);
-    // const orderDelete2 = await deleteOrder(57038);
-    console.log(menuItem);
-    console.log('after');
-    // console.log(menu);
-    res.render('test', {menu: menu, menuItem: menuItem, order: order2});
-    // res.render('test', {menuItem: menuItem});
-});
+// app.get('/', async (req, res) => {
+//     const menu = await getMenu();
+//     const menuItem = await getSingleMenuItem(1);
+//     const order2 = await getSingleOrder(2);
+//     const orderAdd = await addOrder(9.99, [1,2,3], [[1,2,3],[],[3,4]]);
+//     for (let i = 57037; i < 57046; i++) {
+//         await deleteOrder(i);
+//     }
+//     // const orderDelete = await deleteOrder(57037);
+//     // const orderDelete2 = await deleteOrder(57038);
+//     console.log(menuItem);
+//     console.log('after');
+//     // console.log(menu);
+//     res.render('test', {menu: menu, menuItem: menuItem, order: order2});
+//     // res.render('test', {menuItem: menuItem});
+// });
 
 const pool = new Pool({
     user: process.env.PSQL_USER,
@@ -992,11 +992,63 @@ process.on('SIGINT', function() {
     process.exit(0);
 });
 
-app.listen(port, () => {
-    console.log("listening at localhost:${port}");
-});
+// app.listen(port, () => {
+//     console.log("listening at localhost:${port}");
+// });
 
 module.exports = {
+    getMenuItemInventoryItems: getMenuItemInventoryItems,
+    updateMenuItemInventoryItems: updateMenuItemInventoryItems,
     getMenu: getMenu,
-    getSingleMenuItem: getSingleMenuItem
+    getSingleMenuItem: getSingleMenuItem,
+    addMenuItem: addMenuItem,
+    deleteMenuItem: deleteMenuItem,
+    updateMenuItemName: updateMenuItemAddOns,
+    updateMenuItemPrice: updateMenuItemPrice,
+    getMenuItemAddOns: getMenuItemAddOns,
+    updateMenuItemAddOns: updateMenuItemAddOns,
+    getAddOns: getAddOns,
+    getSingleAddOn: getSingleAddOn,
+    addAddOn: addAddOn,
+    deleteAddOn: deleteAddOn,
+    setAddOnName: setAddOnName,
+    setAddOnPrice: setAddOnPrice,
+    setAddOnInventoryItem: setAddOnInventoryItem,
+    getSingleOrder: getSingleOrder,
+    getOrders: getOrders,
+    addOrder: addOrder,
+    deleteOrder: deleteOrder,
+    getSingleEmployee: getSingleEmployee,
+    getEmployees: getEmployees,
+    addEmployee: addEmployee,
+    deleteEmployee: deleteEmployee,
+    updateEmployeeUsername: updateEmployeeUsername,
+    updateEmployeePassword: updateEmployeePassword,
+    updateEmployeeName: updateEmployeeName,
+    updateEmployeeStartDate: updateEmployeeStartDate,
+    updateEmployeeSalary: updateEmployeeSalary,
+    updateEmployeePosition: updateEmployeePosition,
+    getSingleShift: getSingleShift,
+    addShift: addShift,
+    deleteShift: deleteShift,
+    updateShiftStartTime: updateShiftStartTime,
+    updateShiftEndTime: updateShiftEndTime,
+    getAllShifts: getAllShifts,
+    getSingleEmployeeShifts: getSingleEmployeeShifts,
+    getAllEmployeeShifts: getAllEmployeeShifts,
+    addEmployeeShift: addEmployeeShift,
+    deleteEmployeeShift: deleteEmployeeShift,
+    updateShiftId: updateShiftId,
+    updateEmployeeId: updateEmployeeId,
+    updateMonth: updateMonth,
+    updateDayOfWeek: updateDayOfWeek,
+    getSingleInventoryItem: getSingleInventoryItem,
+    getInventory: getInventory,
+    addInventoryItem: addInventoryItem,
+    deleteInventoryItem: deleteInventoryItem,
+    updateInventoryItemAmountRemaining: updateInventoryItemAmountRemaining,
+    updateInventoryItemAmountUsed: updateInventoryItemAmountUsed,
+    updateInventoryItemName: updateInventoryItemName,
+    restockInventoryItem: restockInventoryItem,
+    useInventoryItem: useInventoryItem,
 };
