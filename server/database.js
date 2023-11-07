@@ -4,7 +4,8 @@ const dotenv = require('dotenv').config();
 const cors = require('cors');
 
 const app = express();
-app.use(cors())
+app.use(cors());
+app.use(express.json())
 const port = 9000;
 // var router = express.Router();
 
@@ -59,6 +60,31 @@ app.get('/inventory', async (req, res) => {
     const inventory = await getInventory();
     console.log(inventory);
     res.json({inventory});
+})
+
+app.post('/updateMenu', async (req, res) => {
+    let request = req.body;
+    // console.log(typeof(request));
+    // console.log(req.body);
+    console.log(request);
+    var updateSuccess = false;
+    for (const entry in request) {
+        // console.log(entry);
+            // console.log(dictEntry);
+        // if (entry[0] == 'id') {
+        //     console.log(entry);
+        // }
+        if (entry == 'name') {
+            // console.log(entry);
+            var menuItem = await getSingleMenuItem(request['id']);
+            // console.log(menuItem.name);
+            // console.log(request[entry]);
+            updateSuccess = await updateMenuItemName(request['id'],request[entry]);
+            menuItem = await getSingleMenuItem(request['id']);
+            // console.log(menuItem.name);
+        }
+    }
+    res.json({updateSuccess});
 })
 
 const pool = new Pool({

@@ -11,13 +11,15 @@ import { Component, useEffect, useState } from "react";
 //     return menu;
 // }
 
-const ShowMenu = () => {
+export const ShowMenu = () => {
     const [items, setItems] = useState([]);
 
     useEffect( () => {
+        const abortController = new AbortController();
+
         async function fetchMenu() {
             try {
-                const res = await fetch("http://localhost:9000/menu");
+                const res = await fetch("http://localhost:9000/menu", {signal: abortController.signal});
                 const json = await res.json();
                 setItems(json.menu);
             }
@@ -26,6 +28,9 @@ const ShowMenu = () => {
             }
         }
         fetchMenu();
+        return () => {
+            abortController.abort();
+        }
     }, []);
     // console.log(items);
     return (
@@ -39,7 +44,39 @@ const ShowMenu = () => {
     )
 }
 
-export default ShowMenu;
+export const UpdateMenu = (update) => {
+    const [success, setSuccess] = useState([]);
+    console.log(typeof(update));
+    useEffect( () => {
+        const abortController = new AbortController();
+
+        async function requestUpdate() {
+            try {
+                console.log(JSON.stringify(update));
+                const res = await fetch("http://localhost:9000/updateMenu", {
+                    signal: abortController.signal,
+                    method: 'POST',
+                    headers: {
+                        // "Accept": "application/json, text/plain, */*",
+                        "Content-type": "application/json; charset = UTF-8"
+                    },
+                    body: JSON.stringify(update)
+                });
+                const json = await res.json();
+                setSuccess(json.updateSuccess);
+            }
+            catch(err) {
+                console.log(err);
+            }
+        }
+        requestUpdate();
+        return () => {
+            abortController.abort();
+        }
+    }, []);
+
+    return success;
+};
 
 // class Menu extends Component {
 //     constructor() {

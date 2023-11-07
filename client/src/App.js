@@ -1,5 +1,5 @@
 import './App.css';
-import ShowMenu from "./Menu.js";
+import * as Menu from "./Menu.js";
 
 // async function renderMenu() {
 //   var menuJSON = await menu.getMenu();
@@ -13,8 +13,26 @@ import ShowMenu from "./Menu.js";
 //   return menuJSON;
 // }
 
+// function updateMenu(update) {
+//   console.log(update);
+//   var json;
+//   fetch("http://localhost:9000/updateMenu", {
+//     method: 'POST',
+//     headers:{
+//       "Accept": "application/json, text/plain, */*",
+//       "Content-type": "application/json; charset = UTF-8"
+//     },
+//     body: JSON.stringify(update)
+//   }).then((res) => {
+//     console.log(res);
+//   });
+//   // console.log(res);
+// }
+
 function App() {
   //TODO
+  var update = {'id': 555, 'name': 'test'};
+  Menu.UpdateMenu(update);
   // var menuJSON = renderMenu();
   // console.log(menuJSON.menu);
   // for (const item in menuJSON.menu) {
@@ -29,7 +47,7 @@ function App() {
       <header className="App-header">
         <p>
           Menu Items:
-          {ShowMenu()}
+          {Menu.ShowMenu()}
         </p>
       </header>
     </div>
