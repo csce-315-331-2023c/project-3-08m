@@ -33,6 +33,12 @@ app.set("view engine", "ejs");
 //     // res.render('test', {menuItem: menuItem});
 // });
 
+app.get('/employees', async (req, res) => {
+    const employees = await getEmployees();
+    console.log(employees);
+    res.json({employees});
+})
+
 app.get('/menu', async (req, res) => {
     const menu = await getMenu();
     console.log(menu);
@@ -41,6 +47,18 @@ app.get('/menu', async (req, res) => {
     }
     // res.render('test', {menu: menu});
     res.json({menu});
+})
+
+app.get('/addOns', async (req, res) => {
+    const addOns = await getAddOns();
+    console.log(addOns);
+    res.json({addOns});
+})
+
+app.get('/inventory', async (req, res) => {
+    const inventory = await getInventory();
+    console.log(inventory);
+    res.json({inventory});
 })
 
 const pool = new Pool({
