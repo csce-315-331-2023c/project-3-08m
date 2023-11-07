@@ -4,6 +4,7 @@ import { BrowserRouter, NavLink,Route,Routes} from 'react-router-dom';
 import ManagerPOS from './ManagerPOS/ManagerPOS';
 // import { NavLink, Routes, Route } from 'react-router-dom';
 import './App.css'; // Assuming your CSS is in this file
+import './ManagerPOS/components/table.css';
 
 function App() {
   return (
