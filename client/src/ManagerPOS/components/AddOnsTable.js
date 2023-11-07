@@ -6,7 +6,8 @@ const AddOnsTable = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:10000/addOns')
+    const port = process.env.PORT || 9000;
+    fetch('http://localhost:'+port+'/addOns')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
