@@ -6,7 +6,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json())
-const port = process.env.port || 9000;
+const port = process.env.PORT || 9000;
 console.log(port);
 // var router = express.Router();
 
@@ -1073,7 +1073,9 @@ app.listen(port, "localhost", () => {
     console.log(`listening at localhost:${port}`);
 });
 
-module.exports = {
-    getMenu: getMenu,
-    getSingleMenuItem: getSingleMenuItem
-};
+module.exports = app;
+
+// module.exports = {
+//     getMenu: getMenu,
+//     getSingleMenuItem: getSingleMenuItem
+// };
