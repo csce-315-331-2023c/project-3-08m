@@ -6,7 +6,8 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json())
-const port = 9000;
+const port = process.env.port || 9000;
+console.log(port);
 // var router = express.Router();
 
 // app.set("view engine", "ejs");
