@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
 
-const serverURL = 'https://project-3-server-ljp9.onrender.com';
-
 const GenerateMenu = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(serverURL+'/menu')
+    fetch('https://project-3-server-ljp9.onrender.com/menu')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

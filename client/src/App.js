@@ -41,7 +41,7 @@ const LandingPage = () => {
       <Routes>
         <Route path="/manager/*" element={<ManagerPOS />} />
         <Route path="/cashier" element={<CashierPOS />} />
-        <Route path="/menu_board" element={<CashierPOS />} />
+        <Route path="/menu_board" element={<MenuBoard />} />
         <Route path="/customer" element={<CustomerPOS />} />
       </Routes>
     </div>
