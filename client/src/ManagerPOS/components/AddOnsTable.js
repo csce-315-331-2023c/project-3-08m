@@ -6,7 +6,7 @@ const AddOnsTable = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://0.0.0.0:9000/addOns')
+    fetch('https://project-3-server-ljp9.onrender.com/addOns')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
