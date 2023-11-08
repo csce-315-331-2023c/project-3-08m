@@ -3,7 +3,6 @@ import React from 'react';
 import { BrowserRouter, NavLink,Route,Routes} from 'react-router-dom';
 import ManagerPOS from './ManagerPOS/ManagerPOS';
 import CashierPOS from './CashierPOS/CashierPOS';
-// import { NavLink, Routes, Route } from 'react-router-dom';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/table.css';
 
