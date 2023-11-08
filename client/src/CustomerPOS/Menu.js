@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Menu.css'; // Make sure to create a CSS file with this name
 import defaultDrinkImage from './assets/boba.svg';
 
-const serverURL = 'http://localhost:9000';
-// const serverURL = 'https://project-3-server-ljp9.onrender.com';
+// const serverURL = 'http://localhost:9000';
+const serverURL = 'https://project-3-server-ljp9.onrender.com';
 
 const MenuItem = ({ name, price }) => (
   <div className="menu-item">

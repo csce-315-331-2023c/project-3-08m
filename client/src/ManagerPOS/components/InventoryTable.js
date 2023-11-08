@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+const serverURL = 'https://project-3-server-ljp9.onrender.com';
+
 const InventoryTable = () => {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,7 +10,7 @@ const InventoryTable = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch('http://localhost:9000/inventory');
+        const response = await fetch(serverURL+'/inventory');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
