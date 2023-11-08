@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 
+const serverURL = 'https://project-3-server-ljp9.onrender.com';
+
 const GenerateMenuBoard = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:9000/menu', {mode: 'no-cors'})
+    fetch(serverURL+'/menu', {mode: 'no-cors'})
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
