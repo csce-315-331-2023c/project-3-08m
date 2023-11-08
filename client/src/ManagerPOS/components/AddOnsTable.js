@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
+const serverURL = process.env.SERVER_URL || 'http://localhost:9000';
+
 const AddOnsTable = () => {
   const [addOns, setAddOns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const serverURL = process.env.SERVER_URL || 'http://localhost:9000';
 
   useEffect(() => {
     fetch(serverURL+'/addOns')
