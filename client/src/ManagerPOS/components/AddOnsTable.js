@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-const dotenv = require('dotenv').config;
 
-const serverURL = process.env.SERVER_URL || 'http://localhost:9000';
+// const serverURL = 'http://localhost:9000';
+const serverURL = 'https://project-3-server-ljp9.onrender.com';
 
 console.log(process.env.SERVER_URL);
 console.log(serverURL);
