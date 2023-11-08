@@ -31,6 +31,9 @@ const LandingPage = () => {
           <li>
             <NavLink to="/menu_board" className={({ isActive }) => isActive ? 'active' : ''}>Menu Board</NavLink>
           </li>
+          <li>
+            <NavLink to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Customer</NavLink>
+          </li>
         </ul>
       </nav>
 
