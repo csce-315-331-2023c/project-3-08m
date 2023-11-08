@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const GenerateMenu = () => {
+const GenerateMenuBoard = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,4 +37,4 @@ const GenerateMenu = () => {
   );
 };
 
-export default GenerateMenu;
+export default GenerateMenuBoard;
