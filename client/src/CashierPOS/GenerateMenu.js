@@ -6,7 +6,7 @@ const GenerateMenu = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:9000/menu')
+    fetch('https://project-3-server-ljp9.onrender.com/menu')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -38,7 +38,7 @@ const GenerateMenu = () => {
           <h1>Menu</h1>
           <ul>
             {menuItems.map((item) => (
-              <li>{item.name} {item.price}</li>
+              <button type="button" class="btn btn-primary">{item.name} {item.price}</button>
             ))}
           </ul>
         </div>

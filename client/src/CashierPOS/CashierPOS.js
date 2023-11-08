@@ -2,22 +2,20 @@ import React from 'react';
 import './CashierPOS.css';
 import { NavLink, Routes, Route } from 'react-router-dom';
 import GenerateMenu from './GenerateMenu';
+import Order from './Order';
 
 import AddAddOns from './AddAddOns';
 
 const CashierPOS = () => {
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/AddAddOns" className={({ isActive }) => isActive ? 'active' : ''}>Menu Item 1</NavLink>
-          </li>
-        </ul>
-      </nav>
-
-      <div>
-        <GenerateMenu />
+      <div class='d-flex bd-highlight'>
+        <div class='p-2 flex-fill bd-highlight'>
+          <Order />
+        </div>
+        <div class='p-2 flex-fill bd-hightlight'>
+          <GenerateMenu />
+        </div>
       </div>
 
       <Routes>

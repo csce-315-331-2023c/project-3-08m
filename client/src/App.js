@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter, NavLink,Route,Routes} from 'react-router-dom';
 import ManagerPOS from './ManagerPOS/ManagerPOS';
 import CashierPOS from './CashierPOS/CashierPOS';
+import MenuBoard from './MenuBoard/MenuBoard';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/table.css';
 
@@ -36,7 +37,7 @@ const LandingPage = () => {
       <Routes>
         <Route path="/manager/*" element={<ManagerPOS />} />
         <Route path="/cashier" element={<CashierPOS />} />
-        <Route path="/menu_board" element={<CashierPOS />} />
+        <Route path="/menu_board" element={<MenuBoard />} />
       </Routes>
     </div>
   );

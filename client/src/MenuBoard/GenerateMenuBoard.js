@@ -6,7 +6,7 @@ const GenerateMenuBoard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:9000/menu', {mode: 'no-cors'})
+    fetch('https://project-3-server-ljp9.onrender.com/menu')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
