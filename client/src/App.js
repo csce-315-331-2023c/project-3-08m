@@ -16,16 +16,6 @@ function App() {
   );
 }
 
-function manager() {
-  return (
-    <BrowserRouter>
-      <div className="Manager">
-        <ManagerPOS />
-      </div>
-    </BrowserRouter>
-  );
-}
-
 const LandingPage = () => {
   return (
     <div>
