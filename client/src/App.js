@@ -27,15 +27,15 @@ function App() {
 //             <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
 //           </li>
 //           <li>
-            <NavLink to="/cashier" className={({ isActive }) => isActive ? 'active' : ''}>Cashier</NavLink>
-          </li>
-        </ul>
+        //     <NavLink to="/cashier" className={({ isActive }) => isActive ? 'active' : ''}>Cashier</NavLink>
+        //   </li>
+        // </ul>
 //       </nav>
 
 //       <Routes>
 //         <Route path="/manager" element={<ManagerPOS />} />
 //         <Route path="/cashier" element={<CashierPOS />} />
-      </Routes>
+      // </Routes>
 //     </div>
 //   );
 // }
