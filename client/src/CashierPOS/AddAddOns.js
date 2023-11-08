@@ -1,11 +1,9 @@
 import React from 'react';
+import GenerateMenu from './GenerateMenu';
 
 const AddAddOns = () => {
   return (
-    <div>
-      <h2>AddOns</h2>
-      <p>AddOns Page</p>
-    </div>
+    <h1>Add Ons</h1>
   );
 };
 

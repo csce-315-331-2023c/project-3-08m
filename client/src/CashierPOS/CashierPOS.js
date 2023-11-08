@@ -1,6 +1,7 @@
 import React from 'react';
 import './CashierPOS.css';
 import { NavLink, Routes, Route } from 'react-router-dom';
+import GenerateMenu from './GenerateMenu';
 
 import AddAddOns from './AddAddOns';
 
@@ -14,6 +15,10 @@ const CashierPOS = () => {
           </li>
         </ul>
       </nav>
+
+      <div>
+        <GenerateMenu />
+      </div>
 
       <Routes>
         <Route path="/AddAddOns" element={<AddAddOns />} />

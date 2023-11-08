@@ -1,9 +1,12 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 9000;
+console.log(port);
+
 // var router = express.Router();
 
 app.set("view engine", "ejs");
