@@ -6,23 +6,32 @@ const GenerateMenu = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:9000/menu', {mode: 'no-cors'})
+    fetch('http://localhost:9000/menu')
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
       .then((data) => {
-        setMenuItems(data.menu); // Make sure this matches the key in your JSON response
+        setMenuItems(data.menu);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Fetch error:', error);
+        console.error("Failed to fetch menu items:", error);
         setError(error.message);
         setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return <p>Loading menu items...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading menu items: {error}</p>;
+  }
+
   return (
     <div>
         <div>

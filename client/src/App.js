@@ -10,32 +10,32 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <ManagerPOS />
+        <LandingPage />
       </div>
     </BrowserRouter>
   );
 }
 
-// const LandingPage = () => {
-//   return (
-//     <div>
-//       <nav>
-//         <ul>
-//           <li>
-//             <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
-//           </li>
-//           <li>
-        //     <NavLink to="/cashier" className={({ isActive }) => isActive ? 'active' : ''}>Cashier</NavLink>
-        //   </li>
-        // </ul>
-//       </nav>
+const LandingPage = () => {
+  return (
+    <div>
+      <nav>
+        <ul>
+          <li>
+            <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
+          </li>
+          <li>
+            <NavLink to="/cashier" className={({ isActive }) => isActive ? 'active' : ''}>Cashier</NavLink>
+          </li>
+        </ul>
+      </nav>
 
-//       <Routes>
-//         <Route path="/manager" element={<ManagerPOS />} />
-//         <Route path="/cashier" element={<CashierPOS />} />
-      // </Routes>
-//     </div>
-//   );
-// }
+      <Routes>
+        <Route path="/manager/*" element={<ManagerPOS />} />
+        <Route path="/cashier/*" element={<CashierPOS />} />
+      </Routes>
+    </div>
+  );
+}
 
 export default App;

@@ -17,19 +17,19 @@ const ManagerPOS = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to="/employees" className={({ isActive }) => isActive ? 'active' : ''}>Employees</NavLink>
+            <NavLink to="/manager/employees" className={({ isActive }) => isActive ? 'active' : ''}>Employees</NavLink>
           </li>
           <li>
-            <NavLink to="/sales" className={({ isActive }) => isActive ? 'active' : ''}>Sales</NavLink>
+            <NavLink to="/manager/sales" className={({ isActive }) => isActive ? 'active' : ''}>Sales</NavLink>
           </li>
           <li>
-            <NavLink to="/inventory" className={({ isActive }) => isActive ? 'active' : ''}>Inventory</NavLink>
+            <NavLink to="/manager/inventory" className={({ isActive }) => isActive ? 'active' : ''}>Inventory</NavLink>
           </li>
           <li>
-            <NavLink to="/menu" className={({ isActive }) => isActive ? 'active' : ''}>Menu</NavLink>
+            <NavLink to="/manager/menu" className={({ isActive }) => isActive ? 'active' : ''}>Menu</NavLink>
           </li>
           <li>
-            <NavLink to="/add-ons" className={({ isActive }) => isActive ? 'active' : ''}>Add-ons</NavLink>
+            <NavLink to="/manager/add-ons" className={({ isActive }) => isActive ? 'active' : ''}>Add-ons</NavLink>
           </li>
         </ul>
       </nav>
