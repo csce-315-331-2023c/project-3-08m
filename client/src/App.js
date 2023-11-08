@@ -29,6 +29,9 @@ const LandingPage = () => {
             <NavLink to="/cashier" className={({ isActive }) => isActive ? 'active' : ''}>Cashier</NavLink>
           </li>
           <li>
+            <NavLink to="/menu_board" className={({ isActive }) => isActive ? 'active' : ''}>Menu Board</NavLink>
+          </li>
+          <li>
             <NavLink to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Customer</NavLink>
           </li>
         </ul>
@@ -36,8 +39,9 @@ const LandingPage = () => {
 
       <Routes>
         <Route path="/manager/*" element={<ManagerPOS />} />
-        <Route path="/cashier/*" element={<CashierPOS />} />
         <Route path="/customer/*" element={<CustomerPOS />} />
+        <Route path="/cashier" element={<CashierPOS />} />
+        <Route path="/menu_board" element={<CashierPOS />} />
       </Routes>
     </div>
   );
