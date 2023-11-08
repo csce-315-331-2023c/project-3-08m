@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+const dotenv = require('dotenv').config;
 
 const serverURL = process.env.SERVER_URL || 'http://localhost:9000';
 
