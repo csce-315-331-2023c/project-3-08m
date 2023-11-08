@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 const serverURL = process.env.SERVER_URL || 'http://localhost:9000';
 
+console.log(process.env.SERVER_URL);
+console.log(serverURL);
+
 const AddOnsTable = () => {
   const [addOns, setAddOns] = useState([]);
   const [loading, setLoading] = useState(true);
