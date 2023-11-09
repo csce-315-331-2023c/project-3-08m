@@ -39,7 +39,7 @@ app.get('/employees', async (req, res) => {
     const employees = await getEmployees();
     console.log(employees);
     res.json({employees});
-})
+});
 
 app.get('/menu', async (req, res) => {
     const menu = await getMenu();
@@ -49,18 +49,24 @@ app.get('/menu', async (req, res) => {
     }
     // res.render('test', {menu: menu});
     res.json({menu});
-})
+});
 
 app.get('/addOns', async (req, res) => {
     const addOns = await getAddOns();
     console.log(addOns);
     res.json({addOns});
-})
+});
 
 app.get('/inventory', async (req, res) => {
     const inventory = await getInventory();
     console.log(inventory);
     res.json({inventory});
+});
+
+app.get('/orders', async (req, res) => {
+    const orders = await getOrders();
+    // console.log(orders);
+    res.json({orders});
 })
 
 app.post('/updateMenu', async (req, res) => {
@@ -102,9 +108,93 @@ app.post('/updateMenu', async (req, res) => {
             var success = await deleteMenuItem(request[entry]);
             updateSuccess.push(success);
         }
+        else if (entry == 'add') {
+            var success = await addMenuItem(request[entry][0], request[entry][1], request[entry][2], request[entry][3], request[entry][4]);
+            updateSuccess.push(success);
+        }
     }
     res.json({updateSuccess});
-})
+});
+
+app.post('/updateInventory', async (req, res) => {
+    var request = req.body;
+    console.log(request);
+    for (const entry in request) {
+        if (entry == 'name') {
+
+        }
+        else if (entry == 'amount_remaining') {
+
+        }
+        else if (entry == 'amount_used') {
+
+        }
+        else if (entry == 'restock_date') {
+
+        }
+        else if (entry == 'minimum_amount') {
+
+        }
+        else if (entry == 'delete') {
+
+        }
+        else if (entry == 'add') {
+
+        }
+    }
+});
+
+app.post('/updateEmployees', async (req, res) => {
+    var request = req.body;
+    for (const entry in request) {
+        if (entry == 'name') {
+
+        }
+        else if (entry == 'username') {
+
+        }
+        else if (entry == 'password') {
+
+        }
+        else if (entry == 'start_date') {
+
+        }
+        else if (entry == 'salary') {
+
+        }
+        else if (entry == 'position') {
+
+        }
+        else if (entry == 'delete') {
+            
+        }
+        else if (entry == 'add') {
+
+        }
+    }
+});
+
+app.post('updateAddOns', async (req, res) => {
+    var request = req.body;
+    console.log(request);
+    for (const entry in request) {
+        if (entry == 'name') {
+
+        }
+        else if ('price') {
+
+        }
+        else if ('inventory_id') {
+
+        }
+        else if ('delete') {
+
+        }
+        else if ('add') {
+
+        }
+    }
+});
 
 const pool = new Pool({
     user: process.env.PSQL_USER,
