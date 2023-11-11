@@ -174,7 +174,7 @@ app.post('/updateEmployees', async (req, res) => {
     }
 });
 
-app.post('updateAddOns', async (req, res) => {
+app.post('/updateAddOns', async (req, res) => {
     var request = req.body;
     console.log(request);
     for (const entry in request) {
@@ -191,6 +191,19 @@ app.post('updateAddOns', async (req, res) => {
 
         }
         else if ('add') {
+
+        }
+    }
+});
+
+app.post('/updateOrders', async (req, res) => {
+    var request = req.body;
+    console.log(request);
+    for (const entry in request) {
+        if (entry == 'delete') {
+
+        }
+        else if (entry == 'add') {
 
         }
     }

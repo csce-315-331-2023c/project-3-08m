@@ -1,7 +1,8 @@
 // MenuTable.js
 import React, { useEffect, useState } from 'react';
 
-const serverURL = 'https://project-3-server-ljp9.onrender.com';
+// const serverURL = 'https://project-3-server-ljp9.onrender.com' || 'http://localhost:9000';
+const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 const MenuTable = () => {
   const [menuItems, setMenuItems] = useState([]);
