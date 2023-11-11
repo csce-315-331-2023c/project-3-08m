@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-const serverURL = 'https://project-3-server-ljp9.onrender.com';
+// const serverURL = 'https://project-3-server-ljp9.onrender.com';
+const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 const InventoryTable = () => {
   const [inventory, setInventory] = useState([]);
