@@ -119,57 +119,75 @@ app.post('/updateMenu', async (req, res) => {
 app.post('/updateInventory', async (req, res) => {
     var request = req.body;
     console.log(request);
+    var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'name') {
-
+            var success = await updateInventoryItemName(request['id'],request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'amount_remaining') {
-
+            var success = await updateInventoryItemAmountRemaining(request['id'],request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'amount_used') {
+            var success = await updateInventoryItemAmountUsed(request['id'],request[entry]);
+            updateSuccess.push(success);
 
         }
-        else if (entry == 'restock_date') {
-
+        else if (entry == 'restock') {
+            // var success = await restockInventoryItem(request['id']);
+            updateSuccess.push(success);
         }
         else if (entry == 'minimum_amount') {
-
+            // var success = await updateInventoryMinimumAmount();
+            updateSuccess.push(success);
         }
         else if (entry == 'delete') {
-
+            var success = await deleteInventoryItem(request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'add') {
-
+            var success = await addInventoryItem(request[entry][0],request[entry][1],request[entry][2],request[entry][3],request[entry][4]);
+            updateSuccess.push(success);
         }
     }
+    res.json({updateSuccess});
 });
 
 app.post('/updateEmployees', async (req, res) => {
     var request = req.body;
     for (const entry in request) {
         if (entry == 'name') {
-
+            var success = await updateEmployeeName(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'username') {
-
+            var success = await updateEmployeeUsername(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'password') {
-
+            var success = await updateEmployeePassword(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'start_date') {
-
+            var success = await updateEmployeeStartDate(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'salary') {
-
+            var success = await updateEmployeeSalary(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'position') {
-
+            var success = await updateEmployeePosition(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'delete') {
-            
+            var success = await deleteEmployee(request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'add') {
-
+            var success = await addEmployee(request[entry][0],request[entry][1],request[entry][2],request[entry][3],request[entry][4],request[entry][5],request[entry][6]);
+            updateSuccess.push(success);
         }
     }
 });
@@ -177,36 +195,44 @@ app.post('/updateEmployees', async (req, res) => {
 app.post('/updateAddOns', async (req, res) => {
     var request = req.body;
     console.log(request);
+    var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'name') {
-
+            var success = await setAddOnName(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if ('price') {
-
+            var success = await setAddOnPrice(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if ('inventory_id') {
-
+            var success = await setAddOnInventoryItem(request['id'], request[entry]);
+            updateSuccess.push(success);
         }
         else if ('delete') {
-
+            var success = await deleteAddOn(request[entry]);
         }
         else if ('add') {
-
+            var success = await addAddOn(request[entry][0],request[entry][1],request[entry][2],request[entry][3]);
         }
     }
+    res.json({updateSuccess});
 });
 
 app.post('/updateOrders', async (req, res) => {
     var request = req.body;
     console.log(request);
+    var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'delete') {
-
+            var success = await deleteOrder(request[entry]);
+            updateSuccess.push(success);
         }
         else if (entry == 'add') {
-
+            var success = await addOrder(request[entry][0],request[entry][1],request[entry][2]);
         }
     }
+    res.json({updateSuccess});
 });
 
 const pool = new Pool({
