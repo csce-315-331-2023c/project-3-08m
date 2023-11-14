@@ -35,6 +35,10 @@ console.log(port);
 //     // res.render('test', {menuItem: menuItem});
 // });
 
+// app.get('/', async (req, res) => {
+//     await excessReport('12-01-2022');
+// })
+
 app.get('/employees', async (req, res) => {
     const employees = await getEmployees();
     console.log(employees);
@@ -245,6 +249,124 @@ const pool = new Pool({
 });
 
 // pool.connect();
+
+// REPORT SECTION
+
+async function excessReport(timeStamp) {
+    var report = [];
+    try {
+        var inventoryItems = await getInventory();
+        // console.log(inventoryItems);
+        var totalInventory = {};
+        var totalUsed = {};
+
+        for (let i = 0; i < inventoryItems.length; i++) {
+            // console.log(inventoryItems[i]);
+            var inventoryItem = inventoryItems[i];
+            var inventoryId = inventoryItem.id;
+            // console.log(inventoryId);
+            var total = Number(inventoryItem.amount_remaining) + Number(inventoryItem.amount_used);
+            // console.log(total);
+            totalInventory[inventoryId] = total;
+        }
+        // console.log(totalInventory);
+        
+        var orderMenuCount = [];
+        await pool
+            .query(
+                "SELECT COUNT(*),menu_id FROM order_menu WHERE order_id in (" +
+                "SELECT id FROM orders WHERE date_time BETWEEN \'" + timeStamp + "\' AND LOCALTIMESTAMP" +
+                ") GROUP BY menu_id;"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    orderMenuCount.push(query_res.rows[i]);
+                }
+            });
+        // console.log(orderMenuCount);
+        for (const menuCount of orderMenuCount) {
+            // console.log(menuCount);
+            var menuId = menuCount.menu_id;
+            var count = Number(menuCount.count);
+            var menuInventory = await getMenuItemInventoryItems(menuId);
+            for (const inventory of menuInventory) {
+                // console.log(inventory);
+                var inventoryId = inventory.inventory_id;
+                if (inventoryId in totalUsed) {
+                    totalUsed[inventoryId] += count;
+                }
+                else {
+                    totalUsed[inventoryId] = count;
+                }
+            }
+        }
+        // console.log(totalUsed);
+        var orderAddOnsCount = [];
+        await pool
+            .query(
+                "SELECT COUNT(*),add_on_id FROM order_add_ons WHERE order_menu_junction_id in (" +
+                "SELECT id FROM order_menu WHERE order_id in " +
+                "(SELECT id FROM orders WHERE date_time BETWEEN \'" + timeStamp + "\' AND LOCALTIMESTAMP)" +
+                ") GROUP BY add_on_id;"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    // console.log(query_res.rows[i]);
+                    orderAddOnsCount.push(query_res.rows[i]);
+                }
+            });
+        // console.log(orderAddOnsCount);
+
+        for (const orderAddOn of orderAddOnsCount) {
+            // console.log(orderAddOn);
+            var addOnId = orderAddOn.add_on_id;
+            var count = Number(orderAddOn.count);
+            var inventoryId = 0;
+            await pool
+                .query(
+                    "SELECT * FROM add_on WHERE id = " + addOnId + ";"
+                )
+                .then(query_res => {
+                    for (let i = 0; i < query_res.rowCount; i++) {
+                        inventoryId = query_res.rows[i].inventory_id;
+                    }
+                });
+            if (inventoryId in totalUsed) {
+                totalUsed[inventoryId] += count;
+            }
+            else {
+                totalUsed[inventoryId] = count;
+            }
+        }
+        // console.log(totalUsed);
+
+        for (const inventoryId in totalUsed) {
+            var amountUsed = totalUsed[inventoryId];
+            if (totalInventory[inventoryId] * 0.1 > amountUsed) {
+                var inventoryItemInfo = [];
+                inventoryItemInfo.push(inventoryId);
+                var name = "";
+                await pool
+                    .query("SELECT name FROM inventory WHERE id = " + inventoryId + ";")
+                    .then(query_res => {
+                        for (let i = 0; i < query_res.rowCount; i++) {
+                            name = query_res.rows[i].name;
+                        }
+                    });
+                inventoryItemInfo.push(name);
+                inventoryItemInfo.push(""+amountUsed);
+                inventoryItemInfo.push(""+totalInventory[inventoryId]);
+                report.push(inventoryItemInfo);
+            }
+        }
+        // console.log(report);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return report;
+}
+
 
 // MENU-INVENTORY JUNCTION
 
