@@ -10,34 +10,11 @@ const port = process.env.PORT || 9000;
 console.log(port);
 // var router = express.Router();
 
-// app.set("view engine", "ejs");
-
-// app.get('/', (req, res) => {
-//     const data = {menu: []};
-//     res.send(data);
-//     // res.render('index', data);
-// })
-
 // app.get('/', async (req, res) => {
-//     const menu = await getMenu();
-//     const menuItem = await getSingleMenuItem(1);
-//     const order2 = await getSingleOrder(2);
-//     const orderAdd = await addOrder(9.99, [1,2,3], [[1,2,3],[],[3,4]]);
-//     for (let i = 57037; i < 57046; i++) {
-//         await deleteOrder(i);
-//     }
-//     // const orderDelete = await deleteOrder(57037);
-//     // const orderDelete2 = await deleteOrder(57038);
-//     console.log(menuItem);
-//     console.log('after');
-//     // console.log(menu);
-//     res.render('test', {menu: menu, menuItem: menuItem, order: order2});
-//     // res.render('test', {menuItem: menuItem});
+//     // await excessReport('12-01-2022');
+//     // await restockReport();
+//     await menuItemsPopularity('12-01-2022', '12-31-2022', 20);
 // });
-
-// app.get('/', async (req, res) => {
-//     await excessReport('12-01-2022');
-// })
 
 app.get('/employees', async (req, res) => {
     const employees = await getEmployees();
@@ -248,8 +225,6 @@ const pool = new Pool({
     ssl: {rejectUnauthorized: false}
 });
 
-// pool.connect();
-
 // REPORT SECTION
 
 async function excessReport(timeStamp) {
@@ -367,6 +342,56 @@ async function excessReport(timeStamp) {
     return report;
 }
 
+async function restockReport() {
+    var report = [];
+    try {
+        await pool
+            .query(
+                "SELECT name,amount_remaining,min_amount FROM inventory " +
+                "WHERE amount_remaining < min_amount;"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    report.push(query_res.rows[i]);
+                }
+            });
+        // console.log(report);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return report;
+}
+
+async function menuItemsPopularity(startDateTime, endDateTime, numMenuItems) {
+    var report = [];
+    try {
+        await pool
+            .query(
+                "WITH popular_menu_items AS (" +
+                "SELECT menu_id, COUNT(*) as order_count FROM order_menu " +
+                "WHERE order_id in" +
+                "(SELECT id FROM orders WHERE date_time BETWEEN '" + startDateTime + 
+                "' AND '" + endDateTime + "') " +
+                "GROUP BY menu_id " +
+                "LIMIT " + numMenuItems + ") " + 
+                "SELECT name, order_count FROM " +
+                "popular_menu_items LEFT JOIN menu " + 
+                "ON popular_menu_items.menu_id = menu.id " + 
+                "ORDER BY order_count DESC;"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    report.push(query_res.rows[i]);
+                }
+            });
+        // console.log(report);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return report;
+}
 
 // MENU-INVENTORY JUNCTION
 
