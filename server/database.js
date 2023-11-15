@@ -70,30 +70,30 @@ app.post('/updateMenu', async (req, res) => {
             // var menuItem = await getSingleMenuItem(request['id']);
             // console.log(menuItem.name);
             // console.log(request[entry]);
-            var success = await updateMenuItemName(request['id'],request[entry]);
+            var success = await updateMenuItemName(request[entry].id,request[entry].name);
             // menuItem = await getSingleMenuItem(request['id']);
             // console.log(menuItem.name);
             updateSuccess.push(success);
             
         }
         else if (entry == 'price') {
-            var success = await updateMenuItemPrice(request['id'],request[entry]);
+            var success = await updateMenuItemPrice(request[entry].id,request[entry].price);
             updateSuccess.push(success);
         }
         else if (entry == 'addOns') {
-            var success = await updateMenuItemAddOns(request['id'],request[entry]);
+            var success = await updateMenuItemAddOns(request[entry].id,request[entry].addOns);
             updateSuccess.push(success);
         }
         else if (entry == 'inventoryItems') {
-            var success = await updateMenuItemInventoryItems(request['id'],request[entry]);
+            var success = await updateMenuItemInventoryItems(request[entry].id,request[entry].inventoryItems);
             updateSuccess.push(success);
         }
         else if (entry == 'delete') {
-            var success = await deleteMenuItem(request[entry]);
+            var success = await deleteMenuItem(request[entry].id);
             updateSuccess.push(success);
         }
         else if (entry == 'add') {
-            var success = await addMenuItem(request[entry][0], request[entry][1], request[entry][2], request[entry][3], request[entry][4]);
+            var success = await addMenuItem(request[entry].id, request[entry].name, request[entry].price, request[entry].inventoryItems, request[entry].addOns);
             updateSuccess.push(success);
         }
     }
@@ -101,37 +101,41 @@ app.post('/updateMenu', async (req, res) => {
 });
 
 app.post('/updateInventory', async (req, res) => {
-    var request = req.body;
+    let request = req.body;
     console.log(request);
     var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'name') {
-            var success = await updateInventoryItemName(request['id'],request[entry]);
+            var success = await updateInventoryItemName(request[entry].id,request[entry].name);
             updateSuccess.push(success);
         }
         else if (entry == 'amount_remaining') {
-            var success = await updateInventoryItemAmountRemaining(request['id'],request[entry]);
+            var success = await updateInventoryItemAmountRemaining(request[entry].id,request[entry].amountRemaining);
             updateSuccess.push(success);
         }
         else if (entry == 'amount_used') {
-            var success = await updateInventoryItemAmountUsed(request['id'],request[entry]);
+            var success = await updateInventoryItemAmountUsed(request[entry].id,request[entry].amountUsed);
             updateSuccess.push(success);
 
         }
         else if (entry == 'restock') {
-            // var success = await restockInventoryItem(request['id']);
+            var success = await restockInventoryItem(request[entry].id, request[entry].restockDate, request[entry].restockAmount);
+            // var amountRemaining = request[entry].amountRestock;
+            // var inventoryItem = await getSingleInventoryItem(request[entry].id);
+            // amountRemaining += inventoryItem.amount_remaining;
+            // var success = await updateInventoryItemAmountRemaining(request[entry].id,amountRemaining)
             updateSuccess.push(success);
         }
         else if (entry == 'minimum_amount') {
-            // var success = await updateInventoryMinimumAmount();
+            var success = await updateInventoryMinimumAmount(request[entry].id,request[entry].minimumAmount);
             updateSuccess.push(success);
         }
         else if (entry == 'delete') {
-            var success = await deleteInventoryItem(request[entry]);
+            var success = await deleteInventoryItem(request[entry].id);
             updateSuccess.push(success);
         }
         else if (entry == 'add') {
-            var success = await addInventoryItem(request[entry][0],request[entry][1],request[entry][2],request[entry][3],request[entry][4]);
+            var success = await addInventoryItem(request[entry].id,request[entry].name,request[entry].lastRestockDate,request[entry].amountRemaining,request[entry].amountUsed,request[entry].minimumAmount);
             updateSuccess.push(success);
         }
     }
@@ -139,81 +143,84 @@ app.post('/updateInventory', async (req, res) => {
 });
 
 app.post('/updateEmployees', async (req, res) => {
-    var request = req.body;
+    let request = req.body;
     for (const entry in request) {
         if (entry == 'name') {
-            var success = await updateEmployeeName(request['id'], request[entry]);
+            var success = await updateEmployeeName(request[entry].id, request[entry].name);
             updateSuccess.push(success);
         }
         else if (entry == 'username') {
-            var success = await updateEmployeeUsername(request['id'], request[entry]);
+            var success = await updateEmployeeUsername(request[entry].id, request[entry].username);
             updateSuccess.push(success);
         }
         else if (entry == 'password') {
-            var success = await updateEmployeePassword(request['id'], request[entry]);
+            var success = await updateEmployeePassword(request[entry].id, request[entry].password);
             updateSuccess.push(success);
         }
         else if (entry == 'start_date') {
-            var success = await updateEmployeeStartDate(request['id'], request[entry]);
+            var success = await updateEmployeeStartDate(request[entry].id, request[entry].startDate);
             updateSuccess.push(success);
         }
         else if (entry == 'salary') {
-            var success = await updateEmployeeSalary(request['id'], request[entry]);
+            var success = await updateEmployeeSalary(request[entry].id, request[entry].salary);
             updateSuccess.push(success);
         }
         else if (entry == 'position') {
-            var success = await updateEmployeePosition(request['id'], request[entry]);
+            var success = await updateEmployeePosition(request[entry].id, request[entry].position);
             updateSuccess.push(success);
         }
         else if (entry == 'delete') {
-            var success = await deleteEmployee(request[entry]);
+            var success = await deleteEmployee(request[entry].id);
             updateSuccess.push(success);
         }
         else if (entry == 'add') {
-            var success = await addEmployee(request[entry][0],request[entry][1],request[entry][2],request[entry][3],request[entry][4],request[entry][5],request[entry][6]);
+            var success = await addEmployee(request[entry].id,request[entry].username,request[entry].password,request[entry].name,request[entry].startDate,request[entry].salary,request[entry].position);
             updateSuccess.push(success);
         }
     }
 });
 
 app.post('/updateAddOns', async (req, res) => {
-    var request = req.body;
+    let request = req.body;
     console.log(request);
     var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'name') {
-            var success = await setAddOnName(request['id'], request[entry]);
+            var success = await setAddOnName(request[entry].id, request[entry].name);
             updateSuccess.push(success);
         }
         else if ('price') {
-            var success = await setAddOnPrice(request['id'], request[entry]);
+            var success = await setAddOnPrice(request[entry].id, request[entry].price);
             updateSuccess.push(success);
         }
         else if ('inventory_id') {
-            var success = await setAddOnInventoryItem(request['id'], request[entry]);
+            var success = await setAddOnInventoryItem(request[entry].id, request[entry].inventoryId);
             updateSuccess.push(success);
         }
         else if ('delete') {
-            var success = await deleteAddOn(request[entry]);
+            var success = await deleteAddOn(request[entry].id);
+            updateSuccess.push(success);
         }
         else if ('add') {
-            var success = await addAddOn(request[entry][0],request[entry][1],request[entry][2],request[entry][3]);
+            var success = await addAddOn(request[entry].id,request[entry].name,request[entry].price,request[entry].inventoryId);
+            updateSuccess.push(success);
         }
     }
     res.json({updateSuccess});
 });
 
 app.post('/updateOrders', async (req, res) => {
-    var request = req.body;
+    let request = req.body;
     console.log(request);
     var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'delete') {
-            var success = await deleteOrder(request[entry]);
+            var success = await deleteOrder(request[entry].id);
             updateSuccess.push(success);
         }
         else if (entry == 'add') {
-            var success = await addOrder(request[entry][0],request[entry][1],request[entry][2]);
+            var success = await addOrder(request[entry].price,request[entry].menuItems,request[entry].addOns);
+            updateSuccess.push(success);
         }
     }
     res.json({updateSuccess});
@@ -1293,12 +1300,12 @@ async function getInventory() {
     return items;
 }
 
-async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amountUsed) {
+async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amountUsed, minimumAmount) {
     try {
         await pool
             .query(
-                "INSERT INTO inventory (id, name, last_restock_date, amount_remaining, amount_used) VALUES (" +
-                id + ", \'" + name + "\', \'" + lastRestockDate + "\', " + amountRemaining + ", " + amountUsed + ");"
+                "INSERT INTO inventory (id, name, last_restock_date, amount_remaining, amount_used, minimum_amount) VALUES (" +
+                id + ", \'" + name + "\', \'" + lastRestockDate + "\', " + amountRemaining + ", " + amountUsed + ", " + minimumAmount + ");"
             );
         return true;
     }
@@ -1358,6 +1365,22 @@ async function updateInventoryItemName(id, newName) {
             .query(
                 "UPDATE inventory " +
                 "SET name = \'" + newName + "\' " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateInventoryItemMinimumAmount(id, newMinimumAmount) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET minimum_amount = " + newMinimumAmount +
                 "WHERE id = " + id + ";"
             );
         return true;
