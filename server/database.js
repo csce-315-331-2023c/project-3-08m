@@ -11,9 +11,12 @@ console.log(port);
 // var router = express.Router();
 
 // app.get('/', async (req, res) => {
+//     console.log('i');
 //     // await excessReport('12-01-2022');
 //     // await restockReport();
-//     await menuItemsPopularity('12-01-2022', '12-31-2022', 20);
+//     // await menuItemsPopularity('12-01-2022', '12-31-2022', 20);
+//     await salesReport('12-30-2022', '12-31-2022');
+//     console.log('j');
 // });
 
 app.get('/employees', async (req, res) => {
@@ -385,6 +388,78 @@ async function menuItemsPopularity(startDateTime, endDateTime, numMenuItems) {
                     report.push(query_res.rows[i]);
                 }
             });
+        // console.log(report);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return report;
+}
+
+async function salesReport(startDateTime, endDateTime) {
+    var report = {};
+    try {
+        var menuNames = {};
+        var menu = await getMenu();
+        for (const menuItem of menu) {
+            report[menuItem.name] = [];
+            menuNames[menuItem.id] = menuItem.name;
+        }
+        var addOnNames = {};
+        var addOns = await getAddOns();
+        for (const addOn of addOns) {
+            addOnNames[addOn.id] = addOn.name;
+        }
+        var fullOrder = [];
+        await pool
+            .query(
+                "SELECT oma.menu_id,o.date_time,o.id,oma.order_menu_junction_id,oma.add_on_id FROM \"orders\" as o FULL OUTER JOIN " +
+                "(SELECT oa.add_on_id,oa.order_menu_junction_id,om.menu_id,om.order_id FROM \"order_add_ons\" as oa FULL OUTER JOIN \"order_menu\" AS om " +
+                "on om.id = oa.order_menu_junction_id GROUP BY om.menu_id,oa.order_menu_junction_id,om.order_id,oa.add_on_id) AS oma " +
+                "on o.id = oma.order_id WHERE o.id in " +
+                "(SELECT id FROM orders WHERE date_time BETWEEN timestamp \'" + startDateTime + "\' AND timestamp \'" + endDateTime + "\')" +
+                "GROUP BY oma.menu_id,o.date_time,o.id,oma.order_menu_junction_id,oma.add_on_id;"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    fullOrder.push(query_res.rows[i]);
+                }
+            });
+        // console.log(fullOrder);
+        // if no addOns, add_on_id is null
+        var i = 0;
+        while (true) {
+            if (i >= fullOrder.length) {
+                break;
+            }
+            var menuId = fullOrder[i].menu_id;
+            var orderMenuJunctionId = fullOrder[i].order_menu_junction_id;
+            var dateTime = fullOrder[i].date_time;
+            var orderId = fullOrder[i].id;
+            var addOnId = fullOrder[i].add_on_id;
+            
+            var value = [];
+            value.push(""+orderId);
+            value.push(dateTime);
+
+            if (addOnId != null) {
+                value.push(addOnNames[addOnId]);
+            }
+            i++;
+            while (i < fullOrder.length) {
+                var currentOrderMenuJunctionId = fullOrder[i].order_menu_junction_id;
+                if (orderMenuJunctionId != currentOrderMenuJunctionId || currentOrderMenuJunctionId == null) {
+                    break;
+                }
+                addOnId = fullOrder[i].add_on_id;
+                if (addOnId != null) {
+                    value.push(addOnNames[addOnId]);
+                }
+                i++;
+            }
+
+            report[menuNames[menuId]].push(value);
+        }
         // console.log(report);
     }
     catch (error) {
