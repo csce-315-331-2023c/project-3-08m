@@ -226,6 +226,27 @@ app.post('/updateOrders', async (req, res) => {
     res.json({updateSuccess});
 });
 
+app.post('/report', async (req, res) => {
+    let request = req.body;
+    console.log(request);
+    var report;
+    for (const entry in request) {
+        if (entry == 'excess') {
+            report = await excessReport(request[entry].timeStamp);
+        }
+        else if (entry == 'restock') {
+            report = await restockReport();
+        }
+        else if (entry == 'popularity') {
+            report = await menuItemsPopularity(request[entry].startDateTime, request[entry].endDateTime, request[entry].numMenuItems);
+        }
+        else if (entry == 'sales') {
+            report = await salesReport(request[entry].startDateTime, request[entry].endDateTime);
+        }
+    }
+    res.json({report});
+});
+
 const pool = new Pool({
     user: process.env.PSQL_USER,
     host: process.env.PSQL_HOST,
