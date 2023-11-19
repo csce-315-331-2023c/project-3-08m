@@ -8,6 +8,8 @@ app.use(cors());
 app.use(express.json())
 const port = process.env.PORT || 9000;
 console.log(port);
+
+var language = 'en';
 // var router = express.Router();
 
 // app.get('/', async (req, res) => {
@@ -18,6 +20,18 @@ console.log(port);
 //     await salesReport('12-30-2022', '12-31-2022');
 //     console.log('j');
 // });
+
+app.get('/getLanguage', async (req, res) => {
+    console.log(language);
+    res.json({language});
+});
+
+app.post('/setLanguage', async (req, res) => {
+    let request = req.body;
+    language = request.language;
+    console.log(language);
+    // res.json({success: true});
+})
 
 app.get('/employees', async (req, res) => {
     const employees = await getEmployees();

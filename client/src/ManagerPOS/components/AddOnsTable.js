@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-console.log(process.env.SERVER_URL);
-console.log(serverURL);
+// console.log(process.env.SERVER_URL);
+// console.log(serverURL);
 
 const AddOnsTable = () => {
   const [addOns, setAddOns] = useState([]);
