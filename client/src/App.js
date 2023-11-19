@@ -7,6 +7,7 @@ import MenuBoard from './MenuBoard/MenuBoard';
 import CustomerPOS from './CustomerPOS/CustomerPOS';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/table.css';
+import { LanguagesDropDown } from './Translate';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ const LandingPage = () => {
     <div>
       <nav>
         <ul>
+          <LanguagesDropDown />
           <li>
             <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
           </li>
