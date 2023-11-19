@@ -174,7 +174,7 @@ export const LanguagesDropDown = () => {
             }
         }
         setLanguage();
-        location.reload();
+        // location.reload();
         // return () => {
         //     abortController.abort();
         // }
@@ -235,7 +235,7 @@ export const TranslateText = (text) => {
 
     // useEffect( () => {
     console.log(targetLanguage);
-    if (targetLanguage !== 'en') {
+    // if (targetLanguage !== 'en') {
         // const abortController = new AbortController();
 
         async function translate(targetLanguage) {
@@ -262,6 +262,6 @@ export const TranslateText = (text) => {
         }
         translate(targetLanguage);
         return translation;
-    }
-    return translation;
+    // }
+    // return translation;
 };
