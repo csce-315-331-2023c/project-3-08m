@@ -174,6 +174,7 @@ export const LanguagesDropDown = () => {
             }
         }
         setLanguage();
+        location.reload();
         // return () => {
         //     abortController.abort();
         // }
