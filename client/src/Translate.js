@@ -174,7 +174,7 @@ export const LanguagesDropDown = () => {
             }
         }
         setLanguage();
-        // location.reload();
+        window.location.reload(false);
         // return () => {
         //     abortController.abort();
         // }
@@ -221,11 +221,39 @@ const GetTranslateLanguage = () => {
 
 export const TranslateBulk = (textArray) => {
     // var targetLanguage = GetTranslateLanguage();
-    var translations = [];
-    for (const text of textArray) {
-        translations.push(TranslateText(text));
+    const [translations, setTranslations] = useState([]);
+    var targetLanguage = GetTranslateLanguage();
+
+    if (targetLanguage != 'en') {
+        async function translate(targetLanguage) {
+            var translateURL = API_URL;
+            translateURL += '?key='+API_KEY;
+            for (const text of textArray) {
+                translateURL += '&q='+encodeURI(text);
+            }
+            translateURL += '&source=en';
+            translateURL += '&target='+targetLanguage;
+            try {
+                const response = await fetch(translateURL, {
+                    method: 'POST'
+                });
+                // console.log(response.body);
+                const res = await response.json();
+                var temp = [];
+                for (const text of res.data.translations) {
+                    temp.push(text.translatedText);
+                }
+                console.log(temp);
+                setTranslations(temp);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        translate(targetLanguage);
+        return translations;
     }
-    return translations;
+    return textArray;
 };
 
 export const TranslateText = (text) => {
@@ -246,7 +274,7 @@ export const TranslateText = (text) => {
             translateURL += '&source=en';
             translateURL += '&target='+targetLanguage;
             try {
-                console.log("test");
+                // console.log("test");
                 const response = await fetch(translateURL, {
                     // signal: abortController.signal,
                     method: 'POST'
