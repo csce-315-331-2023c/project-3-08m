@@ -4,7 +4,15 @@ const API_KEY = process.env.REACT_APP_GOOGLE_TL_API_KEY;
 // console.log(API_KEY);
 const API_URL = 'https://translation.googleapis.com/language/translate/v2';
 
-const TranslateText = (text, targetLanguage) => {
+export const TranslateBulk = (textArray, targetLanguage) => {
+    var translations = [];
+    for (const text of textArray) {
+        translations.push(TranslateText(text, targetLanguage));
+    }
+    return translations;
+};
+
+export const TranslateText = (text, targetLanguage) => {
     const [translation, setTranslation] = useState(text);
 
     useEffect( () => {
@@ -39,8 +47,6 @@ const TranslateText = (text, targetLanguage) => {
             }
         }
     }, [text, targetLanguage]);
-    console.log(translation);
+    // console.log(translation);
     return translation;
 };
-
-export default TranslateText;
