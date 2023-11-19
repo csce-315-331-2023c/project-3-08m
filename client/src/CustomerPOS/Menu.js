@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Menu.css'; // Make sure to create a CSS file with this name
 import defaultDrinkImage from './assets/boba.svg';
-import { TranslateText, TranslateBulk } from '../Translate';
+import { TranslateBulk } from '../Translate';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
@@ -34,10 +34,12 @@ const Menu = () => {
   for (const menuItem of menuItems) {
     temp.push(menuItem.name);
   }
-  temp = TranslateBulk(temp);
+  console.log(temp);
+  // temp = TranslateBulk(temp);
   for (let i = 0; i < temp.length; ++i) {
     menuItems[i].name = temp[i];
   }
+  console.log(temp);
   return (
     <div className="menu">
       {menuItems.map(item => (
