@@ -20,26 +20,51 @@ const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
-    fetch(serverURL+'/menu')
-      .then(response => response.json())
-      .then(data => {
+    var abortController = new AbortController();
+    const getMenu = async () => {
+      try {
+        var response = await fetch(serverURL+'/menu', {signal: abortController.signal});
+        var data = await response.json();
         setMenuItems(data.menu);
-      })
-      .catch(error => {
+          // .then(response => response.json())
+          // .then(data => {
+          //   // console.log(data.menu);
+          //   setMenuItems(data.menu);
+          // })
+          // .catch(error => {
+          //   console.error('Error fetching data: ', error);
+          // });
+      }
+      catch (error) {
         console.error('Error fetching data: ', error);
-      });
+      }
+    };
+    getMenu();
+    return () => {
+      abortController.abort();
+    }
   }, []);
-
-  var temp = [];
-  for (const menuItem of menuItems) {
-    temp.push(menuItem.name);
+  console.log(menuItems);
+  try {
+    var temp = [];
+    for (const menuItem of menuItems) {
+      temp.push(menuItem.name);
+    }
+    // console.log(temp);
+    var translations = TranslateBulk(temp);
+    // var translations = [];
+    // if (menuItems[0].name !== 'default') {
+    //   console.log(menuItems);
+    //   translations = TranslateBulk(temp);
+    // }
+    console.log(menuItems);
+    for (let i = 0; i < translations.length && i < menuItems.length; ++i) {
+      menuItems[i].name = translations[i];
+    }
   }
-  console.log(temp);
-  // temp = TranslateBulk(temp);
-  for (let i = 0; i < temp.length; ++i) {
-    menuItems[i].name = temp[i];
+  catch (error) {
+    console.log(error);
   }
-  console.log(temp);
   return (
     <div className="menu">
       {menuItems.map(item => (
