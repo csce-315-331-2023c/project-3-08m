@@ -293,50 +293,27 @@ export const LanguagesDropDown = () => {
             setCssDisplay('none');
         }
     };
-    // const ChangeLanguage = (language, e) => {
-    //     const abortController = new AbortController();
-        
-    //     useEffect( () => {
-    //         async function setLanguage() {
-    //             // console.log(JSON.stringify(language));
-    //             try {
-    //                 await fetch(serverURL+"/setLanguage", {
-    //                     signal: abortController.signal,
-    //                     method: 'POST',
-    //                     headers: {
-    //                         "Content-type": "application/json; charset = UTF-8"
-    //                     },
-    //                     body: JSON.stringify({language})
-    //                 });
-    //             }
-    //             catch (error) {
-    //                 console.log(error);
-    //             }
-    //         }
-    //         setLanguage();
-    //         // window.location.reload(false);
-    //         return () => {
-    //             abortController.abort();
-    //         }
-    //     }, []);
-    // }
-    async function setLanguage(language, e) {
-        // console.log(JSON.stringify(language));
-        try {
-            await fetch(serverURL+"/setLanguage", {
-                // signal: abortController.signal,
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/json; charset = UTF-8"
-                },
-                body: JSON.stringify({language})
-            });
+    const ChangeLanguage = (language, e) => {
+        const setLanguage = async (language) => {
+            // console.log(JSON.stringify(language));
+            try {
+                await fetch(serverURL+"/setLanguage", {
+                    // signal: abortController.signal,
+                    method: 'POST',
+                    headers: {
+                        "Content-type": "application/json; charset = UTF-8"
+                    },
+                    body: JSON.stringify({language})
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            window.location.reload(false);
         }
-        catch (error) {
-            console.log(error);
-        }
-        // window.location.reload();
-    }
+        setLanguage(language);
+        window.location.reload(false);
+    }   
     return (
         <div>
             <button onClick={showDropDown}>{dropDownSymbol}</button>
@@ -344,7 +321,7 @@ export const LanguagesDropDown = () => {
                 {
                     Object.keys(langAbbrevs2).map((key, index) => (
                         <li key={index}>
-                            <button onClick={(e) => setLanguage(langAbbrevs2[key], e)}>
+                            <button onClick={(e) => ChangeLanguage(langAbbrevs2[key], e)}>
                                 {key}
                             </button>
                         </li>
@@ -374,55 +351,71 @@ const GetTranslateLanguage = () => {
             // return language;
         }
         getLanguage();
+        return () => {
+            abortController.abort();
+        }
     }, [])
     
     return language;
 }
 
 export const TranslateBulk = (textArray) => {
+    // console.log(textArray);
     // var targetLanguage = GetTranslateLanguage();
+    // const [t] = useState(textArray);
     const [translations, setTranslations] = useState(textArray);
+    const [alreadyTLed, setAlreadyTLed] = useState(false);
+    // var translations = textArray;
     var tLang = GetTranslateLanguage();
-    const [targetLanguage] = useState(tLang);
-    const [textArr] = useState(textArray);
-    console.log(targetLanguage);
+    // console.log(tLang);
+    // const [targetLanguage] = useState(tLang);
+    // const [textArr] = useState(textArray);
+    // console.log(tLang);
+    // console.log(textArray);
     useEffect(() => {
-        if (targetLanguage !== 'en') {
-            console.log('test');
+        if (tLang !== 'en' && !alreadyTLed) {
+            console.log(textArray);
+            console.log(tLang);
+            // console.log('test');
             const abortController = new AbortController();
-            async function translate() {
+            async function translate(tLang) {
                 var translateURL = API_URL;
                 translateURL += '?key='+API_KEY;
-                for (const text of textArr) {
+                for (const text of textArray) {
                     translateURL += '&q='+encodeURI(text);
                 }
                 translateURL += '&source=en';
-                translateURL += '&target='+targetLanguage;
+                translateURL += '&target='+tLang;
                 try {
                     const response = await fetch(translateURL, {
                         method: 'POST',
                         referrer: window.location.href
                     });
-                    // console.log(response.body);
+                    console.log(response.body);
                     const res = await response.json();
+                    // var temp2 = ["你好", "再见"];
                     var temp = [];
                     for (const text of res.data.translations) {
                         temp.push(text.translatedText);
                     }
-                    console.log(temp);
+                    // // console.log(temp2);
                     setTranslations(temp);
+                    setAlreadyTLed(true);
+                    // translations = temp;
+                    // return temp;
                 }
                 catch (error) {
                     console.log(error);
                 }
             }
-            translate();
+            translate(tLang);
             // return translations;
             return () => {
                 abortController.abort();
             }
         }
-    }, [targetLanguage]);
+    }, [tLang, textArray, alreadyTLed]);
+    // console.log(translations);
     return translations;
 };
 
