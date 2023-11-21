@@ -8,12 +8,14 @@ import { TranslateBulk, LanguageDialog } from '../Translate';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 const MenuItem = ({ name, price }) => (
+  <button>
   <div className="menu-item">
     <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
     <h3>{name}</h3>
     <div className="menu-price">{`$${price.toFixed(2)}`}</div>
     {/* Likes functionality can be added if you have that data */}
   </div>
+  </button>
 );
 
 const Menu = () => {
@@ -67,12 +69,15 @@ const Menu = () => {
   }
   return (
     <div>
+      <LanguageDialog />
       <div className="menu">
+        {/* <button> */}
         {menuItems.map(item => (
           <MenuItem key={item.id} {...item} />
         ))}
+        {/* </button> */}
       </div>
-      <LanguageDialog />
+      {/* <LanguageDialog /> */}
     </div>
   );
 };

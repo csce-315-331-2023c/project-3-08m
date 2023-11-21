@@ -299,7 +299,7 @@ export function LanguageDialog() {
                     Languages
                 </button>
             </div>
-            <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="dropdown">
+            <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="dropdown dialog">
                 <Dialog.Panel>
                     {/* <Dialog.Title className="dropdown title">Languages</Dialog.Title> */}
                     <Dialog.Description className="dropdown desc">
@@ -316,7 +316,7 @@ export function LanguageDialog() {
                         ))
                     }
                 </ul>
-                <button onClick={() => setIsOpen(false)}>Cancel</button>
+                <button onClick={() => setIsOpen(false)} className="dropdown cancelButton">Cancel</button>
                 </Dialog.Panel>
             </Dialog>
         </>
