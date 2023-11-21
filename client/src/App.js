@@ -8,7 +8,6 @@ import CustomerPOS from './CustomerPOS/CustomerPOS';
 import AddAddOns from './CashierPOS/AddAddOns';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/table.css';
-import { LanguagesDropDown } from './Translate';
 import { Checkout } from './CustomerPOS/Checkout';
 
 
@@ -27,9 +26,6 @@ const LandingPage = () => {
     <div>
       <nav>
         <ul>
-          <div>
-            <LanguagesDropDown />
-          </div>
           <li>
             <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
           </li>

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import './AddOns.css';
 import './Menu.css';
 import { TranslateBulk } from '../Translate';
-import defaultDrinkImage from './assets/boba.svg';
+// import defaultDrinkImage from './assets/boba.svg';
 
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -91,12 +91,36 @@ export function AddOnDialog({menuId, menuName, menuPrice}) {
         setIsOpen(false);
         setSelectedAddOns([]);
     }
+
+    // let menuPicture = "./assets/"+menuName.toLowerCase().replaceAll(" ","_")+".jpeg";
+    let menuPicture = menuName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
+    // try {
+    //     require(menuPicture);
+    // }
+    // catch (error) {
+    //     console.log(error);
+    //     menuPicture = defaultDrinkImage;
+    // }
+
+    const importAll = (r) => {
+        let images = {};
+        r.keys().map((item, index) => { images[item.replace('./','')] = r(item); });
+        return images;
+    }
+
+    const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
+
+    console.log(images);
+
+    if (!(menuPicture in images)) {
+        menuPicture = 'boba.svg';
+    }
     
     return (
         <>
         <button onClick={() => setIsOpen(true)}>
             <div className="menu-item">
-                <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
+                <img src={images[menuPicture]} alt="Default Drink"className='menu-image' />
                 <h3>{menuName}</h3>
                 <div className="menu-price">{`$${menuPrice.toFixed(2)}`}</div>
                 {/* Likes functionality can be added if you have that data */}

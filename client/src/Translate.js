@@ -471,7 +471,7 @@ export const TranslateBulk = (textArray) => {
     return translations;
 };
 
-export const TranslateText = (text) => {
+const TranslateText = (text) => {
     const [translation, setTranslation] = useState(text);
     // var translation = text;
     var tLang = GetTranslateLanguage();
