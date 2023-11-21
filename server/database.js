@@ -44,6 +44,9 @@ app.post('/single', async (req, res) => {
         else if (entry == 'menu') {
             response = await getSingleMenuItem(request[entry]);
         }
+        else if (entry == 'menu_add_ons') {
+            response = await getMenuItemAddOnsNames(request[entry]);
+        }
     }
     res.json({response});
 });
@@ -252,14 +255,30 @@ app.post('/updateAddOns', async (req, res) => {
 
 app.post('/updateOrders', async (req, res) => {
     let request = req.body;
-    console.log(request);
+    // console.log(request);
     var updateSuccess = [];
     for (const entry in request) {
+        console.log(entry);
         if (entry == 'delete') {
             var success = await deleteOrder(request[entry].id);
             updateSuccess.push(success);
         }
         else if (entry == 'add') {
+            // console.log(request[entry]);
+            // console.log(request[entry].)
+            // request[entry].menuItems = JSON.parse(request[entry].menuItems);
+            // for (let i = 0; i < request[entry].menuItems.length; i++) {
+            //     request[entry].menuItems[i] = JSON.parse(request[entry].menuItems[i]);
+            // }
+            // // request[entry].addOns = JSON.parse(request[entry].addOns);
+            // for (let i = 0; i < request[entry].addOns.length; i++) {
+            //     request[entry].addOns[i] = JSON.parse(request[entry].addOns[i]);
+            //     for (let j = 0; j < request[entry].addOns[i].length; j++) {
+            //         request[entry].addOns[i][j] = JSON.parse(request[entry].addOns[i][j]);
+            //     }
+            // }
+            console.log(request[entry]);
+            console.log(request[entry].addOns);
             var success = await addOrder(request[entry].price,request[entry].menuItems,request[entry].addOns);
             updateSuccess.push(success);
         }
@@ -542,6 +561,7 @@ async function salesReport(startDateTime, endDateTime) {
 async function getMenuItemInventoryItems(id) {
     var inventoryItems = [];
     try {
+        // console.log(id);
         await pool
             .query(
                 "SELECT * FROM menu_inventory WHERE menu_id = " + id + ";"
@@ -935,6 +955,11 @@ async function addOrder(price, menuItemIds, addOnIds) {
                     orderAddOnsQueryString += ",";
                 }
             }
+            // console.log(orderAddOnsQueryString[orderAddOnsQueryString.length-1]);
+            if (orderAddOnsQueryString.charAt(orderAddOnsQueryString.length-1) === ",") {
+                orderAddOnsQueryString = orderAddOnsQueryString.substring(0, orderAddOnsQueryString.length-1);
+            }
+            orderAddOnsQueryString += ";";
             // console.log(orderAddOnsQueryString);
             if (hasAddOns) {
                 await pool.query(orderAddOnsQueryString);
@@ -1495,6 +1520,28 @@ async function useInventoryItem(id) {
         console.log(error);
         return false;
     }
+}
+
+// HELPERS
+
+async function getMenuItemAddOnsNames(id) {
+    var names = [];
+    try {
+        await pool
+            .query(
+                "SELECT * FROM add_on WHERE id in " +
+                "(SELECT add_on_id FROM menu_add_on WHERE menu_id = "+id + ");"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    names.push(query_res.rows[i]);
+                }
+            });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return names;
 }
 
 // OTHER STUFF
