@@ -42,7 +42,7 @@ const GenerateMenu = () => {
         const data = await response.json();
         dispatch(fetchAddOns(data.addOns || []));
       } catch (error) {
-        console.error('Error fetching menu items:', error);
+        console.error('Error fetching addons:', error);
       }
     };
 

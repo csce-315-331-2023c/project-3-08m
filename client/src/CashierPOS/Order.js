@@ -5,19 +5,23 @@ const Order = () => {
   const dispatch = useDispatch();
   const menuItems = useSelector((state) => state.menuItems);
   const addons = useSelector((state) => state.addons);
+  const ordersEntered = useSelector((state) => state.ordersEntered);
 
   const clearOrder = () => {
-    dispatch({ type: 'CLEAR_MENU_ITEMS' });
-    dispatch({ type: 'CLEAR_ADDONS' });
+    dispatch({ type: 'CLEAR_ORDER' });
   };
 
   // Render each order
-  const orderElements = menuItems.map((item) => {
-    const itemAddons = addons[item.id] || [];
+  const orderElements = ordersEntered.map((item) => {
+    console.log(item);
+
+    const itemAddons = item.addOnList || [];
+    const orderPrice = item.menuItem.price + itemAddons.reduce((acc, addon) => acc + addon.price, 0);
+    console.log("itemAddons: ", itemAddons);
     return (
-      <div key={item.id} className="orderItem">
-        <div className="orderItemName">{item.name}</div>
-        <div className="orderItemPrice">${item.price.toFixed(2)}</div>
+      <div key={item.menuItem.name} className="orderItem">
+        <div className="orderItemName">{item.menuItem.name}</div>
+        <div className="orderItemPrice">${orderPrice.toFixed(2)}</div>
         <div className="orderItemAddons">
           {itemAddons.map((addon) => (
             <div key={addon.id} className="orderItemAddon">

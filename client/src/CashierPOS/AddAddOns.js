@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMenuItems, updateAddons } from './actions';
+import { addItemToOrder } from './actions';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -26,25 +26,11 @@ const AddAddOns = () => {
 
   useEffect(() => {
     console.log('MenuItem changed:', menuItem);
+    console.log('Selected addons changed:', selectedAddOns);
+    console.log('Order items changed:', orderItems);
+    console.log('Addons changed:', addons);
+    console.log('Menu items changed:', menuItems);
   }, [menuItem]);
-
-  useEffect(() => {
-    const fetchMenuItemsFromApi = async () => {
-      try {
-        const response = await fetch(`${serverURL}/menu`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        dispatch(fetchMenuItems(data.menu || []));
-      } catch (error) {
-        console.error('Error fetching menu items:', error);
-      }
-    };
-
-    fetchMenuItemsFromApi();
-  }, [dispatch]);
 
   useEffect(() => {
     const selectedMenuItem = menuItems.find((item) => item.id.toString() === itemId);
@@ -54,7 +40,7 @@ const AddAddOns = () => {
   }, [itemId, menuItems]);
 
   const handleSave = () => {
-    dispatch(updateAddons(itemId, selectedAddOns));
+    dispatch(addItemToOrder(menuItem, selectedAddOns));
     navigate('/cashier');
   };
 
@@ -62,7 +48,7 @@ const AddAddOns = () => {
     <div>
       <h1>Add Ons for {menuItem ? menuItem.name : 'Loading...'}</h1>
       <ul>
-        {selectedAddOns.map((addOn) => (
+        {addons.map((addOn) => (
           <li key={addOn}>
             <label>
               <input
@@ -70,7 +56,7 @@ const AddAddOns = () => {
                 checked={selectedAddOns.includes(addOn)}
                 onChange={() => handleAddOnSelect(addOn)}
               />
-              {addOn}
+              {addOn.name}
             </label>
           </li>
         ))}
