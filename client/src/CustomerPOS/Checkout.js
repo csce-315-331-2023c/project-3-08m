@@ -126,9 +126,9 @@ export const Checkout = () => {
             <nav>
                 <NavLink to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Cancel</NavLink>
             </nav>
-            <Routes>
+            {/* <Routes>
                 <Route path="/customer" element={<Checkout />} />
-            </Routes>
+            </Routes> */}
             <button onClick={() => CheckoutOrder()}>Checkout</button>
         </div>
         </>
