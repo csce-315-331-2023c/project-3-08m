@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import "./Translate.css";
+import { Dialog } from '@headlessui/react';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_TL_API_KEY;
 // console.log(API_KEY);
@@ -281,82 +283,132 @@ const langAbbrevs2 = {
 
 const dropDownSymbol = 'V';
 
-export const LanguagesDropDown = () => {
-    const [cssDisplay, setCssDisplay] = useState('none');
-    // const [language, setLanguage] = useState(GetTranslateLanguage());
-    
-    const showDropDown = () => {
-        if (cssDisplay === 'none'){
-            setCssDisplay('block');
-        }
-        else {
-            setCssDisplay('none');
-        }
-    };
+export function LanguageDialog() {
+    let [isOpen, setIsOpen] = useState(false);
+
     const ChangeLanguage = (language, e) => {
-        const setLanguage = async (language) => {
-            // console.log(JSON.stringify(language));
-            try {
-                await fetch(serverURL+"/setLanguage", {
-                    // signal: abortController.signal,
-                    method: 'POST',
-                    headers: {
-                        "Content-type": "application/json; charset = UTF-8"
-                    },
-                    body: JSON.stringify({language})
-                });
-            }
-            catch (error) {
-                console.log(error);
-            }
-            window.location.reload(false);
-        }
-        setLanguage(language);
+        sessionStorage.setItem("language", language);
         window.location.reload(false);
-    }   
+    }
+    
     return (
-        <div>
-            <button onClick={showDropDown}>{dropDownSymbol}</button>
-            <ul>
-                {
-                    Object.keys(langAbbrevs2).map((key, index) => (
-                        <li key={index}>
-                            <button onClick={(e) => ChangeLanguage(langAbbrevs2[key], e)}>
-                                {key}
-                            </button>
-                        </li>
-                    ))
-                }
-            </ul>
-        </div>
-    );
-};
+        <>
+            <div className="dropdown">
+                <button onClick={() => setIsOpen(true)} className="dropdown openButton">
+                    {/* {dropDownSymbol} */}
+                    Languages
+                </button>
+            </div>
+            <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="dropdown">
+                <Dialog.Panel>
+                    {/* <Dialog.Title className="dropdown title">Languages</Dialog.Title> */}
+                    <Dialog.Description className="dropdown desc">
+                        Please select a language
+                    </Dialog.Description>
+                    <ul>
+                    {
+                        Object.keys(langAbbrevs2).map((key, index) => (
+                            <li key={index}>
+                                <button onClick={(e) => ChangeLanguage(langAbbrevs2[key], e)}>
+                                    {key}
+                                </button>
+                            </li>
+                        ))
+                    }
+                </ul>
+                <button onClick={() => setIsOpen(false)}>Cancel</button>
+                </Dialog.Panel>
+            </Dialog>
+        </>
+    )
+}
+
+// export const LanguagesDropDown = () => {
+//     const [cssDisplay, setCssDisplay] = useState('none');
+//     // const [language, setLanguage] = useState(GetTranslateLanguage());
+    
+//     const showDropDown = () => {
+//         if (cssDisplay === 'none'){
+//             setCssDisplay('block');
+//         }
+//         else {
+//             setCssDisplay('none');
+//         }
+//     };
+//     // const ChangeLanguage = (language, e) => {
+//     //     const setLanguage = async (language) => {
+//     //         // console.log(JSON.stringify(language));
+//     //         try {
+//     //             await fetch(serverURL+"/setLanguage", {
+//     //                 // signal: abortController.signal,
+//     //                 method: 'POST',
+//     //                 headers: {
+//     //                     "Content-type": "application/json; charset = UTF-8"
+//     //                 },
+//     //                 body: JSON.stringify({language})
+//     //             });
+//     //         }
+//     //         catch (error) {
+//     //             console.log(error);
+//     //         }
+//     //         window.location.reload(false);
+//     //     }
+//     //     setLanguage(language);
+//     //     window.location.reload(false);
+//     // }   
+//     const ChangeLanguage = (language, e) => {
+//         sessionStorage.setItem("language", language);
+//         window.location.reload(false);
+//     }
+//     return (
+//         <div className="dropdown">
+//             <button onClick={showDropDown}>{dropDownSymbol}</button>
+//             <ul>
+//                 {
+//                     Object.keys(langAbbrevs2).map((key, index) => (
+//                         <li key={index}>
+//                             <button onClick={(e) => ChangeLanguage(langAbbrevs2[key], e)}>
+//                                 {key}
+//                             </button>
+//                         </li>
+//                     ))
+//                 }
+//             </ul>
+//         </div>
+//     );
+// };
 
 const GetTranslateLanguage = () => {
-    const [language, setLanguage] = useState('en');
+    // const [language, setLanguage] = useState('en');
 
-    useEffect(() => {
-        var abortController = new AbortController();
-        async function getLanguage() {
-            try {
-                const res = await fetch(serverURL+"/getLanguage", {signal: abortController.signal});
-                const json = await res.json();
-                setLanguage(json.language);
-                // console.log(json);
-                // language = json.language;
-            }
-            catch (error) {
-                console.log(error);
-            }
-            // return language;
-        }
-        getLanguage();
-        return () => {
-            abortController.abort();
-        }
-    }, [])
+    // useEffect(() => {
+    //     var abortController = new AbortController();
+    //     async function getLanguage() {
+    //         try {
+    //             const res = await fetch(serverURL+"/getLanguage", {signal: abortController.signal});
+    //             const json = await res.json();
+    //             setLanguage(json.language);
+    //             // console.log(json);
+    //             // language = json.language;
+    //         }
+    //         catch (error) {
+    //             console.log(error);
+    //         }
+    //         // return language;
+    //     }
+    //     getLanguage();
+    //     return () => {
+    //         abortController.abort();
+    //     }
+    // }, [])
     
-    return language;
+    // return language;
+    // var language = localStorage.getItem("language");
+    // if (language == null) {
+    //     language = 'en';
+    // }
+    // return language;
+    return (sessionStorage.getItem("language") !== null) ? sessionStorage.getItem("language") : 'en';
 }
 
 export const TranslateBulk = (textArray) => {

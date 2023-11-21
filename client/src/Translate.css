@@ -1,0 +1,31 @@
+.dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+    /* position: absolute; */
+    margin-bottom: 10px;
+}
+    .dropdown li {
+        list-style: none;
+        display: inline;
+    }
+    
+    .dropdown ul {
+        list-style: none;
+    }
+
+    .dropdown.title {
+        align-items: center;
+        font-size: medium;
+        margin-bottom: 10px;
+    }
+
+    .dropdown.desc {
+        margin-bottom: 10px;
+        align-items: center;
+    }
+
+    .dropdown.openButton {
+        font-size: large;
+    }

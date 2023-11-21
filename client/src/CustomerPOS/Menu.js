@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Menu.css'; // Make sure to create a CSS file with this name
 import defaultDrinkImage from './assets/boba.svg';
-import { TranslateBulk } from '../Translate';
+import { TranslateBulk, LanguageDialog } from '../Translate';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
@@ -66,10 +66,13 @@ const Menu = () => {
     console.log(error);
   }
   return (
-    <div className="menu">
-      {menuItems.map(item => (
-        <MenuItem key={item.id} {...item} />
-      ))}
+    <div>
+      <div className="menu">
+        {menuItems.map(item => (
+          <MenuItem key={item.id} {...item} />
+        ))}
+      </div>
+      <LanguageDialog />
     </div>
   );
 };

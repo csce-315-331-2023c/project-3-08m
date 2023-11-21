@@ -24,7 +24,6 @@ const LandingPage = () => {
     <div>
       <nav>
         <ul>
-          <LanguagesDropDown />
           <li>
             <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
           </li>
