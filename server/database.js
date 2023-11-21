@@ -21,6 +21,33 @@ var language = 'en';
 //     console.log('j');
 // });
 
+app.post('/single', async (req, res) => {
+    let request = req.body;
+    console.log(request);
+    var response;
+    for (const entry in request) {
+        if (entry == 'employee') {
+            response = await getSingleEmployee(request[entry]);
+        }
+        else if (entry == 'add_on') {
+            response = await getSingleAddOn(request[entry]);
+        }
+        else if (entry == 'inventory') {
+            response = await getSingleInventoryItem(request[entry]);
+        }
+        else if (entry == 'order') {
+            response = await getSingleOrder(request[entry]);
+        }
+        else if (entry == 'shift') {
+            response = await getSingleShift(request[entry]);
+        }
+        else if (entry == 'menu') {
+            response = await getSingleMenuItem(request[entry]);
+        }
+    }
+    res.json({response});
+});
+
 app.get('/getLanguage', async (req, res) => {
     console.log(language);
     res.json({language});
@@ -31,7 +58,7 @@ app.post('/setLanguage', async (req, res) => {
     language = request.language;
     console.log(language);
     // res.json({success: true});
-})
+});
 
 app.get('/employees', async (req, res) => {
     const employees = await getEmployees();
