@@ -17,7 +17,7 @@ const AddOn = ({name, price}) => (
     // )
 )
 
-export function AddOnDialog({menuId, menuName, menuPrice}) {
+export function AddOnDialog({menuId, menuName, menuPrice, enName}) {
     let [ isOpen, setIsOpen ] = useState(false);
     const [ addOns, setAddOns ] = useState([]);
 
@@ -93,7 +93,7 @@ export function AddOnDialog({menuId, menuName, menuPrice}) {
     }
 
     // let menuPicture = "./assets/"+menuName.toLowerCase().replaceAll(" ","_")+".jpeg";
-    let menuPicture = menuName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
+    let menuPicture = enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
     // try {
     //     require(menuPicture);
     // }

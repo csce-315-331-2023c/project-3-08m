@@ -29,6 +29,9 @@ const Menu = () => {
       try {
         var response = await fetch(serverURL+'/menu', {signal: abortController.signal});
         var data = await response.json();
+        for (let i = 0; i < data.menu.length; i++) {
+          data.menu[i].enName = data.menu[i].name;
+        }
         setMenuItems(data.menu);
           // .then(response => response.json())
           // .then(data => {
@@ -49,6 +52,7 @@ const Menu = () => {
     }
   }, []);
   console.log(menuItems);
+  // let menuItemsDialogDict = [];
   try {
     var temp = [];
     for (const menuItem of menuItems) {
@@ -63,13 +67,17 @@ const Menu = () => {
     // }
     console.log(menuItems);
     for (let i = 0; i < translations.length && i < menuItems.length; ++i) {
+      // menuItemsDialogDict.push(menuItems[i]);
+      // menuItemsDialogDict[i].enName = menuItems[i].name;
+      // menuItemsDialogDict[i].name = translations[i];
+      // menuItems[i]['enName'] = menuItems[i].name;
       menuItems[i].name = translations[i];
     }
   }
   catch (error) {
     console.log(error);
   }
-
+  console.log(menuItems);
   return (
     <div>
       {/* <LanguageDialog /> */}
@@ -80,7 +88,7 @@ const Menu = () => {
           // <MenuItem key={item.id} {...item} />
           // </button>
           // AddOnDialog(item.id, item.name, item.price)
-          <AddOnDialog menuId={item.id} menuPrice={item.price} menuName={item.name}/>
+          <AddOnDialog menuId={item.id} menuPrice={item.price} menuName={item.name} enName={item.enName}/>
         ))}
         {/* </button> */}
       </div>
