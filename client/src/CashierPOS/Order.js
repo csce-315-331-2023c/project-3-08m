@@ -1,55 +1,55 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Order = () => {
-    const onCheckout = async e => {
-        e.preventDefault();
-        try {
-            //submit order to database
-            //clear order
-        } catch (err) {
-            console.error(err.message);
-        }
-    };
+  const dispatch = useDispatch();
+  const menuItems = useSelector((state) => state.menuItems);
+  const addons = useSelector((state) => state.addons);
 
-    const onClear = async e => {
-        e.preventDefault();
-        try {
-            //clear order
-        } catch (err) {
-            console.error(err.message);
-        }
-    };
+  const clearOrder = () => {
+    dispatch({ type: 'CLEAR_MENU_ITEMS' });
+    dispatch({ type: 'CLEAR_ADDONS' });
+  };
 
+  // Render each order
+  const orderElements = menuItems.map((item) => {
+    const itemAddons = addons[item.id] || [];
     return (
-        <div class="Order">
-            <h1 className='text-center'>Order</h1>
-
-            <div class="orderText overflow-auto">
-                <div className='d-flex mt-5'>
-                    <h2 className='text-center'>Item</h2>
-                    <h2 className='text-center'>Price</h2>
-                    <h2 className='text-center'>Quantity</h2>
-                </div>
+      <div key={item.id} className="orderItem">
+        <div className="orderItemName">{item.name}</div>
+        <div className="orderItemPrice">${item.price.toFixed(2)}</div>
+        <div className="orderItemAddons">
+          {itemAddons.map((addon) => (
+            <div key={addon.id} className="orderItemAddon">
+              {addon.name}
             </div>
-
-            <div class="totals">
-                <h2 className='text-center mt-5'>Subtotal</h2>
-                <h2 className='text-center mt-5'>Tax</h2>
-                <h2 className='text-center mt-5'>Total</h2>
-            </div>
-
-            <div className='position-relative'>
-                <form className='top-100 start-50 translate-middle'>
-                    <button type="button" class="btn btn-success btn-lg" onSubmit={onCheckout}>Checkout</button>
-                </form>
-                <form className='top-0 start-50 translate-middle'>
-                    <button type="button" class="btn btn-danger" onSubmit={onClear}>Clear</button>
-                </form>
-            </div>
+          ))}
         </div>
+      </div>
     );
+  });
+
+  return (
+    <div className="Order">
+      <h1 className='text-center'>Orders</h1>
+      {orderElements.length > 0 ? (
+        <div className="orderText overflow-auto">
+          {orderElements}
+        </div>
+      ) : (
+        <p>No orders yet.</p>
+      )}
+      <div className="totals">
+        {/* Display total, tax, etc. as needed */}
+      </div>
+      <div className='position-relative'>
+        <button type="button" className="btn btn-success btn-lg" onClick={clearOrder}>
+          Clear Orders
+        </button>
+      </div>
+    </div>
+  );
 };
 
-
-
 export default Order;
+

@@ -5,9 +5,11 @@ import ManagerPOS from './ManagerPOS/ManagerPOS';
 import CashierPOS from './CashierPOS/CashierPOS';
 import MenuBoard from './MenuBoard/MenuBoard';
 import CustomerPOS from './CustomerPOS/CustomerPOS';
+import AddAddOns from './CashierPOS/AddAddOns';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/table.css';
 import { LanguagesDropDown } from './Translate';
+
 
 function App() {
   return (
@@ -24,7 +26,9 @@ const LandingPage = () => {
     <div>
       <nav>
         <ul>
-          <LanguagesDropDown />
+          <div>
+            <LanguagesDropDown />
+          </div>
           <li>
             <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
           </li>
@@ -42,7 +46,9 @@ const LandingPage = () => {
 
       <Routes>
         <Route path="/manager/*" element={<ManagerPOS />} />
-        <Route path="/cashier" element={<CashierPOS />} />
+        <Route path="/cashier/*" element={<CashierPOS />} />
+        <Route path="/cashier/add-ons" element={<AddAddOns />} />
+        <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
         <Route path="/menu_board" element={<MenuBoard />} />
         <Route path="/customer" element={<CustomerPOS />} />
       </Routes>
