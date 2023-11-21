@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Routes, Route } from "react-router-dom";
+import { Dialog } from '@headlessui/react';
+import './Checkout.css';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -65,12 +67,18 @@ export const Checkout = () => {
                     var success = await response.json();
                     success = success.updateSuccess;
                     console.log(success);
+                    if (success) {
+                        sessionStorage.removeItem("order-menu-items");
+                        sessionStorage.removeItem("order-add-ons");
+                        price = 0;
+                    }
                 }
                 catch (error) {
                     console.error(error);
                 }
             }
             checkout();
+            setIsOpen(true);
             // return () => {
             //     abortController.abort();
             // }
@@ -83,6 +91,7 @@ export const Checkout = () => {
     //     console.log(item.menuItem.name);
     //     console.log(item.menuItem.price);
     // });
+    const [ isOpen, setIsOpen ] = useState(false);
 
     return (
         <>
@@ -125,12 +134,26 @@ export const Checkout = () => {
         <div>
             <nav>
                 <NavLink to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Cancel</NavLink>
+                {/* <NavLink onClick={() => CheckoutOrder()} to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Checkout</NavLink> */}
             </nav>
             {/* <Routes>
                 <Route path="/customer" element={<Checkout />} />
             </Routes> */}
             <button onClick={() => CheckoutOrder()}>Checkout</button>
         </div>
+        <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="checkout dialog">
+            <Dialog.Panel>
+                {/* <header>
+                    Order Submitted
+                </header> */}
+                <Dialog.Title>
+                    Order Submitted
+                </Dialog.Title>
+                <nav>
+                    <NavLink onClick={() => setIsOpen(false)} to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Ok</NavLink>
+                </nav>
+            </Dialog.Panel>
+        </Dialog>
         </>
     )
 }
