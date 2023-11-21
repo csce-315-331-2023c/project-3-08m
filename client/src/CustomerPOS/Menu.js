@@ -2,20 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './Menu.css'; // Make sure to create a CSS file with this name
 import defaultDrinkImage from './assets/boba.svg';
 import { TranslateBulk, LanguageDialog } from '../Translate';
+import { AddOnDialog } from './AddOns';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 const MenuItem = ({ name, price }) => (
-  <button>
+  // let [isOpen, setIsOpen] = useState(false);
+  // <button onClick={}>
   <div className="menu-item">
     <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
     <h3>{name}</h3>
     <div className="menu-price">{`$${price.toFixed(2)}`}</div>
     {/* Likes functionality can be added if you have that data */}
   </div>
-  </button>
+  // </button>
 );
 
 const Menu = () => {
@@ -67,13 +69,18 @@ const Menu = () => {
   catch (error) {
     console.log(error);
   }
+
   return (
     <div>
-      <LanguageDialog />
+      {/* <LanguageDialog /> */}
       <div className="menu">
         {/* <button> */}
         {menuItems.map(item => (
-          <MenuItem key={item.id} {...item} />
+          // <button>
+          // <MenuItem key={item.id} {...item} />
+          // </button>
+          // AddOnDialog(item.id, item.name, item.price)
+          <AddOnDialog menuId={item.id} menuPrice={item.price} menuName={item.name}/>
         ))}
         {/* </button> */}
       </div>

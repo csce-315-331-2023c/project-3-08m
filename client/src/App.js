@@ -8,6 +8,7 @@ import CustomerPOS from './CustomerPOS/CustomerPOS';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/table.css';
 import { LanguagesDropDown } from './Translate';
+import { Checkout } from './CustomerPOS/Checkout';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ const LandingPage = () => {
         <Route path="/cashier" element={<CashierPOS />} />
         <Route path="/menu_board" element={<MenuBoard />} />
         <Route path="/customer" element={<CustomerPOS />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </div>
   );
