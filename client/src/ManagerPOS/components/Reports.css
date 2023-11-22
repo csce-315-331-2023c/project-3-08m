@@ -1,0 +1,70 @@
+.sales-report-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sales-report {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px; /* Adjust width as necessary */
+  }
+  
+  .sales-report-header {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  .sales-report-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure form takes full width */
+  }
+  
+  .sales-report-form label {
+    margin-bottom: 5px;
+  }
+  
+  .sales-report-form input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .sales-report-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background-color: #ccc;
+  }
+  
+  .create-btn {
+    background-color: #2E4647;
+    color: white;
+  }
+
+  .sales-report-form .datetime-picker-wrapper {
+    margin-bottom: 20px; /* Increase spacing */
+    width: 200px; /* Adjust width as necessary */
+    }
+  
+  /* Add additional styling and responsiveness as needed */
+  

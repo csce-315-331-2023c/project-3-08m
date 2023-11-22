@@ -6,18 +6,6 @@ import { DataGrid } from '@mui/x-data-grid';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
-//based on this format
-/*{
-  field: 'username',
-  headerName: 'Username',
-  headerClassName: 'super-app-theme--header',
-  flex: 2,
-  minWidth: 150,
-  editable: true,
-},
-*/
-// create a const column object that has ID, Price, Menu Item IDs, and Add On IDs
-
 const columns = [
   { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50,},
   {
@@ -60,7 +48,7 @@ const OrdersTable = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Failed to fetch menu items:", error);
+        console.error("Failed to fetch orders:", error);
         setError(error.message);
         setLoading(false);
       });
@@ -72,11 +60,11 @@ const OrdersTable = () => {
   };
 
   if (loading) {
-    return <p>Loading menu items...</p>;
+    return <p>Loading orders...</p>;
   }
 
   if (error) {
-    return <p>Error loading menu items: {error}</p>;
+    return <p>Error loading orders: {error}</p>;
   }
 
   return (
