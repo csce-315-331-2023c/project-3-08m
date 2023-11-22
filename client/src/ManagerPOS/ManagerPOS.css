@@ -12,11 +12,11 @@ nav li {
 }
 
 nav a {
-  text-decoration: none;
+  color: #2E4647;
   padding: 5px 10px;
 }
 
 nav a.active {
   color: #fff;
-  background-color: #007bff;
+  background-color: #2E4647;
 }

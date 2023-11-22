@@ -103,20 +103,10 @@ const EmployeesTable = () => {
 
   return (
     <Box sx={{ width: '100%', '& .super-app-theme--header': {
-      backgroundColor: '#007bff', color: 'white', fontWeight: 'bold'},}}>
+      backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
       <DataGrid
         rows={employees}
         columns={columns}
-        // initialState={{
-        //   pagination: {
-        //     paginationModel: {
-        //       pageSize: 5,
-        //     },
-        //   },
-        // }}
-        // pageSizeOptions={[5]}
-        // checkboxSelection
-        // disableRowSelectionOnClick
       />
     </Box>
   );
