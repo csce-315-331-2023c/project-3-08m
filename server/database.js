@@ -233,19 +233,19 @@ app.post('/updateAddOns', async (req, res) => {
             var success = await setAddOnName(request[entry].id, request[entry].name);
             updateSuccess.push(success);
         }
-        else if ('price') {
+        else if (entry == 'price') {
             var success = await setAddOnPrice(request[entry].id, request[entry].price);
             updateSuccess.push(success);
         }
-        else if ('inventory_id') {
+        else if (entry == 'inventory_id') {
             var success = await setAddOnInventoryItem(request[entry].id, request[entry].inventoryId);
             updateSuccess.push(success);
         }
-        else if ('delete') {
+        else if (entry == 'delete') {
             var success = await deleteAddOn(request[entry].id);
             updateSuccess.push(success);
         }
-        else if ('add') {
+        else if (entry == 'add') {
             var success = await addAddOn(request[entry].id,request[entry].name,request[entry].price,request[entry].inventoryId);
             updateSuccess.push(success);
         }
