@@ -1,7 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+
+const columns = [
+  { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50,},
+  {
+    field: 'name',
+    headerName: 'Name',
+    headerClassName: 'super-app-theme--header',
+    flex: 2,
+    minWidth: 150,
+    editable: true,
+  },
+  {
+    field: 'last_restock_date',
+    headerName: 'Last Restock Date',
+    headerClassName: 'super-app-theme--header',
+    flex: 2,
+    minWidth: 150,
+    editable: true,
+  },
+  {
+    field: 'amount_remaining',
+    headerName: 'Amount Remaining',
+    headerClassName: 'super-app-theme--header',
+    flex: 1,
+    minWidth: 50,
+    editable: true,
+  },
+  {
+    field: 'amount_used',
+    headerName: 'Amount Used',
+    headerClassName: 'super-app-theme--header',
+    flex: 1,
+    minWidth: 50,
+    editable: true,
+  },
+  {
+    field: 'min_amount',
+    headerName: 'Minimum Amount',
+    headerClassName: 'super-app-theme--header',
+    flex: 1,
+    minWidth: 50,
+    editable: true,
+  },
+];
 
 const InventoryTable = () => {
   const [inventory, setInventory] = useState([]);
@@ -36,30 +82,13 @@ const InventoryTable = () => {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Last Restock Date</th>
-          <th>Amount Remaining</th>
-          <th>Amount Used</th>
-          <th>Minimum Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {inventory.map(item => (
-          <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.name}</td>
-            <td>{new Date(item.last_restock_date).toLocaleDateString()}</td>
-            <td>{item.amount_remaining}</td>
-            <td>{item.amount_used}</td>
-            <td>{item.min_amount}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Box sx={{ width: '100%', '& .super-app-theme--header': {
+      backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
+      <DataGrid
+        rows={inventory}
+        columns={columns}
+      />
+    </Box>
   );
 };
 
