@@ -1,6 +1,5 @@
-// Menu.js
 import React from 'react';
-import EmployeesTable from '../components/EmployeesTable'; // adjust the path as necessary
+import EmployeesTable from '../components/EmployeesTable';
 
 const Employees = () => {
   return (
