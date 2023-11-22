@@ -6,7 +6,7 @@ import { NavLink, Routes, Route } from 'react-router-dom';
 
 // Import your page components
 import Employees from './pages/Employees';
-import Sales from './pages/Sales';
+import Sales from './pages/Orders';
 import Inventory from './pages/Inventory';
 import Menu from './pages/Menu';
 import AddOns from './pages/AddOns';
@@ -20,7 +20,7 @@ const ManagerPOS = () => {
             <NavLink to="/manager/employees" className={({ isActive }) => isActive ? 'active' : ''}>Employees</NavLink>
           </li>
           <li>
-            <NavLink to="/manager/sales" className={({ isActive }) => isActive ? 'active' : ''}>Sales</NavLink>
+            <NavLink to="/manager/orders" className={({ isActive }) => isActive ? 'active' : ''}>Orders</NavLink>
           </li>
           <li>
             <NavLink to="/manager/inventory" className={({ isActive }) => isActive ? 'active' : ''}>Inventory</NavLink>
@@ -36,7 +36,7 @@ const ManagerPOS = () => {
 
       <Routes>
         <Route path="/employees" element={<Employees />} />
-        <Route path="/sales" element={<Sales />} />
+        <Route path="/orders" element={<Sales />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/add-ons" element={<AddOns />} />
