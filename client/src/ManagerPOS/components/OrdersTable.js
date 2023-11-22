@@ -6,16 +6,20 @@ import { DataGrid } from '@mui/x-data-grid';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
+//based on this format
+/*{
+  field: 'username',
+  headerName: 'Username',
+  headerClassName: 'super-app-theme--header',
+  flex: 2,
+  minWidth: 150,
+  editable: true,
+},
+*/
+// create a const column object that has ID, Price, Menu Item IDs, and Add On IDs
+
 const columns = [
   { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50,},
-  {
-    field: 'name',
-    headerName: 'Name',
-    headerClassName: 'super-app-theme--header',
-    flex: 2,
-    minWidth: 150,
-    editable: true,
-  },
   {
     field: 'price',
     headerName: 'Price',
@@ -24,7 +28,16 @@ const columns = [
     minWidth: 50,
     editable: true,
   },
+  {
+    field: 'date_time',
+    headerName: 'Date Time',
+    headerClassName: 'super-app-theme--header',
+    flex: 1,
+    minWidth: 50,
+    editable: true,
+  }
 ];
+
 
 const OrdersTable = () => {
   const [orders, setOrders] = useState([]);
@@ -40,6 +53,9 @@ const OrdersTable = () => {
         return response.json();
       })
       .then((data) => {
+        data.orders.forEach((order) => {
+          order.date_time = formatDate(order.date_time);
+        });
         setOrders(data.orders);
         setLoading(false);
       })
@@ -49,6 +65,11 @@ const OrdersTable = () => {
         setLoading(false);
       });
   }, []);
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   if (loading) {
     return <p>Loading menu items...</p>;

@@ -93,7 +93,7 @@ app.get('/inventory', async (req, res) => {
 
 app.get('/orders', async (req, res) => {
     const orders = await getOrders();
-    console.log(orders);
+    // console.log(orders);
     res.json({orders});
 })
 
