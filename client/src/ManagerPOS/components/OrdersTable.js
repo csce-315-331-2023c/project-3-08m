@@ -26,13 +26,13 @@ const columns = [
   },
 ];
 
-const MenuTable = () => {
-  const [menuItems, setMenuItems] = useState([]);
+const OrdersTable = () => {
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(serverURL+'/menu')
+    fetch(serverURL+'/orders')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,7 +40,7 @@ const MenuTable = () => {
         return response.json();
       })
       .then((data) => {
-        setMenuItems(data.menu);
+        setOrders(data.orders);
         setLoading(false);
       })
       .catch((error) => {
@@ -62,11 +62,11 @@ const MenuTable = () => {
     <Box sx={{ width: '100%', '& .super-app-theme--header': {
       backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
       <DataGrid
-        rows={menuItems}
+        rows={orders}
         columns={columns}
       />
     </Box>
   );
 };
 
-export default MenuTable;
+export default OrdersTable;
