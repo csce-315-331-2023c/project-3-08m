@@ -36,3 +36,23 @@ table {
     font-weight: bold;
     color: #009879;
   }
+
+  .edited {
+    background-color: yellow; /* Color when edited */
+  }
+  
+  .highlighted {
+    background-color: lightblue; /* Color when row is selected */
+  }
+
+  input[type="text"]:not([readonly]) {
+    color: blue; /* Color when edited */
+  }
+  
+  input[type="text"][readonly] {
+    color: black; /* Default color */
+  }
+  
+  button:disabled {
+    opacity: 0.5; /* Style for disabled buttons */
+  }
