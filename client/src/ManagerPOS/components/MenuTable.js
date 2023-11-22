@@ -1,9 +1,41 @@
-// MenuTable.js
 import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com' || 'http://localhost:9000';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
+
+//based on this format
+/*{
+  field: 'username',
+  headerName: 'Username',
+  headerClassName: 'super-app-theme--header',
+  flex: 2,
+  minWidth: 150,
+  editable: true,
+},
+*/
+// create a const column object that has ID, Name, Price
+const columns = [
+  { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50,},
+  {
+    field: 'name',
+    headerName: 'Name',
+    headerClassName: 'super-app-theme--header',
+    flex: 2,
+    minWidth: 150,
+    editable: true,
+  },
+  {
+    field: 'price',
+    headerName: 'Price',
+    headerClassName: 'super-app-theme--header',
+    flex: 1,
+    minWidth: 50,
+    editable: true,
+  },
+];
 
 const MenuTable = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -38,24 +70,13 @@ const MenuTable = () => {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {menuItems.map(item => (
-          <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.name}</td>
-            <td>${item.price.toFixed(2)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Box sx={{ width: '100%', '& .super-app-theme--header': {
+      backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
+      <DataGrid
+        rows={menuItems}
+        columns={columns}
+      />
+    </Box>
   );
 };
 
