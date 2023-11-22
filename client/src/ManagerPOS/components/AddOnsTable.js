@@ -1,12 +1,51 @@
 import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
 
-// const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 // console.log(process.env.SERVER_URL);
 // console.log(serverURL);
 
+//based on this format
+/*{
+  field: 'username',
+  headerName: 'Username',
+  headerClassName: 'super-app-theme--header',
+  flex: 2,
+  minWidth: 150,
+  editable: true,
+},
+*/
+// create a const column object that has ID, Name, Price, Inventory ID
+const columns = [
+  { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50,},
+  {
+    field: 'name',
+    headerName: 'Name',
+    headerClassName: 'super-app-theme--header',
+    flex: 2,
+    minWidth: 150,
+    editable: true,
+  },
+  {
+    field: 'price',
+    headerName: 'Price',
+    headerClassName: 'super-app-theme--header',
+    flex: 1,
+    minWidth: 50,
+    editable: true,
+  },
+  {
+    field: 'inventory_id',
+    headerName: 'Inventory ID',
+    headerClassName: 'super-app-theme--header',
+    flex: 1,
+    minWidth: 50,
+    editable: true,
+  },
+];
 const AddOnsTable = () => {
   const [addOns, setAddOns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,28 +79,13 @@ const AddOnsTable = () => {
   }
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Inventory ID</th>
-          </tr>
-        </thead>
-        <tbody>
-          {addOns.map((addOn) => (
-            <tr key={addOn.id}>
-              <td>{addOn.id}</td>
-              <td>{addOn.name}</td>
-              <td>${addOn.price.toFixed(2)}</td>
-              <td>{addOn.inventory_id}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Box sx={{ width: '100%', '& .super-app-theme--header': {
+      backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
+      <DataGrid
+        rows={addOns}
+        columns={columns}
+      />
+    </Box>
   );
 };
 
