@@ -8,17 +8,6 @@ const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 // console.log(process.env.SERVER_URL);
 // console.log(serverURL);
 
-//based on this format
-/*{
-  field: 'username',
-  headerName: 'Username',
-  headerClassName: 'super-app-theme--header',
-  flex: 2,
-  minWidth: 150,
-  editable: true,
-},
-*/
-// create a const column object that has ID, Name, Price, Inventory ID
 const columns = [
   { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50,},
   {
