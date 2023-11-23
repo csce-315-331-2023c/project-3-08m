@@ -1,0 +1,20 @@
+.cashier-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .left-half,
+  .right-half {
+    flex: 1;
+    overflow: auto;
+  }
+  
+  .left-half {
+    background-color: #f0f0f0; /* Adjust the background color as needed */
+    padding: 20px;
+  }
+  
+  .right-half {
+    padding: 20px;
+  }
+  

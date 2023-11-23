@@ -1,55 +1,55 @@
-import './App.css';
-import * as Menu from "./Menu.js";
+// App.js
+import React from 'react';
+import { BrowserRouter, NavLink,Route,Routes} from 'react-router-dom';
+import ManagerPOS from './ManagerPOS/ManagerPOS';
+import CashierPOS from './CashierPOS/CashierPOS';
+import MenuBoard from './MenuBoard/MenuBoard';
+import CustomerPOS from './CustomerPOS/CustomerPOS';
+import AddAddOns from './CashierPOS/AddAddOns';
+import './App.css'; // Assuming your CSS is in this file
+import './ManagerPOS/components/table.css';
+import { Checkout } from './CustomerPOS/Checkout';
 
-// async function renderMenu() {
-//   var menuJSON = await menu.getMenu();
-//   console.log(menuJSON);
-//   console.log(menuJSON.menu);
-//   var menuList = [];
-//   for (const item in menuJSON.menu) {
-//     console.log(menuJSON.menu[item].id);
-//     menuList.push(menuJSON.menu[item]);
-//   }
-//   return menuJSON;
-// }
-
-// function updateMenu(update) {
-//   console.log(update);
-//   var json;
-//   fetch("http://localhost:9000/updateMenu", {
-//     method: 'POST',
-//     headers:{
-//       "Accept": "application/json, text/plain, */*",
-//       "Content-type": "application/json; charset = UTF-8"
-//     },
-//     body: JSON.stringify(update)
-//   }).then((res) => {
-//     console.log(res);
-//   });
-//   // console.log(res);
-// }
 
 function App() {
-  //TODO
-  var update = {'id': 555, 'name': 'test'};
-  Menu.UpdateMenu(update);
-  // var menuJSON = renderMenu();
-  // console.log(menuJSON.menu);
-  // for (const item in menuJSON.menu) {
-  //   console.log(item.id);
-  // }
-  // renderMenu();
-  // const menuList = this.state.Menu?.map((item) => {
-  //   return <li key={item.id}>{item.name} {item.price}</li>
-  // });
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Menu Items:
-          {Menu.ShowMenu()}
-        </p>
-      </header>
+    <BrowserRouter>
+      <div className="App">
+        <LandingPage />
+      </div>
+    </BrowserRouter>
+  );
+}
+
+const LandingPage = () => {
+  return (
+    <div>
+      <nav>
+        <ul>
+          <li>
+            <NavLink to="/manager" className={({ isActive }) => isActive ? 'active' : ''}>Manager</NavLink>
+          </li>
+          <li>
+            <NavLink to="/cashier" className={({ isActive }) => isActive ? 'active' : ''}>Cashier</NavLink>
+          </li>
+          <li>
+            <NavLink to="/menu_board" className={({ isActive }) => isActive ? 'active' : ''}>Menu Board</NavLink>
+          </li>
+          <li>
+            <NavLink to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Customer</NavLink>
+          </li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/manager/*" element={<ManagerPOS />} />
+        <Route path="/cashier/*" element={<CashierPOS />} />
+        <Route path="/cashier/add-ons" element={<AddAddOns />} />
+        <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
+        <Route path="/menu_board" element={<MenuBoard />} />
+        <Route path="/customer" element={<CustomerPOS />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Routes>
     </div>
   );
 }
