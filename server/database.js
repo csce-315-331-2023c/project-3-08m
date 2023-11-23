@@ -188,6 +188,7 @@ app.post('/updateInventory', async (req, res) => {
 
 app.post('/updateEmployees', async (req, res) => {
     let request = req.body;
+    var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'name') {
             var success = await updateEmployeeName(request[entry].id, request[entry].name);
