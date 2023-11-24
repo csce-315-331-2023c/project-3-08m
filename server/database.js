@@ -160,7 +160,6 @@ app.post('/updateInventory', async (req, res) => {
         else if (entry == 'amount_used') {
             var success = await updateInventoryItemAmountUsed(request[entry].id,request[entry].amountUsed);
             updateSuccess.push(success);
-
         }
         else if (entry == 'restock') {
             var success = await restockInventoryItem(request[entry].id, request[entry].restockDate, request[entry].restockAmount);
@@ -171,7 +170,7 @@ app.post('/updateInventory', async (req, res) => {
             updateSuccess.push(success);
         }
         else if (entry == 'minimum_amount') {
-            var success = await updateInventoryMinimumAmount(request[entry].id,request[entry].minimumAmount);
+            var success = await updateInventoryItemMinimumAmount(request[entry].id,request[entry].minimumAmount);
             updateSuccess.push(success);
         }
         else if (entry == 'delete') {
@@ -223,6 +222,7 @@ app.post('/updateEmployees', async (req, res) => {
             updateSuccess.push(success);
         }
     }
+    res.json({updateSuccess});
 });
 
 app.post('/updateAddOns', async (req, res) => {
@@ -1468,7 +1468,7 @@ async function updateInventoryItemMinimumAmount(id, newMinimumAmount) {
         await pool
             .query(
                 "UPDATE inventory " +
-                "SET minimum_amount = " + newMinimumAmount +
+                "SET min_amount = " + newMinimumAmount +
                 "WHERE id = " + id + ";"
             );
         return true;
