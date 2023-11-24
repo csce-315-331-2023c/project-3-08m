@@ -1,9 +1,21 @@
-.menu {
+/* .menu {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 100x;
+    border: none;
     margin: 40px;
+  } */
+.menu-item-card-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
   }
   
   .menu-item {
@@ -37,3 +49,43 @@
   .menu-likes span {
     margin-right: 5px;
   }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Starts with three columns */
+    gap: 20px; /* This sets an even space between the cards */
+    padding: 20px; /* This adds some space inside the grid container */
+  }
+  
+  .grid-item {
+    width: 100%; /* This ensures that the content of each grid item fills the cell */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds a shadow to each card */
+    border-radius: 10px; /* Optional: rounds the corners of each card */
+    overflow: hidden; /* Ensures that the content does not spill out of the card */
+  }
+  
+  .grid-item img {
+    width: 100%; /* This ensures that the image fills the width of the card */
+    height: auto; /* This maintains the aspect ratio of the image */
+    display: block; /* This removes any extra space beneath the image */
+  }
+  
+  .grid-item .item-info {
+    padding: 8px; /* Adjust padding as needed */
+    text-align: center; /* Center the text within the card */
+  }
+  
+  /* Responsive settings */
+  @media (max-width: 1024px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr); /* Two columns when the screen is less than 1024px wide */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr; /* One column when the screen is less than 768px wide */
+    }
+  }
+  
+  

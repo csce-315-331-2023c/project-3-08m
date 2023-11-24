@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridCellEditStopReasons } from '@mui/x-data-grid';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -67,12 +67,55 @@ const AddOnsTable = () => {
     return <p>Error loading add-ons: {error}</p>;
   }
 
+  const handleEdit = (params, event) => {
+    if (params.reason === GridCellEditStopReasons.cellFocusOut) {
+      event.defaultMuiPrevented = true;
+      return;
+    }
+    console.log(params);
+    console.log(event.target.value);
+    const updateAddOn = async (type, updateVals) => {
+      var success = false;
+      try {
+        var response = await fetch(serverURL+'/updateAddOns', {
+          method: 'POST',
+          headers: {
+            "Content-type": "application/json; charset = UTF-8"
+          },
+          body: JSON.stringify({[type]: updateVals})
+        });
+        var res = await response.json();
+        success = res.updateSuccess;
+      }
+      catch (error) {
+        console.log(error);
+      }
+      console.log(success);
+      return success;
+    }
+    if (params.field == 'name') {
+      updateAddOn('name', {'id': params.row.id, 'name': event.target.value});
+    }
+    else if (params.field == 'price') {
+      updateAddOn('price', {'id': params.row.id, 'price': event.target.value});
+    }
+    else if (params.field == 'inventory_id') {
+      updateAddOn('inventory_id', {'id': params.row.id, 'inventoryId': event.target.value});
+    }
+  }
+
   return (
     <Box sx={{ width: '100%', '& .super-app-theme--header': {
       backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
       <DataGrid
+        onCellEditStop={handleEdit}
         rows={addOns}
         columns={columns}
+        initialState={{
+          sorting: {
+            sortModel: [{field: 'id', sort: 'asc'}]
+          }
+        }}
       />
     </Box>
   );

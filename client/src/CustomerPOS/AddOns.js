@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import './AddOns.css';
 import './Menu.css';
 import { TranslateBulk } from '../Translate';
+import MenuItemCard from './components/MenuItemCard';
 // import defaultDrinkImage from './assets/boba.svg';
 
 
@@ -117,14 +118,15 @@ export function AddOnDialog({menuId, menuName, menuPrice, enName}) {
     }
     
     return (
-        <>
-        <button onClick={() => setIsOpen(true)}>
-            <div className="menu-item">
+        <div class="grid-container">
+        <button className='menu-item-card-button'  onClick={() => setIsOpen(true)}>
+            {/* <div className="menu-item">
                 <img src={images[menuPicture]} alt="Default Drink"className='menu-image' />
                 <h3>{menuName}</h3>
                 <div className="menu-price">{`$${menuPrice.toFixed(2)}`}</div>
-                {/* Likes functionality can be added if you have that data */}
-            </div>
+                { Likes functionality can be added if you have that data }
+            </div> */}
+            <MenuItemCard title={menuName} price={menuPrice} imageUrl={images[menuPicture]} />
         </button>
         <Dialog className='addOnDialog' open={isOpen} onClose={() => setIsOpen(false)}>
             {/* <Dialog.Panel>
@@ -164,6 +166,7 @@ export function AddOnDialog({menuId, menuName, menuPrice, enName}) {
             </button>
             </Dialog.Panel>
         </Dialog>
-        </>
+        </div>
+        
     )
 }

@@ -7,7 +7,7 @@ import MenuBoard from './MenuBoard/MenuBoard';
 import CustomerPOS from './CustomerPOS/CustomerPOS';
 import AddAddOns from './CashierPOS/AddAddOns';
 import './App.css'; // Assuming your CSS is in this file
-import './ManagerPOS/components/table.css';
+import './ManagerPOS/components/Tables/table.css';
 import { Checkout } from './CustomerPOS/Checkout';
 
 

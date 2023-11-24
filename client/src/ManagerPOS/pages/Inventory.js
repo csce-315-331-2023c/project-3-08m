@@ -1,6 +1,6 @@
 // Menu.js
 import React from 'react';
-import InventoryTable from '../components/InventoryTable';
+import InventoryTable from '../components/Tables/InventoryTable';
 
 const Inventory = () => {
   return (

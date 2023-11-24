@@ -1,6 +1,6 @@
 // Menu.js
 import React from 'react';
-import MenuTable from '../components/MenuTable'; // adjust the path as necessary
+import MenuTable from '../components/Tables/MenuTable'; // adjust the path as necessary
 
 const Menu = () => {
   return (
