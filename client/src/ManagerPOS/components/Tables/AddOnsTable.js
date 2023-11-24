@@ -9,6 +9,7 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import './table.css';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -57,7 +58,7 @@ function AddToolbar(props) {
   return (
     <GridToolbarContainer>
       {/* <div style={{flex: '1 1 0%'}} /> */}
-      <Button color='primary' startIcon= {<div>+</div>} onClick={handleAdd}>
+      <Button className='create-add-on-btn' startIcon= {<div>+</div>} onClick={handleAdd}>
         Create New Add-On
       </Button>
     </GridToolbarContainer>
