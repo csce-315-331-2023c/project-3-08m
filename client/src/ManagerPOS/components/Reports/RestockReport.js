@@ -8,7 +8,7 @@ import SalesReportTable from './SalesReportTable';
 import theme from '../../theme';
 // import './Reports.css';
 
-const SalesReport = ({ isOpen, onClose }) => {
+const RestockReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [showReportTable, setShowReportTable] = useState(false);
@@ -86,4 +86,4 @@ return (
   );
 };
 
-export default SalesReport;
+export default RestockReport;
