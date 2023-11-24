@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { Save as SaveIcon, Cancel as CancelIcon, Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon} from '@mui/icons-material';
+import { Save as SaveIcon, Cancel as CancelIcon, Edit as EditIcon, Delete as DeleteIcon} from '@mui/icons-material';
 import {
   GridRowModes,
   DataGrid,
@@ -56,8 +56,8 @@ function AddToolbar(props) {
   }
   return (
     <GridToolbarContainer>
-      <div style={{flex: '1 1 0%'}} />
-      <Button color='primary' onClick={handleAdd}>
+      {/* <div style={{flex: '1 1 0%'}} /> */}
+      <Button color='primary' startIcon= {<div>+</div>} onClick={handleAdd}>
         Create New Add-On
       </Button>
     </GridToolbarContainer>
