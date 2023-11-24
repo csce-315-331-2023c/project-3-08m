@@ -527,7 +527,12 @@ async function salesReport(startDateTime, endDateTime) {
             if (i >= fullOrder.length) {
                 break;
             }
+            // console.log(i);
             var menuId = fullOrder[i].menu_id;
+            if (menuId === null) {
+                i++;
+                continue;
+            }
             var orderMenuJunctionId = fullOrder[i].order_menu_junction_id;
             var dateTime = fullOrder[i].date_time;
             var orderId = fullOrder[i].id;
@@ -552,7 +557,8 @@ async function salesReport(startDateTime, endDateTime) {
                 }
                 i++;
             }
-
+            // console.log(menuNames[menuId]);
+            // console.log(menuId);
             report[menuNames[menuId]].push(value);
         }
         // console.log(report);
