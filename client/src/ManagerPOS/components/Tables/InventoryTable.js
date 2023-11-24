@@ -9,6 +9,8 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import theme from '../../theme';
+import { ThemeProvider } from '@emotion/react';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -52,11 +54,16 @@ function AddToolbar(props) {
     setRowModes((oldModes) => ({...oldModes, [id]: { mode: GridRowModes.Edit, fieldToFocus: 'id'}}));
   }
   return (
+    <ThemeProvider theme={theme}>
     <GridToolbarContainer>
-      <Button color='primary' startIcon={<div>+</div>} onClick={handleAdd}>
+      {/* <div style={{flex: '1 1 0%'}} /> */}
+      <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
+      <Button color='primary' variant='contained' onClick={handleAdd}>
         Create New Inventory Item
       </Button>
+      </Box>
     </GridToolbarContainer>
+    </ThemeProvider>
   )
 }
 

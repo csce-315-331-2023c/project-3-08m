@@ -310,7 +310,7 @@ app.post('/report', async (req, res) => {
             report = await salesReport(request[entry].startDateTime, request[entry].endDateTime);
         }
     }
-    // console.log(report);
+    console.log(report);
     res.json({report});
 });
 

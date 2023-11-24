@@ -4,11 +4,11 @@ import { LocalizationProvider, DateTimePicker} from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ThemeProvider,  Dialog, Button, DialogTitle, DialogContent } from '@mui/material';
 import { Box } from '@mui/material';
-import SalesReportTable from './SalesReportTable';
+import ExcessReportTable from './ExcessReportTable';
 import theme from '../../theme';
 // import './Reports.css';
 
-const SalesReport = ({ isOpen, onClose }) => {
+const ExcessReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [showReportTable, setShowReportTable] = useState(false);
@@ -29,7 +29,7 @@ const SalesReport = ({ isOpen, onClose }) => {
 
 return (
   <Dialog open={isOpen} onClose={handleClose} maxWidth="md">
-  <DialogTitle>Enter Start and End Time for Sales Report</DialogTitle>
+  <DialogTitle>Enter Timestamp for Excess Report</DialogTitle>
   <DialogContent>
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -47,7 +47,7 @@ return (
             secondsStep={1}
           />
           <Box sx={{ m: 2 }} />
-          <DateTimePicker
+          {/* <DateTimePicker
             sx={{ marginTop: 1 ,width: '100%'}}
             label="End Date and Time"
             value={endDate}
@@ -59,7 +59,7 @@ return (
             minutesStep={1}
             secondsStep={1}
           />
-          <Box sx={{ m: 2 }} />
+          <Box sx={{ m: 2 }} /> */}
           {/* <div className="sales-report-actions"> */}
           <Box sx={{ display: 'flex', justifyContent: 'right' }}>
             <Button sx={{m:1}}  onClick={onClose} color="primary">
@@ -69,11 +69,10 @@ return (
               Create Report
             </Button>
             {showReportTable && (
-              <SalesReportTable
+              <ExcessReportTable
                 isOpen={showReportTable}
                 onClose={() => setShowReportTable(false)}
-                startTime={startDate}
-                endTime={endDate}
+                timeStamp={startDate}
               />
             )}
           </Box>
@@ -86,4 +85,4 @@ return (
   );
 };
 
-export default SalesReport;
+export default ExcessReport;
