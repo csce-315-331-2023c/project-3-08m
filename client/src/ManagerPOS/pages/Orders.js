@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import OrdersTable from '../components/Tables/OrdersTable';
 import SalesReport from '../components/SalesReport'; // Updated import
-import { Button } from '@mui/material';
-import './Orders.css';
+import { Box, Button, ThemeProvider,  } from '@mui/material';
+import theme from '../theme';
+// import './Orders.css';
+
+
 
 const Orders = () => {
   const [showSalesReport, setShowSalesReport] = useState(false);
@@ -16,11 +19,15 @@ const Orders = () => {
   };
 
   return (
-    <div className="orders-container">
+    <div>
+    <ThemeProvider theme={theme}>
+    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
     <h2>Orders</h2>
-    <Button className='sales-report-btn' onClick={handleOpenSalesReport}>Sales Report</Button>
+    <Button sx={{m:1}}  color="primary" variant="contained" onClick={handleOpenSalesReport}>Sales Report</Button>
+    </Box>
       <OrdersTable />
       <SalesReport isOpen={showSalesReport} onClose={handleCloseSalesReport} />
+    </ThemeProvider>
     </div>
   );
 };
