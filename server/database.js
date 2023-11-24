@@ -171,6 +171,7 @@ app.post('/updateInventory', async (req, res) => {
         }
         else if (entry == 'last_restock_date') {
             var success = await updateInventoryItemLastRestockDate(request[entry].id, request[entry].lastRestockDate);
+            updateSuccess.push(success);
         }
         else if (entry == 'minimum_amount') {
             var success = await updateInventoryItemMinimumAmount(request[entry].id,request[entry].minimumAmount);
