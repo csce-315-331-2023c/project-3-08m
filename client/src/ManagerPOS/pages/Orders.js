@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import OrdersTable from '../components/Tables/OrdersTable';
 import SalesReport from '../components/SalesReport'; // Updated import
-import { Box } from '@mui/material';
-import './Orders.css'; // Assuming you have a CSS file for styling
+import { Button } from '@mui/material';
+import './Orders.css';
 
 const Orders = () => {
   const [showSalesReport, setShowSalesReport] = useState(false);
@@ -17,9 +17,8 @@ const Orders = () => {
 
   return (
     <div className="orders-container">
-      <button className="sales-report-btn" onClick={handleOpenSalesReport}>Sales Report</button>
-      <h2>Orders</h2>
-      <Box sx={{ m: 2 }}></Box>
+    <h2>Orders</h2>
+    <Button className='sales-report-btn' onClick={handleOpenSalesReport}>Sales Report</Button>
       <OrdersTable />
       <SalesReport isOpen={showSalesReport} onClose={handleCloseSalesReport} />
     </div>
