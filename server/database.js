@@ -169,6 +169,9 @@ app.post('/updateInventory', async (req, res) => {
             // var success = await updateInventoryItemAmountRemaining(request[entry].id,amountRemaining)
             updateSuccess.push(success);
         }
+        else if (entry == 'last_restock_date') {
+            var success = await updateInventoryItemLastRestockDate(request[entry].id, request[entry].lastRestockDate);
+        }
         else if (entry == 'minimum_amount') {
             var success = await updateInventoryItemMinimumAmount(request[entry].id,request[entry].minimumAmount);
             updateSuccess.push(success);
@@ -1468,7 +1471,23 @@ async function updateInventoryItemMinimumAmount(id, newMinimumAmount) {
         await pool
             .query(
                 "UPDATE inventory " +
-                "SET min_amount = " + newMinimumAmount +
+                "SET min_amount = " + newMinimumAmount + " " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateInventoryItemLastRestockDate(id, newLastRestockDate) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET last_restock_date = '" + newLastRestockDate + '\' ' + 
                 "WHERE id = " + id + ";"
             );
         return true;
