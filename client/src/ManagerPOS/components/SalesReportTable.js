@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { format } from 'date-fns';
 import { DataGrid } from '@mui/x-data-grid';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 // Dummy data columns, replace with your actual data columns
@@ -13,12 +14,11 @@ const columns = [
 
 const SalesReportTable = ({ jsonData, isOpen, onClose }) => {
   const [salesReportData, setSalesReport] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const transformedData = [];
-    setLoading(true);
     Object.entries(jsonData).forEach(([itemName, orders], index) => {
       orders.forEach((order, orderIndex) => {
         const orderTime = order[1];
@@ -33,15 +33,11 @@ const SalesReportTable = ({ jsonData, isOpen, onClose }) => {
         });
       });
     });
-    setLoading(false);
     setSalesReport(transformedData);
+    setLoading(false);
   }, [jsonData]);
 
   if (!isOpen) return null;
-
-  if (loading) {
-    return <p>Loading ...</p>;
-  }
 
   if (error) {
     return <p>Error loading orders: {error}</p>;
@@ -54,7 +50,16 @@ const SalesReportTable = ({ jsonData, isOpen, onClose }) => {
         <h3>Sales Report</h3>
         <Box sx={{ height: 600, width: '100%' }}>
         <button onClick={onClose} className="close-btn">X</button>
-          <DataGrid rows={salesReportData} columns={columns} pageSize={5} checkboxSelection />
+        <div style={{ height: 600, width: '100%' }}>
+      {loading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#2E4647'}}>
+          <CircularProgress /> {/* Loading indicator */}
+        </div>
+      ) : (
+        <DataGrid rows={salesReportData} columns={columns} pageSize={5} />
+      )}
+    </div>
+          
         </Box>
       </div>
     </div>
