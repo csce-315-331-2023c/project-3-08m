@@ -44,6 +44,9 @@ app.post('/single', async (req, res) => {
         else if (entry == 'menu') {
             response = await getSingleMenuItem(request[entry]);
         }
+        else if (entry == 'menu_add_ons') {
+            response = await getMenuItemAddOnsNames(request[entry]);
+        }
     }
     res.json({response});
 });
@@ -157,7 +160,6 @@ app.post('/updateInventory', async (req, res) => {
         else if (entry == 'amount_used') {
             var success = await updateInventoryItemAmountUsed(request[entry].id,request[entry].amountUsed);
             updateSuccess.push(success);
-
         }
         else if (entry == 'restock') {
             var success = await restockInventoryItem(request[entry].id, request[entry].restockDate, request[entry].restockAmount);
@@ -168,7 +170,7 @@ app.post('/updateInventory', async (req, res) => {
             updateSuccess.push(success);
         }
         else if (entry == 'minimum_amount') {
-            var success = await updateInventoryMinimumAmount(request[entry].id,request[entry].minimumAmount);
+            var success = await updateInventoryItemMinimumAmount(request[entry].id,request[entry].minimumAmount);
             updateSuccess.push(success);
         }
         else if (entry == 'delete') {
@@ -185,6 +187,7 @@ app.post('/updateInventory', async (req, res) => {
 
 app.post('/updateEmployees', async (req, res) => {
     let request = req.body;
+    var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'name') {
             var success = await updateEmployeeName(request[entry].id, request[entry].name);
@@ -219,6 +222,7 @@ app.post('/updateEmployees', async (req, res) => {
             updateSuccess.push(success);
         }
     }
+    res.json({updateSuccess});
 });
 
 app.post('/updateAddOns', async (req, res) => {
@@ -230,19 +234,19 @@ app.post('/updateAddOns', async (req, res) => {
             var success = await setAddOnName(request[entry].id, request[entry].name);
             updateSuccess.push(success);
         }
-        else if ('price') {
+        else if (entry == 'price') {
             var success = await setAddOnPrice(request[entry].id, request[entry].price);
             updateSuccess.push(success);
         }
-        else if ('inventory_id') {
+        else if (entry == 'inventory_id') {
             var success = await setAddOnInventoryItem(request[entry].id, request[entry].inventoryId);
             updateSuccess.push(success);
         }
-        else if ('delete') {
+        else if (entry == 'delete') {
             var success = await deleteAddOn(request[entry].id);
             updateSuccess.push(success);
         }
-        else if ('add') {
+        else if (entry == 'add') {
             var success = await addAddOn(request[entry].id,request[entry].name,request[entry].price,request[entry].inventoryId);
             updateSuccess.push(success);
         }
@@ -252,14 +256,30 @@ app.post('/updateAddOns', async (req, res) => {
 
 app.post('/updateOrders', async (req, res) => {
     let request = req.body;
-    console.log(request);
+    // console.log(request);
     var updateSuccess = [];
     for (const entry in request) {
+        console.log(entry);
         if (entry == 'delete') {
             var success = await deleteOrder(request[entry].id);
             updateSuccess.push(success);
         }
         else if (entry == 'add') {
+            // console.log(request[entry]);
+            // console.log(request[entry].)
+            // request[entry].menuItems = JSON.parse(request[entry].menuItems);
+            // for (let i = 0; i < request[entry].menuItems.length; i++) {
+            //     request[entry].menuItems[i] = JSON.parse(request[entry].menuItems[i]);
+            // }
+            // // request[entry].addOns = JSON.parse(request[entry].addOns);
+            // for (let i = 0; i < request[entry].addOns.length; i++) {
+            //     request[entry].addOns[i] = JSON.parse(request[entry].addOns[i]);
+            //     for (let j = 0; j < request[entry].addOns[i].length; j++) {
+            //         request[entry].addOns[i][j] = JSON.parse(request[entry].addOns[i][j]);
+            //     }
+            // }
+            console.log(request[entry]);
+            console.log(request[entry].addOns);
             var success = await addOrder(request[entry].price,request[entry].menuItems,request[entry].addOns);
             updateSuccess.push(success);
         }
@@ -542,6 +562,7 @@ async function salesReport(startDateTime, endDateTime) {
 async function getMenuItemInventoryItems(id) {
     var inventoryItems = [];
     try {
+        // console.log(id);
         await pool
             .query(
                 "SELECT * FROM menu_inventory WHERE menu_id = " + id + ";"
@@ -935,6 +956,11 @@ async function addOrder(price, menuItemIds, addOnIds) {
                     orderAddOnsQueryString += ",";
                 }
             }
+            // console.log(orderAddOnsQueryString[orderAddOnsQueryString.length-1]);
+            if (orderAddOnsQueryString.charAt(orderAddOnsQueryString.length-1) === ",") {
+                orderAddOnsQueryString = orderAddOnsQueryString.substring(0, orderAddOnsQueryString.length-1);
+            }
+            orderAddOnsQueryString += ";";
             // console.log(orderAddOnsQueryString);
             if (hasAddOns) {
                 await pool.query(orderAddOnsQueryString);
@@ -1442,7 +1468,7 @@ async function updateInventoryItemMinimumAmount(id, newMinimumAmount) {
         await pool
             .query(
                 "UPDATE inventory " +
-                "SET minimum_amount = " + newMinimumAmount +
+                "SET min_amount = " + newMinimumAmount +
                 "WHERE id = " + id + ";"
             );
         return true;
@@ -1495,6 +1521,28 @@ async function useInventoryItem(id) {
         console.log(error);
         return false;
     }
+}
+
+// HELPERS
+
+async function getMenuItemAddOnsNames(id) {
+    var names = [];
+    try {
+        await pool
+            .query(
+                "SELECT * FROM add_on WHERE id in " +
+                "(SELECT add_on_id FROM menu_add_on WHERE menu_id = "+id + ");"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++) {
+                    names.push(query_res.rows[i]);
+                }
+            });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return names;
 }
 
 // OTHER STUFF
