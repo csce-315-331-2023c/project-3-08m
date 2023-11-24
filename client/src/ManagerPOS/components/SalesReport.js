@@ -5,6 +5,11 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ThemeProvider, createTheme } from '@mui/material';
 import './Reports.css';
 import { Box } from '@mui/material';
+import SalesReportTable from './SalesReportTable';
+import { format } from 'date-fns';
+const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+
+
 
 const theme = createTheme({
     palette: {
@@ -38,12 +43,41 @@ const theme = createTheme({
   });
 
 const SalesReport = ({ isOpen, onClose }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [salesReportData, setSalesReport] = useState(false);
+    const [showReportTable, setShowReportTable] = useState(false);
 
-  if (!isOpen) return null;
 
-  return (
+    const fetchSalesReport = async () => {
+        try {
+            var response = await fetch(serverURL+"/report",{
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset = UTF-8"
+                },
+                body: JSON.stringify({'sales': {'startDateTime': format(startDate, 'yyyy-MM-dd HH:mm:ss'), 'endDateTime': format(endDate, 'yyyy-MM-dd HH:mm:ss')}})
+            });
+            var success = await response.json();
+            success = success.report;
+            console.log(success);
+          setSalesReport(success);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    
+
+    const handleCreateReportClick = () => {
+    fetchSalesReport();
+    setShowReportTable(true); // When the button is clicked, set showReportTable to true
+    };
+
+    if (!isOpen) return null;
+
+return (
     <div className="sales-report-overlay">
       <div className="sales-report">
         <div className="sales-report-header">Enter Start and End Time for Sales Report</div>
@@ -77,7 +111,14 @@ const SalesReport = ({ isOpen, onClose }) => {
                 <Box sx={{ m: 2 }} />
             <div className="sales-report-actions">
               <button type="button" onClick={onClose} className="btn cancel-btn">Cancel</button>
-              <button type="submit" className="btn create-btn">Create Report</button>
+              <button type="button" onClick={handleCreateReportClick}className="btn create-btn">Create Report</button>
+              {showReportTable && <SalesReportTable
+                isOpen={showReportTable}
+                onClose={() => setShowReportTable(false)} // Pass a function to close the table
+                jsonData={salesReportData}
+                // startDateTime={format(startDate, 'yyyy-MM-dd HH:mm:ss')}
+                // endDateTime={format(endDate, 'yyyy-MM-dd HH:mm:ss')}
+                />}
             </div>
           </form>
         </LocalizationProvider>

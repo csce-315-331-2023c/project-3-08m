@@ -1,7 +1,7 @@
 // ManagerPOS.js
 import React from 'react';
 import './ManagerPOS.css'; // Assuming your CSS is in this file
-import './components/table.css'; 
+import './components/Tables/table.css'; 
 import { NavLink, Routes, Route } from 'react-router-dom';
 
 // Import your page components

@@ -292,6 +292,7 @@ app.post('/report', async (req, res) => {
     console.log(request);
     var report;
     for (const entry in request) {
+        // console.log(entry);
         if (entry == 'excess') {
             report = await excessReport(request[entry].timeStamp);
         }
@@ -305,6 +306,7 @@ app.post('/report', async (req, res) => {
             report = await salesReport(request[entry].startDateTime, request[entry].endDateTime);
         }
     }
+    // console.log(report);
     res.json({report});
 });
 
