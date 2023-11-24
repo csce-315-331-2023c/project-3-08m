@@ -3,17 +3,16 @@ import TextField from '@mui/material/TextField';
 import { LocalizationProvider, DateTimePicker} from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ThemeProvider, createTheme,  Dialog, Button, DialogTitle, DialogContent } from '@mui/material';
-import './Reports.css';
 import { Box } from '@mui/material';
 import SalesReportTable from './SalesReportTable';
 import { format } from 'date-fns';
-import theme from '../theme';
+import theme from '../../theme';
+// import './Reports.css';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 const SalesReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [salesReportData, setSalesReport] = useState(false);
     const [showReportTable, setShowReportTable] = useState(false);
 
     const handleClose = (event, reason) => {
@@ -24,28 +23,7 @@ const SalesReport = ({ isOpen, onClose }) => {
       onClose();
     };
 
-
-    const fetchSalesReport = async () => {
-        try {
-            var response = await fetch(serverURL+"/report",{
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json; charset = UTF-8"
-                },
-                body: JSON.stringify({'sales': {'startDateTime': format(startDate, 'yyyy-MM-dd HH:mm:ss'), 'endDateTime': format(endDate, 'yyyy-MM-dd HH:mm:ss')}})
-            });
-            var success = await response.json();
-            success = success.report;
-            console.log(success);
-          setSalesReport(success);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
     const handleCreateReportClick = () => {
-    fetchSalesReport();
     setShowReportTable(true); // When the button is clicked, set showReportTable to true
     };
 
@@ -96,7 +74,8 @@ return (
               <SalesReportTable
                 isOpen={showReportTable}
                 onClose={() => setShowReportTable(false)}
-                jsonData={salesReportData}
+                startTime={startDate}
+                endTime={endDate}
               />
             )}
           </Box>
