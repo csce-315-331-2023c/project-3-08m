@@ -47,6 +47,9 @@ app.post('/single', async (req, res) => {
         else if (entry == 'menu_add_ons') {
             response = await getMenuItemAddOnsNames(request[entry]);
         }
+        else if (entry == 'menu_inventory') {
+            response = await getMenuItemInventoryItemsNames(request[entry]);
+        }
     }
     res.json({response});
 });
@@ -1563,6 +1566,26 @@ async function getMenuItemAddOnsNames(id) {
             )
             .then(query_res => {
                 for (let i = 0; i < query_res.rowCount; i++) {
+                    names.push(query_res.rows[i]);
+                }
+            });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return names;
+}
+
+async function getMenuItemInventoryItemsNames(id) {
+    var names = [];
+    try {
+        await pool
+            .query(
+                "SELECT * FROM inventory WHERE id in " +
+                "(SELECT inventory_id FROM menu_inventory WHERE menu_id = " + id + ");"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; ++i) {
                     names.push(query_res.rows[i]);
                 }
             });
