@@ -74,6 +74,18 @@
     padding: 8px; /* Adjust padding as needed */
     text-align: center; /* Center the text within the card */
   }
+
+  .item-card-btn {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    border: none;
+    outline: none;
+    background-color: transparent;
+    /* cursor: pointer; */
+    /* padding: 0; */
+  }
   
   /* Responsive settings */
   @media (max-width: 1024px) {

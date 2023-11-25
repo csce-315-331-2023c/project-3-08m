@@ -1,4 +1,5 @@
 import { Dialog, Listbox } from '@headlessui/react';
+import{ Box, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import './AddOns.css';
 import './Menu.css';
@@ -118,16 +119,19 @@ export function AddOnDialog({menuId, menuName, menuPrice, enName}) {
     }
     
     return (
-        <div class="grid-container">
-        <button className='menu-item-card-button'  onClick={() => setIsOpen(true)}>
+        <>
+        {/* <Box sx={{ m:1}}></Box> */}
+        <button onClick={() => setIsOpen(true)} className='item-card-btn'>
+        
             {/* <div className="menu-item">
                 <img src={images[menuPicture]} alt="Default Drink"className='menu-image' />
                 <h3>{menuName}</h3>
                 <div className="menu-price">{`$${menuPrice.toFixed(2)}`}</div>
-                { Likes functionality can be added if you have that data }
-            </div> */}
+                {/* Likes functionality can be added if you have that data */}
+            {/*<div> */}
             <MenuItemCard title={menuName} price={menuPrice} imageUrl={images[menuPicture]} />
         </button>
+        {/* <Box sx={{ m:1}} /> */}
         <Dialog className='addOnDialog' open={isOpen} onClose={() => setIsOpen(false)}>
             {/* <Dialog.Panel>
                 <Dialog.Title>{menuName}</Dialog.Title>
@@ -166,7 +170,6 @@ export function AddOnDialog({menuId, menuName, menuPrice, enName}) {
             </button>
             </Dialog.Panel>
         </Dialog>
-        </div>
-        
+        </>
     )
 }
