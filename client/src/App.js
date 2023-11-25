@@ -8,12 +8,14 @@ import CustomerPOS from './CustomerPOS/CustomerPOS';
 import AddAddOns from './CashierPOS/AddAddOns';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/Tables/table.css';
+import LoginPage from './LoginPage';
 
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        {/* <LoginPage /> */}
         <LandingPage />
       </div>
     </BrowserRouter>
