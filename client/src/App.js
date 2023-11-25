@@ -16,8 +16,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <LoginPage />
-        {/* <LandingPage /> */}
+        {/* <LoginPage /> */}
+        <LandingPage />
       </div>
     </BrowserRouter>
   );
