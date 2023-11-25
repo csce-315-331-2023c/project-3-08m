@@ -58,7 +58,7 @@ const InventoryCheckbox = ({isChecked, setIsChecked}) => {
 
     return (
         <div>
-        Inventory Items
+        <h5>Inventory Items</h5>
         <Box style={{maxHeight: 200, overflow: 'auto'}}>
         <List>
             {

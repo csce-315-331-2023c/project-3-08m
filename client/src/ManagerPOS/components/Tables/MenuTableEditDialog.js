@@ -262,17 +262,61 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
     // console.log(selectedInventory);
 
     return (
-        <Box>
-            <Dialog open={open[id]} onClose={() => handleCancel(id)} fullWidth >
-                <DialogTitle>{menuItem.name}</DialogTitle>
-                <TextField required size='small' label="ID" defaultValue={menuItem.id || ''} onChange={handleID} disabled={id !== ''} /><br></br>
-                <TextField required size='small' label="Name" defaultValue={menuItem.name || ''} onChange={handleName} /><br></br>
-                <TextField required size='small' label="Price" defaultValue={menuItem.price || ''} onChange={handlePrice} /><br></br>
-                <AddOnsCheckbox isChecked={selectedAddOns} setIsChecked={setSelectedAddOns} />
-                <InventoryCheckbox isChecked={selectedInventory} setIsChecked={setSelectedInventory} />
-                <Button color="primary" onClick={() => handleCancel(id)}>Cancel</Button>
-                <Button color="primary" onClick={() => handleSave(id)}>Save</Button>
-            </Dialog>
+        // <Box>
+    //     <Dialog open={open[id]} onClose={() => handleCancel(id)} fullWidth>
+    //     <DialogTitle>{menuItem.name}</DialogTitle>
+    //     <Box sx={{ m: 1, width: '100%' }}>
+    //         <Box sx={{ display: 'flex', gap: 2 }}>
+    //             <Box flex={1}>
+    //                 <TextField required size='small' label="ID" defaultValue={menuItem.id || ''} onChange={handleID} disabled={id !== ''} />
+    //             </Box>
+    //             <Box flex={3}>
+    //                 <TextField required size='small' label="Name" defaultValue={menuItem.name || ''} onChange={handleName} />
+    //             </Box>
+    //             <Box flex={1}>
+    //                 <TextField required size='small' label="Price" defaultValue={menuItem.price || ''} onChange={handlePrice} />
+    //             </Box>
+    //         </Box>
+    
+    //         <AddOnsCheckbox isChecked={selectedAddOns} setIsChecked={setSelectedAddOns} />
+    //         <InventoryCheckbox isChecked={selectedInventory} setIsChecked={setSelectedInventory} />
+    
+    //         <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1, mt: 2 }}>
+    //             <Button color="primary" onClick={() => handleCancel(id)}>Cancel</Button>
+    //             <Button variant="contained" color="primary" onClick={() => handleSave(id)}>Save</Button>
+    //         </Box>
+    //     </Box>
+    // </Dialog>
+    <Dialog open={open[id]} onClose={() => handleCancel(id)} fullWidth>
+    {/* <DialogTitle>{menuItem.name}</DialogTitle> */}
+    <Box sx={{ m: 3}}>
+    <h3>{menuItem.name ? menuItem.name : 'New Menu Item'}</h3>
+        <Box sx={{m:3}}></Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ flexGrow: 0, flexBasis: '20%' }}>
+                <TextField required size='small' label="ID" defaultValue={menuItem.id || ''} onChange={handleID} disabled={id !== ''} />
+            </Box>
+            <Box sx={{ flexGrow: 1, flexBasis: '60%' }}>
+                <TextField required size='small' label="Name" defaultValue={menuItem.name || ''} onChange={handleName} fullWidth />
+            </Box>
+            <Box sx={{ flexGrow: 0, flexBasis: '20%' }}>
+                <TextField required size='small' label="Price" defaultValue={menuItem.price || ''} onChange={handlePrice} />
+            </Box>
         </Box>
+        <Box sx={{m:2}}></Box>
+
+        <AddOnsCheckbox isChecked={selectedAddOns} setIsChecked={setSelectedAddOns} />
+        <Box sx={{m:2}}></Box>
+        <InventoryCheckbox isChecked={selectedInventory} setIsChecked={setSelectedInventory} />
+
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
+            <Button color="primary" onClick={() => handleCancel(id)}>Cancel</Button>
+            <Button variant="contained" color="primary" onClick={() => handleSave(id)}>Save</Button>
+        </Box>
+    </Box>
+</Dialog>
+
+    
+        // </Box>
     )
 }

@@ -58,7 +58,7 @@ const AddOnsCheckbox = ({isChecked, setIsChecked}) => {
     }
     return (
         <div>
-        Add-Ons
+        <h5>Add-Ons</h5>
         <Box style={{maxHeight: 200, overflow: 'auto'}}>
         <List>
             {
