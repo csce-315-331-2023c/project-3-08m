@@ -93,15 +93,14 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
       display: 'flex', // Enable flexbox
       justifyContent: 'space-between', // Place items at the start and end of the container
       alignItems: 'center', // Align items vertically at the center
-      m: 1 // Margin
     }}>
-      <h3>Popularity Report</h3> {/* Text aligned to left */}
+      <h3>Sales Report</h3> {/* Text aligned to left */}
       <Button
       variant="contained"
       onClick={handleOnClose}
       sx={{
         backgroundColor: 'red',
-        width: '30px',  // Set the width
+        width: '30px',  // Set the widths
         height: '30px', // Set the height to make it square
         minWidth: '30px', // Override minimum width
         padding: 0, // Optional: Adjust padding to your preference
