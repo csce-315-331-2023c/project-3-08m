@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Dialog, Button, Typography, CircularProgress} from '@mui/material';
-import { format } from 'date-fns';
+import { Box, Button, Dialog, Typography, CircularProgress} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { DataGrid } from '@mui/x-data-grid';
 // import './Reports.css';
 
@@ -91,7 +91,30 @@ const RestockReport = ({isOpen, onClose }) => {
         
     <Dialog open={isOpen} onClose={handleOnClose} maxWidth="md">
     <Box sx={{ width: 800, m:2}}>
-      <h3>Restock Report</h3>
+    <Box sx={{ 
+      display: 'flex', // Enable flexbox
+      justifyContent: 'space-between', // Place items at the start and end of the container
+      alignItems: 'center', // Align items vertically at the center
+    }}>
+      <h3>Restock Report</h3> {/* Text aligned to left */}
+      <Button
+      variant="contained"
+      onClick={handleOnClose}
+      sx={{
+        backgroundColor: 'red',
+        width: '30px',  // Set the width
+        height: '30px', // Set the height to make it square
+        minWidth: '30px', // Override minimum width
+        padding: 0, // Optional: Adjust padding to your preference
+        '&:hover': {
+          backgroundColor: 'darkred', // Change for hover state
+        }
+      }}
+    >
+        <CloseIcon sx={{ color: 'white' }} />
+    </Button>
+      
+    </Box>
       <Box sx={{ m: 2 }}></Box>
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600, color: '#2E4647'}}>
