@@ -115,7 +115,7 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
       ) : error ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1" color="error">
-            Error: No data found, enter a different time window.
+            Error: No data found, enter a different time stamp.
           </Typography>
         </Box>
       ) : excessReportData.length > 0 ? (
@@ -125,7 +125,7 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1">
-            No data available for the selected time window.
+            No data available for the selected time stamp.
           </Typography>
         </Box>
       )}

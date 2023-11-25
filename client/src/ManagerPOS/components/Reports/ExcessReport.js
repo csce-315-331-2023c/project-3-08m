@@ -10,7 +10,6 @@ import theme from '../../theme';
 
 const ExcessReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
     const [showReportTable, setShowReportTable] = useState(false);
 
     const handleClose = (event, reason) => {
