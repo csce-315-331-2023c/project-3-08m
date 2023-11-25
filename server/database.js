@@ -174,6 +174,7 @@ app.post('/updateInventory', async (req, res) => {
         }
         else if (entry == 'last_restock_date') {
             var success = await updateInventoryItemLastRestockDate(request[entry].id, request[entry].lastRestockDate);
+            updateSuccess.push(success);
         }
         else if (entry == 'minimum_amount') {
             var success = await updateInventoryItemMinimumAmount(request[entry].id,request[entry].minimumAmount);
@@ -298,6 +299,7 @@ app.post('/report', async (req, res) => {
     console.log(request);
     var report;
     for (const entry in request) {
+        console.log(entry);
         if (entry == 'excess') {
             report = await excessReport(request[entry].timeStamp);
         }
@@ -311,6 +313,7 @@ app.post('/report', async (req, res) => {
             report = await salesReport(request[entry].startDateTime, request[entry].endDateTime);
         }
     }
+    console.log(report);
     res.json({report});
 });
 
@@ -527,7 +530,12 @@ async function salesReport(startDateTime, endDateTime) {
             if (i >= fullOrder.length) {
                 break;
             }
+            // console.log(i);
             var menuId = fullOrder[i].menu_id;
+            if (menuId === null) {
+                i++;
+                continue;
+            }
             var orderMenuJunctionId = fullOrder[i].order_menu_junction_id;
             var dateTime = fullOrder[i].date_time;
             var orderId = fullOrder[i].id;
@@ -552,7 +560,8 @@ async function salesReport(startDateTime, endDateTime) {
                 }
                 i++;
             }
-
+            // console.log(menuNames[menuId]);
+            // console.log(menuId);
             report[menuNames[menuId]].push(value);
         }
         // console.log(report);

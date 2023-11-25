@@ -7,14 +7,15 @@ import MenuBoard from './MenuBoard/MenuBoard';
 import CustomerPOS from './CustomerPOS/CustomerPOS';
 import AddAddOns from './CashierPOS/AddAddOns';
 import './App.css'; // Assuming your CSS is in this file
-import './ManagerPOS/components/table.css';
-import { Checkout } from './CustomerPOS/Checkout';
+import './ManagerPOS/components/Tables/table.css';
+import LoginPage from './LoginPage';
 
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        {/* <LoginPage /> */}
         <LandingPage />
       </div>
     </BrowserRouter>
@@ -48,7 +49,6 @@ const LandingPage = () => {
         <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
         <Route path="/menu_board" element={<MenuBoard />} />
         <Route path="/customer" element={<CustomerPOS />} />
-        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </div>
   );

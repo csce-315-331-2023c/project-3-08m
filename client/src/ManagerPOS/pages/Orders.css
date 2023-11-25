@@ -6,7 +6,25 @@
     position: absolute;
     top: 0;
     right: 0;
+    /* margin: 10px; */
+    margin-right: 10px;
+    border-radius: 4px;
+    background-color: #2E4647;
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    cursor: pointer;
+  }
+  .sales-report-btn:hover {
+    background-color: #3A6062; /* Replace 'green' with your desired hover color */
+    /* Add other hover styles if needed */
+  }
+  .Button {
+    position: relative;
+    top: 0;
+    right: 0;
     margin: 10px;
+    border-radius: 4px;
     background-color: #2E4647;
     color: white;
     border: none;

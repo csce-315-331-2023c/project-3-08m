@@ -1,0 +1,119 @@
+.sales-report-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: visibility 0s, opacity 0.5s linear;
+  }
+  
+  .sales-report {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px; /* Adjust width as necessary */
+  }
+  
+  .sales-report-header {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  .sales-report-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure form takes full width */
+  }
+  
+  .sales-report-form label {
+    margin-bottom: 5px;
+  }
+  
+  .sales-report-form input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .sales-report-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background-color: #ccc;
+  }
+  
+  .create-btn {
+    background-color: #2E4647;
+    color: white;
+  }
+
+  .sales-report-form .datetime-picker-wrapper {
+    margin-bottom: 20px; /* Increase spacing */
+    width: 200px; /* Adjust width as necessary */
+    }
+
+  /* Reports.css */
+
+.sales-report-table-overlay {
+    transition: visibility 0s, opacity 0.5s linear;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2; /* Ensure it's above other content */
+  }
+  
+  .sales-report-table {
+    background-color: #fff;
+    padding: 20px; /* Add padding to prevent overlap */
+    border-radius: 8px;
+    width: calc(100% - 40px); /* Subtract horizontal paddings */
+    max-width: 800px; /* Adjust the max-width as needed */
+    box-sizing: border-box; /* Include padding in the width */
+    position: relative; /* Position relative for the absolute button */
+    /* padding-top: 47px; Add extra padding on top for the close button */
+    z-index: 3; /* Ensure the table is above the overlay */
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px; 
+    background-color: #ff0000; /* Red background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 6px 13px; /* Padding for the button */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-weight: bold; /* Bold text */
+    z-index: 4; /* Ensure the button is above other elements in the container */
+  }
+  
+  /* Add a hover effect for better user experience */
+  .close-btn:hover {
+    background-color: #e60000; /* Slightly darker red on hover */
+  }
+  
+  
+  /* Add additional styling and responsiveness as needed */
+  
