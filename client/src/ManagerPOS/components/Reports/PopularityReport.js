@@ -30,7 +30,7 @@ const PopularityReport = ({ isOpen, onClose }) => {
 
 return (
   <Dialog open={isOpen} onClose={handleClose} maxWidth="md">
-  <DialogTitle>Enter Start and End Time for Sales Report</DialogTitle>
+  <DialogTitle>Enter Start and End Time and Number of Items for Popularity Report</DialogTitle>
   <DialogContent>
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -64,7 +64,7 @@ return (
           <TextField
             sx={{ marginTop: 1, width: '100%' }}
             type="number"
-            label="Number"
+            label="Number of Items"
             defaultValue={1}
             value={numberOfItems}
             onChange={(event) => setNumberOfItems(event.target.value)} // Corrected this line
