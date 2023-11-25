@@ -2,7 +2,6 @@ const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
-const cors = require('cors');
 
 const app = express();
 app.use(cors());
@@ -47,6 +46,9 @@ app.post('/single', async (req, res) => {
         }
         else if (entry == 'menu_add_ons') {
             response = await getMenuItemAddOnsNames(request[entry]);
+        }
+        else if (entry == 'menu_inventory') {
+            response = await getMenuItemInventoryItemsNames(request[entry]);
         }
     }
     res.json({response});
@@ -161,7 +163,6 @@ app.post('/updateInventory', async (req, res) => {
         else if (entry == 'amount_used') {
             var success = await updateInventoryItemAmountUsed(request[entry].id,request[entry].amountUsed);
             updateSuccess.push(success);
-
         }
         else if (entry == 'restock') {
             var success = await restockInventoryItem(request[entry].id, request[entry].restockDate, request[entry].restockAmount);
@@ -171,8 +172,11 @@ app.post('/updateInventory', async (req, res) => {
             // var success = await updateInventoryItemAmountRemaining(request[entry].id,amountRemaining)
             updateSuccess.push(success);
         }
+        else if (entry == 'last_restock_date') {
+            var success = await updateInventoryItemLastRestockDate(request[entry].id, request[entry].lastRestockDate);
+        }
         else if (entry == 'minimum_amount') {
-            var success = await updateInventoryMinimumAmount(request[entry].id,request[entry].minimumAmount);
+            var success = await updateInventoryItemMinimumAmount(request[entry].id,request[entry].minimumAmount);
             updateSuccess.push(success);
         }
         else if (entry == 'delete') {
@@ -189,6 +193,7 @@ app.post('/updateInventory', async (req, res) => {
 
 app.post('/updateEmployees', async (req, res) => {
     let request = req.body;
+    var updateSuccess = [];
     for (const entry in request) {
         if (entry == 'name') {
             var success = await updateEmployeeName(request[entry].id, request[entry].name);
@@ -223,6 +228,7 @@ app.post('/updateEmployees', async (req, res) => {
             updateSuccess.push(success);
         }
     }
+    res.json({updateSuccess});
 });
 
 app.post('/updateAddOns', async (req, res) => {
@@ -1468,7 +1474,23 @@ async function updateInventoryItemMinimumAmount(id, newMinimumAmount) {
         await pool
             .query(
                 "UPDATE inventory " +
-                "SET minimum_amount = " + newMinimumAmount +
+                "SET min_amount = " + newMinimumAmount + " " +
+                "WHERE id = " + id + ";"
+            );
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function updateInventoryItemLastRestockDate(id, newLastRestockDate) {
+    try {
+        await pool
+            .query(
+                "UPDATE inventory " +
+                "SET last_restock_date = '" + newLastRestockDate + '\' ' + 
                 "WHERE id = " + id + ";"
             );
         return true;
@@ -1535,6 +1557,26 @@ async function getMenuItemAddOnsNames(id) {
             )
             .then(query_res => {
                 for (let i = 0; i < query_res.rowCount; i++) {
+                    names.push(query_res.rows[i]);
+                }
+            });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    return names;
+}
+
+async function getMenuItemInventoryItemsNames(id) {
+    var names = [];
+    try {
+        await pool
+            .query(
+                "SELECT * FROM inventory WHERE id in " +
+                "(SELECT inventory_id FROM menu_inventory WHERE menu_id = " + id + ");"
+            )
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; ++i) {
                     names.push(query_res.rows[i]);
                 }
             });

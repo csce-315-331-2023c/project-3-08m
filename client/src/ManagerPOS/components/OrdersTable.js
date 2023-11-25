@@ -7,14 +7,14 @@ const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
 const columns = [
-  { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50,},
+  { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, type: 'number'},
   {
     field: 'price',
     headerName: 'Price',
     headerClassName: 'super-app-theme--header',
     flex: 1,
     minWidth: 50,
-    editable: true,
+    editable: false,
   },
   {
     field: 'date_time',
@@ -22,7 +22,7 @@ const columns = [
     headerClassName: 'super-app-theme--header',
     flex: 1,
     minWidth: 50,
-    editable: true,
+    editable: false,
   }
 ];
 
@@ -55,8 +55,8 @@ const OrdersTable = () => {
   }, []);
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    return new Date(dateString).toLocaleString(undefined, options);
   };
 
   if (loading) {
@@ -73,6 +73,11 @@ const OrdersTable = () => {
       <DataGrid
         rows={orders}
         columns={columns}
+        initialState={{
+          sorting: {
+            sortModel: [{field: 'id', sort: 'desc'}]
+          }
+        }}
       />
     </Box>
   );
