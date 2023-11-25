@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import {Edit as EditIcon, Delete as DeleteIcon} from '@mui/icons-material';
 import {
   DataGrid,
   GridToolbarContainer,
@@ -74,7 +75,7 @@ const MenuTable = () => {
   }
 
   const columns = [
-    { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, editable: false, type: 'number'},
+    { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', headerAlign: 'left', align: 'left', flex: 1, minWidth: 50, editable: false, type: 'number'},
     {
       field: 'name',
       headerName: 'Name',
@@ -87,6 +88,8 @@ const MenuTable = () => {
       field: 'price',
       headerName: 'Price',
       headerClassName: 'super-app-theme--header',
+      headerAlign: 'left', 
+      align: 'left', 
       flex: 1,
       type: 'number',
       minWidth: 50,
@@ -96,24 +99,21 @@ const MenuTable = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
+      headerClassName: 'super-app-theme--header',
       minWidth: 100,
       cellClassName: 'actions',
       getActions: ({id}) => {
         return [
           <GridActionsCellItem 
-          icon={<div>
-            E
-          </div>}
-          label='Edit'
-          onClick={handleEdit(id)}
+            icon={<EditIcon />} // Using the Edit icon
+            label='Edit'
+            onClick={handleEdit(id)}
           />,
           <GridActionsCellItem 
-            icon={<div>
-              D
-            </div>}
+            icon={<DeleteIcon style={{ color: 'red' }} />} // Using the Delete icon
             label='Delete'
             onClick={handleDelete(id)}
-          />
+          />,
         ]
       }
     }
