@@ -1,88 +1,122 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import { LocalizationProvider, DateTimePicker} from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { ThemeProvider,  Dialog, Button, DialogTitle, DialogContent } from '@mui/material';
-import { Box } from '@mui/material';
-import SalesReportTable from './SalesReportTable';
-import theme from '../../theme';
+import React, { useState, useEffect } from 'react';
+import { Box, Dialog, Button, Typography, CircularProgress} from '@mui/material';
+import { format } from 'date-fns';
+import { DataGrid } from '@mui/x-data-grid';
 // import './Reports.css';
 
-const RestockReport = ({ isOpen, onClose }) => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [showReportTable, setShowReportTable] = useState(false);
+const columns = [
+  {
+    field: 'name',
+    headerName: 'Name',
+    flex: 3,
+    minWidth: 200,
+    editable: false
+  },
+  {
+    field: 'amount_remaining',
+    headerName: 'Amount Remaining',
+    flex: 2,
+    minWidth: 150,
+    editable: false
+  },
+  {
+    field: 'min_amount',
+    headerName: 'Minimum Amount',
+    flex: 2,
+    minWidth: 150,
+    editable: false
+  }
+];
 
-    const handleClose = (event, reason) => {
-      if (reason && reason === 'backdropClick') {
-        // Optionally prevent dialog from closing if clicked outside
-        return;
+  
+
+const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+
+
+const RestockReport = ({isOpen, onClose }) => {
+  const [restockReportData, setRestockReport] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!isOpen) return; // Exit if the component is not open
+      setLoading(true);    // Set loading state
+  
+      try {
+        // Fetch data from server
+        const response = await fetch(serverURL + "/report", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          },
+          body: JSON.stringify({'restock' : {}})
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        let data = await response.json();
+        data = data.report;
+        console.log(data);
+
+        const transformedData = data.map((item, index) => ({
+          id: index,
+          ...item
+        }));
+  
+        setRestockReport(transformedData); // Update state with transformed data
+      } catch (error) {
+        console.error(error);
+        setError(true); // Set error state
+      } finally {
+        setLoading(false); // Reset loading state
       }
-      onClose();
     };
+  
+    fetchData();
+  }, [isOpen]);
+  
 
-    const handleCreateReportClick = () => {
-    setShowReportTable(true); // When the button is clicked, set showReportTable to true
-    };
+  const handleOnClose = () => {
+    setLoading(true);
+    setRestockReport([]);
+    onClose();
+  }
 
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-return (
-  <Dialog open={isOpen} onClose={handleClose} maxWidth="md">
-  <DialogTitle>Enter Start and End Time for Sales Report</DialogTitle>
-  <DialogContent>
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        {/* <form className="sales-report-form"> */}
-          <DateTimePicker
-            sx={{ marginTop: 1 ,width: '100%'}}
-            label="Start Date and Time"
-            value={startDate}
-            onChange={(newValue) => setStartDate(newValue)}
-            renderInput={(params) => <TextField {...params} fullWidth />}
-            ampm={false}
-            views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
-            inputFormat="yyyy-MM-dd HH:mm:ss"
-            minutesStep={1}
-            secondsStep={1}
-          />
-          <Box sx={{ m: 2 }} />
-          <DateTimePicker
-            sx={{ marginTop: 1 ,width: '100%'}}
-            label="End Date and Time"
-            value={endDate}
-            onChange={(newValue) => setEndDate(newValue)}
-            renderInput={(params) => <TextField {...params} fullWidth />}
-            ampm={false}
-            views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
-            inputFormat="yyyy-MM-dd HH:mm:ss"
-            minutesStep={1}
-            secondsStep={1}
-          />
-          <Box sx={{ m: 2 }} />
-          {/* <div className="sales-report-actions"> */}
-          <Box sx={{ display: 'flex', justifyContent: 'right' }}>
-            <Button sx={{m:1}}  onClick={onClose} color="primary">
-              Cancel
-            </Button>
-            <Button sx={{m:1}} onClick={handleCreateReportClick} color="primary" variant="contained">
-              Create Report
-            </Button>
-            {showReportTable && (
-              <SalesReportTable
-                isOpen={showReportTable}
-                onClose={() => setShowReportTable(false)}
-                startTime={startDate}
-                endTime={endDate}
-              />
-            )}
-          </Box>
-          {/* </div> */}
-        {/* </form> */}
-      </LocalizationProvider>
-    </ThemeProvider>
-  </DialogContent>
-</Dialog>
+  return (
+        
+    <Dialog open={isOpen} onClose={handleOnClose} maxWidth="md">
+    <Box sx={{ width: 800, m:2}}>
+      <h3>Restock Report</h3>
+      <Box sx={{ m: 2 }}></Box>
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600, color: '#2E4647'}}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
+          <Typography variant="subtitle1" color="error">
+            Error: No data found, enter a different time stamp.
+          </Typography>
+        </Box>
+      ) : restockReportData.length > 0 ? (
+        <Box sx={{ height: 600, width: '100%' }}> 
+          <DataGrid rows={restockReportData} columns={columns} pageSize={5} />
+        </Box>
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
+          <Typography variant="subtitle1">
+            No data available for the selected time stamp.
+          </Typography>
+        </Box>
+      )}
+    </Box>
+  </Dialog>
+  
   );
 };
 
