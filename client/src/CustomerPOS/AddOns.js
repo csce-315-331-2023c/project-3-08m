@@ -1,5 +1,5 @@
 import { Listbox } from '@headlessui/react';
-import { Dialog, DialogContentText, DialogTitle } from '@mui/material';
+import { Dialog, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import{ Box, Button, Checkbox } from '@mui/material';
 import { useState, useEffect } from 'react';
 import './AddOns.css';
@@ -12,9 +12,10 @@ import { AddOnsCheckbox } from './components/AddOnsCheckbox';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuItemAddOns, totalPrice, setTotalPrice}) {
+export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuItemAddOns, totalPrice, setTotalPrice, notes, setNotes}) {
     const [ addOns, setAddOns ] = useState([]);
     const [ price, setPrice ] = useState(menuItem.price);
+    const [ orderNotes, setOrderNotes ] = useState("");
 
     useEffect(() => {
         var abortController = new AbortController();
@@ -73,7 +74,12 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
         orderMenuItemAddOns.push(orderItemAddOns);
         totalPrice += price;
         setTotalPrice(totalPrice*1);
+        notes.push(orderNotes);
         setOpen({...open, [id]: false});
+    }
+
+    const handleNotes = (event) => {
+        setOrderNotes(event.target.value);
     }
 
     // console.log(price);
@@ -87,6 +93,8 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
                 <DialogTitle>{menuItem.name}</DialogTitle>
                 <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText>
                 <AddOnsCheckbox menuId={menuItem.id} selected={selectedAddOns} setSelected={setSelectedAddOns} totalPrice={price} setTotalPrice={setPrice} />
+                <br></br>
+                <TextField placeholder='Add Notes to your order!' label='Order Notes' onChange={handleNotes} multiline maxRows='3'/>
                 <Button onClick={handleClose(menuItem.id)}>Cancel</Button>
                 <Button onClick={handleAdd(menuItem.id)}>Add To Order</Button>
             </Dialog>

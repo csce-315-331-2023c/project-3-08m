@@ -82,7 +82,7 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
     return (
         <div>
             Add-Ons
-        <Box style={{maxHeight: 500, overflow: 'auto'}}>
+        <Box style={{maxHeight: 300, overflow: 'auto'}}>
         <List>
             {
                 addOns.map((item) => {
