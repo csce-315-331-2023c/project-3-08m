@@ -1,7 +1,9 @@
 import { Box, Button, Dialog, DialogContentText, DialogTitle } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-export const CheckoutDialog = ({orderMenuItems, orderMenuItemsAddOns, price, isOpen, setIsOpen}) => {
+const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+
+export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen}) => {
 
     const columns = [
         {
@@ -39,18 +41,52 @@ export const CheckoutDialog = ({orderMenuItems, orderMenuItemsAddOns, price, isO
         // row['price'] = `$${price.toFixed(2)}`;
         row['menuItemName'] = orderMenuItems[i].name;
         var addOns = "";
-        var price = Number(orderMenuItems[i].price);
+        var subPrice = Number(orderMenuItems[i].price);
         console.log(orderMenuItemsAddOns[i]);
         for (let j = 0; j < orderMenuItemsAddOns[i].length; ++j) {
             addOns += orderMenuItemsAddOns[i][j].name;
             if (j < orderMenuItemsAddOns[i].length-1) {
                 addOns += ", ";
             }
-            price += Number(orderMenuItemsAddOns[i][j].price);
+            subPrice += Number(orderMenuItemsAddOns[i][j].price);
         }
         row['addOns'] = addOns;
-        row['price'] = `$${price.toFixed(2)}`;
+        row['price'] = `$${subPrice.toFixed(2)}`;
         rows.push(row);
+    }
+
+    const checkout = () => {
+        console.log('asdf');
+        var menuItemIds = [];
+        var menuItemAddOnIds = [];
+        for (let i = 0; i < orderMenuItems.length; ++i) {
+            menuItemIds.push(orderMenuItems[i].id);
+            var addOnIds = [];
+            for (let j = 0; j < orderMenuItemsAddOns[i].length; ++j) {
+                addOnIds.push(orderMenuItemsAddOns[i][j].id);
+            }
+            menuItemAddOnIds.push(addOnIds);
+        }
+        
+        const sendOrder = async () => {
+            try {
+                await fetch(serverURL+'/updateOrders', {
+                    method: 'POST',
+                    headers: {
+                        "Content-type": "application/json; charset = UTF-8"
+                    },
+                    body: JSON.stringify({'add': {'price': price, 'menuItems': menuItemIds, 'addOns': menuItemAddOnIds}})
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        sendOrder();
+        setPrice(0);
+        setOrderMenuItemAddOns([]);
+        setOrderMenuItems([]);
+        setIsOpen(false);
     }
 
     return (
@@ -64,7 +100,7 @@ export const CheckoutDialog = ({orderMenuItems, orderMenuItemsAddOns, price, isO
                     rows={rows}
                 />
                 <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-                <Button>Checkout</Button>
+                <Button onClick={checkout}>Checkout</Button>
             </Dialog>
         </Box>
     );

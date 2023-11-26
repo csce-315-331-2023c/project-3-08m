@@ -121,7 +121,7 @@ const Menu = () => {
           }
           return (
             <button onClick={openDialog(item.id)} className='item-card-btn'>
-              <MenuItemCard title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} /><br></br>
+              <MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} /><br></br>
             </button>        )})}
         {/* </button> */}
       </div>
@@ -129,11 +129,16 @@ const Menu = () => {
       {menuItems.map(item => {
         return (
           <>
-          {isOpen[item.id] && <AddOnDialog menuItem={item} open={isOpen} setOpen={setIsOpen} orderMenuItems={orderMenuItems} orderMenuItemAddOns={orderMenuItemAddOns} totalPrice={price} setTotalPrice={setPrice} />}
+          {isOpen[item.id] && <AddOnDialog key={item.id} menuItem={item} open={isOpen} setOpen={setIsOpen} orderMenuItems={orderMenuItems} orderMenuItemAddOns={orderMenuItemAddOns} totalPrice={price} setTotalPrice={setPrice} />}
           </>
         )
       })}
-      {openCheckout && <CheckoutDialog orderMenuItems={orderMenuItems} orderMenuItemsAddOns={orderMenuItemAddOns} price={price} isOpen={openCheckout} setIsOpen={setOpenCheckout} />}
+      {openCheckout && <CheckoutDialog 
+                          orderMenuItems={orderMenuItems} setOrderMenuItems={setOrderMenuItems}
+                          orderMenuItemsAddOns={orderMenuItemAddOns} setOrderMenuItemAddOns={setOrderMenuItemAddOns}
+                          price={price} setPrice={setPrice}
+                          isOpen={openCheckout} setIsOpen={setOpenCheckout}
+                      />}
     </div>
   );
 };
