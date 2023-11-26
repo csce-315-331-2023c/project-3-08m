@@ -9,7 +9,6 @@ import CustomerPOS from './CustomerPOS/CustomerPOS';
 import AddAddOns from './CashierPOS/AddAddOns';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/Tables/table.css';
-import { Checkout } from './CustomerPOS/Checkout';
 import LoginPage from './LoginPage';
 
 
@@ -60,7 +59,6 @@ const LandingPage = () => {
         <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
         <Route path="/menu_board" element={<MenuBoard />} />
         <Route path="/customer" element={<CustomerPOS />} />
-        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </div>
     // <div>

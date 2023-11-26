@@ -3,6 +3,9 @@ import './Menu.css'; // Make sure to create a CSS file with this name
 import defaultDrinkImage from './assets/boba.svg';
 import { TranslateBulk, LanguageDialog } from '../Translate';
 import { AddOnDialog } from './AddOns';
+import MenuItemCard from './components/MenuItemCard';
+import { CheckoutDialog } from './components/Checkout';
+import { Button } from '@mui/material';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
@@ -22,6 +25,11 @@ const MenuItem = ({ name, price }) => (
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
+  const [ isOpen, setIsOpen ] = useState({});
+  const [ orderMenuItems, setOrderMenuItems ] = useState([]);
+  const [ orderMenuItemAddOns, setOrderMenuItemAddOns ] = useState([]);
+  const [ price, setPrice ] = useState(0);
+  const [ openCheckout, setOpenCheckout ] = useState(false);
 
   useEffect(() => {
     var abortController = new AbortController();
@@ -33,14 +41,6 @@ const Menu = () => {
           data.menu[i].enName = data.menu[i].name;
         }
         setMenuItems(data.menu);
-          // .then(response => response.json())
-          // .then(data => {
-          //   // console.log(data.menu);
-          //   setMenuItems(data.menu);
-          // })
-          // .catch(error => {
-          //   console.error('Error fetching data: ', error);
-          // });
       }
       catch (error) {
         console.error('Error fetching data: ', error);
@@ -52,6 +52,14 @@ const Menu = () => {
     }
   }, []);
   console.log(menuItems);
+
+  useEffect(() => {
+    var open = {};
+    for (const item of menuItems) {
+      open[item.id] = false;
+    }
+    setIsOpen(open);
+  }, [menuItems]);
   // let menuItemsDialogDict = [];
   try {
     var temp = [];
@@ -60,39 +68,77 @@ const Menu = () => {
     }
     // console.log(temp);
     var translations = TranslateBulk(temp);
-    // var translations = [];
-    // if (menuItems[0].name !== 'default') {
-    //   console.log(menuItems);
-    //   translations = TranslateBulk(temp);
-    // }
     console.log(menuItems);
     for (let i = 0; i < translations.length && i < menuItems.length; ++i) {
-      // menuItemsDialogDict.push(menuItems[i]);
-      // menuItemsDialogDict[i].enName = menuItems[i].name;
-      // menuItemsDialogDict[i].name = translations[i];
-      // menuItems[i]['enName'] = menuItems[i].name;
       menuItems[i].name = translations[i];
     }
   }
   catch (error) {
     console.log(error);
   }
-  console.log(menuItems);
+
+  const importAll = (r) => {
+    let images = {};
+    r.keys().map((item, index) => { images[item.replace('./','')] = r(item); });
+    return images;
+  }
+
+  // let menuPicture = enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
+
+  const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
+
+  // if (!(menuPicture in images)) {
+  //   menuPicture = 'boba.svg';
+  // }
+
+  // if (Object.entries(isOpen).length === 0) {
+  //   return <div></div>
+  // }
+
+  const openDialog = (id) => () => {
+    setIsOpen({...isOpen, [id]: true});
+  }
+
+  // console.log(menuItems);
+  console.log(isOpen);
+
+  for (const item of menuItems) {
+    if (isOpen[item.id] === undefined) {
+      return <div></div>
+    }
+  }
+
   return (
     <div>
       {/* <LanguageDialog /> */}
+      <Button onClick={() => setOpenCheckout(true)}>Checkout</Button>
       <div className="menu">
         {/* <button> */}
-        {menuItems.map(item => (
-          // <button>
-          // <MenuItem key={item.id} {...item} />
-          // </button>
-          // AddOnDialog(item.id, item.name, item.price)
-          <AddOnDialog menuId={item.id} menuPrice={item.price} menuName={item.name} enName={item.enName}/>
-        ))}
+        {menuItems.map(item => {
+          let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
+          if (!(menuPicture in images)) {
+            menuPicture = 'boba.svg';
+          }
+          return (
+            <button onClick={openDialog(item.id)} className='item-card-btn'>
+              <MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} /><br></br>
+            </button>        )})}
         {/* </button> */}
       </div>
       {/* <LanguageDialog /> */}
+      {menuItems.map(item => {
+        return (
+          <>
+          {isOpen[item.id] && <AddOnDialog key={item.id} menuItem={item} open={isOpen} setOpen={setIsOpen} orderMenuItems={orderMenuItems} orderMenuItemAddOns={orderMenuItemAddOns} totalPrice={price} setTotalPrice={setPrice} />}
+          </>
+        )
+      })}
+      {openCheckout && <CheckoutDialog 
+                          orderMenuItems={orderMenuItems} setOrderMenuItems={setOrderMenuItems}
+                          orderMenuItemsAddOns={orderMenuItemAddOns} setOrderMenuItemAddOns={setOrderMenuItemAddOns}
+                          price={price} setPrice={setPrice}
+                          isOpen={openCheckout} setIsOpen={setOpenCheckout}
+                      />}
     </div>
   );
 };
