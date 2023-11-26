@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Translate.css";
 import { Dialog } from '@headlessui/react';
+import IconButton from '@mui/material/IconButton';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_TL_API_KEY;
 // console.log(API_KEY);
@@ -293,12 +295,16 @@ export function LanguageDialog() {
     
     return (
         <>
-            <div className="dropdown">
-                <button onClick={() => setIsOpen(true)} className="dropdown openButton">
-                    {/* {dropDownSymbol} */}
-                    Languages
-                </button>
-            </div>
+            {/* <div className="dropdown"> */}
+            <IconButton 
+                aria-label="Languages" 
+                onClick={() => setIsOpen(true)} 
+                className="dropdown openButton"
+                sx={{ color: 'white' }} // This applies the white color style
+                >
+                <TranslateIcon />
+            </IconButton>
+            {/* </div> */}
             <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="dropdown dialog">
                 <Dialog.Panel>
                     {/* <Dialog.Title className="dropdown title">Languages</Dialog.Title> */}

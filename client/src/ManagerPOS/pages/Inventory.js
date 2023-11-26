@@ -5,7 +5,7 @@ import { Box, Button, ThemeProvider,  } from '@mui/material';
 import InventoryTable from '../components/Tables/InventoryTable';
 import ExcessReport from '../components/Reports/ExcessReport';
 import RestockReport from '../components/Reports/RestockReport';
-import theme from '../theme';
+import theme from '../../theme';
 
 const Inventory = () => {
   const [showExcessReport, setShowExcessReport] = useState(false);
