@@ -12,17 +12,7 @@ import { AddOnsCheckbox } from './components/AddOnsCheckbox';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-const AddOn = ({name, price}) => (
-    // return (
-        <div>
-            <h3>{name}</h3>
-            <div>{`$${price.toFixed(2)}`}</div>
-        </div>
-    // )
-)
-
 export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuItemAddOns, totalPrice, setTotalPrice}) {
-    let [ isOpen, setIsOpen ] = useState(false);
     const [ addOns, setAddOns ] = useState([]);
     const [ price, setPrice ] = useState(menuItem.price);
 
