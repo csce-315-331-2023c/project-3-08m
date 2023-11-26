@@ -7,11 +7,7 @@ const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
 const columns = [
-<<<<<<< HEAD:client/src/ManagerPOS/components/OrdersTable.js
-  { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, type: 'number'},
-=======
   { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, type: 'number', align: 'left', headerAlign: 'left', editable: false },
->>>>>>> 5c9621f98593cb200829c191cb8d6fdf3edfa26c:client/src/ManagerPOS/components/Tables/OrdersTable.js
   {
     field: 'price',
     headerName: 'Price',
