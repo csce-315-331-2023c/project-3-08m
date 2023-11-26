@@ -146,9 +146,12 @@ const Menu = () => {
             menuPicture = 'boba.svg';
           }
           return (
+            <div>
             <button onClick={openDialog(item.id)} className='item-card-btn'>
-              <MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} /><br></br>
-            </button>        )})}
+              <MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
+            </button> 
+            <Box sx={{ m:3}}></Box>
+            </div>       )})}
         {/* </button> */}
       </div>
       {/* <LanguageDialog /> */}
