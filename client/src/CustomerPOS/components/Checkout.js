@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen}) => {
+export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes}) => {
 
     const columns = [
         {
@@ -23,6 +23,13 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         {
             field: 'price',
             headerName: 'Price',
+            headerClassName: 'super-app-theme--header',
+            flex: 2,
+            minWidth: 150,
+        },
+        {
+            field: 'notes',
+            headerName: 'Order Notes',
             headerClassName: 'super-app-theme--header',
             flex: 2,
             minWidth: 150,
@@ -52,6 +59,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         }
         row['addOns'] = addOns;
         row['price'] = `$${subPrice.toFixed(2)}`;
+        row['notes'] = notes[i];
         rows.push(row);
     }
 
@@ -86,6 +94,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setPrice(0);
         setOrderMenuItemAddOns([]);
         setOrderMenuItems([]);
+        setNotes([]);
         setIsOpen(false);
     }
 

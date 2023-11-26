@@ -30,6 +30,7 @@ const Menu = () => {
   const [ orderMenuItemAddOns, setOrderMenuItemAddOns ] = useState([]);
   const [ price, setPrice ] = useState(0);
   const [ openCheckout, setOpenCheckout ] = useState(false);
+  const [ notes, setNotes ] = useState([]);
 
   useEffect(() => {
     var abortController = new AbortController();
@@ -129,7 +130,15 @@ const Menu = () => {
       {menuItems.map(item => {
         return (
           <>
-          {isOpen[item.id] && <AddOnDialog key={item.id} menuItem={item} open={isOpen} setOpen={setIsOpen} orderMenuItems={orderMenuItems} orderMenuItemAddOns={orderMenuItemAddOns} totalPrice={price} setTotalPrice={setPrice} />}
+          {isOpen[item.id] && <AddOnDialog 
+                                key={item.id}
+                                menuItem={item}
+                                open={isOpen} setOpen={setIsOpen}
+                                orderMenuItems={orderMenuItems}
+                                orderMenuItemAddOns={orderMenuItemAddOns}
+                                totalPrice={price} setTotalPrice={setPrice} 
+                                notes={notes}
+                              />}
           </>
         )
       })}
@@ -137,6 +146,7 @@ const Menu = () => {
                           orderMenuItems={orderMenuItems} setOrderMenuItems={setOrderMenuItems}
                           orderMenuItemsAddOns={orderMenuItemAddOns} setOrderMenuItemAddOns={setOrderMenuItemAddOns}
                           price={price} setPrice={setPrice}
+                          notes={notes} setNotes={setNotes}
                           isOpen={openCheckout} setIsOpen={setOpenCheckout}
                       />}
     </div>
