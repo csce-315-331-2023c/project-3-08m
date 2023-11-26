@@ -21,6 +21,9 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
                 });
                 var res = await response.json();
                 for (const item of res.response) {
+                    if (selected[item.id] !== undefined) {
+                        continue;
+                    }
                     selected[item.id] = false;
                 }
                 setSelected({...selected});
@@ -63,17 +66,21 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
 
     console.log(addOns);
 
-    var text = [];
-    for (const item of addOns) {
-        if (item !== 'default') {
-            text.push(item.name);
+    try {
+        var text = [];
+        for (const item of addOns) {
+            if (item !== 'default') {
+                text.push(item.name);
+            }
+        }
+        var translation = TranslateBulk(text);
+        for (let i = 0; i < translation.length && i < addOns.length; ++i) {
+            addOns[i].name = translation[i];
         }
     }
-    var translation = TranslateBulk(text);
-    for (let i = 0; i < translation.length && i < addOns.length; ++i) {
-        addOns[i].name = translation[i];
+    catch (error) {
+        console.log(error);
     }
-    // setAddOns([...addOns]);
 
     if (addOns === undefined || addOns[0] === 'default') {
         return <div></div>
