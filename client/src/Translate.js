@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Translate.css";
 // import { Dialog } from '@headlessui/react';
-import { Dialog, List, ListItem, ListItemButton, ListItemText, Button, DialogTitle, Box } from '@mui/material';
+import { Dialog, List, ListItem, ListItemButton, ListItemText, IconButton, DialogTitle, Box } from '@mui/material';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_TL_API_KEY;
 // console.log(API_KEY);
@@ -294,31 +295,58 @@ export function LanguageDialog() {
     }
 
     return (
-        <Box style={{maxHeight: 200, overflow: 'auto'}}>
-            <Button onClick={() => setIsOpen(true)}>Languages</Button>
-            {isOpen &&
+        // <Box style={{maxHeight: 200, overflow: 'auto'}}>
+            // <Button sx={{ color: 'white' }} onClick={() => setIsOpen(true)}>Languages
+            // {isOpen &&
+            //     <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth>
+            //         <DialogTitle>Select Language</DialogTitle>
+            //         <List>
+            //         {
+            //             Object.entries(langAbbrevs2).map(([k,v]) => {
+            //                 return (
+            //                     <ListItem
+            //                         key={k}
+            //                         disablePadding
+            //                         dense
+            //                     >
+            //                         <ListItemButton onClick={() => ChangeLanguage(v)}>
+            //                             <ListItemText>{k}</ListItemText>
+            //                         </ListItemButton>
+            //                     </ListItem>
+            //                 );
+            //             })
+            //         }
+            //         </List>
+            //     </Dialog>
+            // }
+            // </Button>
+            <div>
+            <IconButton 
+                onClick={() => setIsOpen(true)} 
+                aria-label="Languages"
+                sx={{ color: 'white' }} // Apply white color to the icon
+                >
+                <TranslateIcon />
+                </IconButton>
+                {isOpen &&
                 <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth>
                     <DialogTitle>Select Language</DialogTitle>
                     <List>
-                    {
-                        Object.entries(langAbbrevs2).map(([k,v]) => {
-                            return (
-                                <ListItem
-                                    key={k}
-                                    disablePadding
-                                    dense
-                                >
-                                    <ListItemButton onClick={() => ChangeLanguage(v)}>
-                                        <ListItemText>{k}</ListItemText>
-                                    </ListItemButton>
-                                </ListItem>
-                            );
-                        })
-                    }
+                    {Object.entries(langAbbrevs2).map(([k, v]) => (
+                        <ListItem
+                        key={k}
+                        disablePadding
+                        dense
+                        >
+                        <ListItemButton onClick={() => ChangeLanguage(v)}>
+                            <ListItemText primary={k} />
+                        </ListItemButton>
+                        </ListItem>
+                    ))}
                     </List>
                 </Dialog>
-            }
-        </Box>
+                }
+            </div>
     );
     
     // return (
