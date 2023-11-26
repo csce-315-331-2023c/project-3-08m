@@ -49,6 +49,9 @@ const LandingPage = () => {
           <li>
             <NavLink to="/customer" className={({ isActive }) => isActive ? 'active' : ''}>Customer</NavLink>
           </li>
+          <li>
+            <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : ''}>Log-In</NavLink>
+          </li>
         </ul>
       </nav>
 
@@ -59,6 +62,7 @@ const LandingPage = () => {
         <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
         <Route path="/menu_board" element={<MenuBoard />} />
         <Route path="/customer" element={<CustomerPOS />} />
+        <Route path="/login/*" element={<LoginPage />} />
       </Routes>
     </div>
     // <div>
