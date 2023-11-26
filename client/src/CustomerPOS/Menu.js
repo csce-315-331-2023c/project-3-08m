@@ -112,7 +112,7 @@ const Menu = () => {
   return (
     <div>
       {/* <LanguageDialog /> */}
-      <Button onClick={() => setOpenCheckout(true)}>Checkout</Button>
+      <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button>
       <div className="menu">
         {/* <button> */}
         {menuItems.map(item => {
