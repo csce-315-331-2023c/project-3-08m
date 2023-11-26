@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import { BrowserRouter, NavLink,Route,Routes} from 'react-router-dom';
+import { AppBar, Toolbar, Tabs, Tab } from '@mui/material';
 import ManagerPOS from './ManagerPOS/ManagerPOS';
 import CashierPOS from './CashierPOS/CashierPOS';
 import MenuBoard from './MenuBoard/MenuBoard';
@@ -19,6 +20,15 @@ function App() {
         <LandingPage />
       </div>
     </BrowserRouter>
+  );
+}
+
+function LinkTab(props) {
+  return (
+    <Tab
+      component={NavLink}
+      {...props}
+    />
   );
 }
 
@@ -55,6 +65,28 @@ const LandingPage = () => {
         <Route path="/login/*" element={<LoginPage />} />
       </Routes>
     </div>
+    // <div>
+    //   <AppBar position="static">
+    //     <Toolbar>
+    //       <Tabs aria-label="navigation tabs">
+    //         <LinkTab label="Manager" to="/manager" />
+    //         <LinkTab label="Cashier" to="/cashier" />
+    //         <LinkTab label="Menu Board" to="/menu_board" />
+    //         <LinkTab label="Customer" to="/customer" />
+    //       </Tabs>
+    //     </Toolbar>
+    //   </AppBar>
+
+    //   <Routes>
+    //     <Route path="/manager/*" element={<ManagerPOS />} />
+    //     <Route path="/cashier/*" element={<CashierPOS />} />
+    //     <Route path="/cashier/add-ons" element={<AddAddOns />} />
+    //     <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
+    //     <Route path="/menu_board" element={<MenuBoard />} />
+    //     <Route path="/customer" element={<CustomerPOS />} />
+    //     <Route path="/checkout" element={<Checkout />} />
+    //   </Routes>
+    // </div>
   );
 }
 

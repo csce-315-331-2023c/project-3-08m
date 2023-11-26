@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import MenuTable from '../components/Tables/MenuTable';
 import PopularityReport from '../components/Reports/PopularityReport'; // Ensure correct path
 import { Box, Button, ThemeProvider } from '@mui/material';
-import theme from '../theme';
+import theme from '../../theme';
 
 const Menu = () => {
   const [showPopularityReport, setShowPopularityReport] = useState(false);

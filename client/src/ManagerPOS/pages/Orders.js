@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import OrdersTable from '../components/Tables/OrdersTable';
 import SalesReport from '../components/Reports/SalesReport'; // Updated import
 import { Box, Button, ThemeProvider,  } from '@mui/material';
-import theme from '../theme';
+import theme from '../../theme';
 // import './Orders.css';
 
 

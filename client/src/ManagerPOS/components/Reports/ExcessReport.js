@@ -5,7 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ThemeProvider,  Dialog, Button, DialogTitle, DialogContent } from '@mui/material';
 import { Box } from '@mui/material';
 import ExcessReportTable from './ExcessReportTable';
-import theme from '../../theme';
+import theme from '../../../theme';
 // import './Reports.css';
 
 const ExcessReport = ({ isOpen, onClose }) => {

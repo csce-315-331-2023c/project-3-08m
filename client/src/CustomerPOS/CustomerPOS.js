@@ -7,8 +7,8 @@ const CustomerPOS = () => {
   return (
     <div>
       <h2>
-        Menu
-        <LanguageDialog />
+        {/* Menu */}
+        {/* <LanguageDialog /> */}
       </h2>
       <Menu />
     </div>

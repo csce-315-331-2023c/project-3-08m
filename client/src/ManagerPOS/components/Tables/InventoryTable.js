@@ -9,7 +9,7 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
-import theme from '../../theme';
+import theme from '../../../theme';
 import { ThemeProvider } from '@emotion/react';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';

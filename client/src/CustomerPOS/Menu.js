@@ -5,7 +5,10 @@ import { TranslateBulk, LanguageDialog } from '../Translate';
 import { AddOnDialog } from './AddOns';
 import MenuItemCard from './components/MenuItemCard';
 import { CheckoutDialog } from './components/Checkout';
-import { Button } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider} from '@mui/material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import alleyLogo from './assets/the_alley_logo.png';
+import theme from '../theme';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
@@ -111,8 +114,30 @@ const Menu = () => {
 
   return (
     <div>
-      {/* <LanguageDialog /> */}
-      <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button>
+     <ThemeProvider theme={theme}>
+     <AppBar position="static">
+         <Toolbar sx={{ justifyContent: 'space-between' }}>
+           
+         <Box sx={{mb:1, mt:1, flexGrow: 1 }}>
+           <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
+         </Box>  
+           <LanguageDialog />
+           <div>
+           {/* <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
+           <IconButton 
+              onClick={() => setOpenCheckout(true)} 
+              aria-label="View Order and Checkout" 
+              sx={{ color: 'white' }} // Apply white color to the icon
+            >
+              <ShoppingCartIcon />
+          </IconButton>
+        </div>
+      </Toolbar>
+    </AppBar>
+    </ThemeProvider>
+    <Box sx={{ m:3}}></Box>
+      {/* <LanguageDialog />
+      <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
       <div className="menu">
         {/* <button> */}
         {menuItems.map(item => {
