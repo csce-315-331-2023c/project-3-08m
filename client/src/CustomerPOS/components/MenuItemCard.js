@@ -11,7 +11,7 @@ function MenuItemCard({ title, price, imageUrl }) {
       boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
       overflow: 'hidden',
       transition: 'box-shadow 0.3s ease',
-      width: '564px',
+      width: '520px',
       maxWidth: '600px', // Set max width
       '&:hover': {
         boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
