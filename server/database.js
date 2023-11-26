@@ -3,7 +3,8 @@ const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const axios = require('axios');
-const session = require('express-session');
+// const session = require('express-session');
+const session = require('cookie-session');
 
 const app = express();
 app.use(cors());
@@ -12,7 +13,7 @@ const port = process.env.PORT || 9000;
 console.log(port);
 
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.GITHUB_CLIENT_SECRET,
     resave: false,
     saveUninitialized: false,
 }));
