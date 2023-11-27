@@ -49,13 +49,19 @@ const handleUpdate = (type, updateVals) => {
 }
 
 function AddToolbar(props) {
-  const { setAddOns, setRowModes } = props;
+  const { setAddOns, setRowModes, inAdd, setInAdd } = props;
+  // const [ inEdit, setInEdit ] = useState(false);
   var id = '';
   const handleAdd = () => {
+    // console.log(addOns);
+    if (inAdd) {
+      return;
+    }
     // if (id !== '') {
     setAddOns((oldRows) => [...oldRows, {id, isNew: true }]);
     // }
     setRowModes((oldModes) => ({...oldModes, [id]: { mode: GridRowModes.Edit, fieldToFocus: 'id'}}));
+    setInAdd(true);
   }
   return (
     <ThemeProvider theme={theme}>
@@ -75,6 +81,7 @@ const AddOnsTable = () => {
   const [addOns, setAddOns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [ inAdd, setInAdd ] = useState(false);
 
   useEffect(() => {
     fetch(serverURL+'/addOns')
@@ -126,6 +133,7 @@ const AddOnsTable = () => {
     setRowModes({...rowModes, [id]: {mode: GridRowModes.View, ignoreModifications: true}});
     const editedRow = addOns.find((row) => row.id === id);
     if (editedRow.isNew) {
+      setInAdd(false);
       setAddOns(addOns.filter((row) => row.id !== id));
     }
   }
@@ -135,6 +143,7 @@ const AddOnsTable = () => {
     // newRow holds the updated row
     // event holds the old row
     if (newRow.isNew) {
+      setInAdd(false);
       if (newRow.id === '') {
         setAddOns(addOns.filter((row) => (row.id !== '')));
         return newRow;
@@ -272,7 +281,7 @@ const AddOnsTable = () => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setAddOns, setRowModes }
+          toolbar: { setAddOns, setRowModes, inAdd, setInAdd }
         }}
         initialState={{
           sorting: {
