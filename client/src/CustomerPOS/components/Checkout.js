@@ -11,7 +11,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     const [ isEditOpen, setIsEditOpen ] = useState({});
     const [ rows, setRows ] = useState([]);
     const [ orderSubmitted, setOrderSubmitted ] = useState(false);
-    // const [ zeroOrder, setZeroOrder ] = useState(false);
+    const [ cancelOpen, setCancelOpen ] = useState(false);
 
     const handleDelete = (id, subPrice) => () => {
         var newMenuItems = [];
@@ -184,6 +184,25 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setIsOpen(false);
     }
 
+    const handleCancel = () => {
+        setCancelOpen(true);
+        // setPrice(0);
+        // setOrderMenuItemAddOns([]);
+        // setOrderMenuItems([]);
+        // setNotes([]);
+        // setOrderSubmitted(false);
+        // setIsOpen(false);
+    }
+
+    const handleCancelOk = () => {
+        setPrice(0);
+        setOrderMenuItemAddOns([]);
+        setOrderMenuItems([]);
+        setNotes([]);
+        // setOrderSubmitted(false);
+        setIsOpen(false);
+    }
+
     for (let i = 0; i < orderMenuItems.length; ++i) {
         if (isEditOpen[i] === undefined) {
             return <div></div>
@@ -263,8 +282,11 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 {/* </Box> */}
                 {/* </Box> */}
                 <br></br>
-                <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-                <Button color='primary' variant='contained'onClick={checkout}>Checkout</Button>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between'}} >
+                    <Button onClick={handleCancel}>Cancel Order</Button>
+                {/* <Button onClick={() => setIsOpen(false)}>Cancel</Button> */}
+                    <Button color='primary' variant='contained' onClick={checkout}>Checkout</Button>
+                </Box>
                 </ThemeProvider> 
                 </DialogContent> 
              {/* </Box> */}
@@ -277,10 +299,14 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             </Dialog>
             :
             <Dialog open={orderSubmitted}>
-                <DialogTitle>No Orders to Checkout!</DialogTitle>
+                <DialogTitle>No Items to Checkout!</DialogTitle>
                 <Button onClick={handleOk}>Ok</Button>
             </Dialog>
         }
+            <Dialog open={cancelOpen}>
+                <DialogTitle>Order Cancelled!</DialogTitle>
+                <Button onClick={handleCancelOk}>Ok</Button>
+            </Dialog>
         
         {
             rows.map((item) => {
