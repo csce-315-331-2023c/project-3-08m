@@ -1493,7 +1493,7 @@ async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amou
     try {
         await pool
             .query(
-                "INSERT INTO inventory (id, name, last_restock_date, amount_remaining, amount_used, minimum_amount) VALUES (" +
+                "INSERT INTO inventory (id, name, last_restock_date, amount_remaining, amount_used, min_amount) VALUES (" +
                 id + ", \'" + name + "\', \'" + lastRestockDate + "\', " + amountRemaining + ", " + amountUsed + ", " + minimumAmount + ");"
             );
         return true;

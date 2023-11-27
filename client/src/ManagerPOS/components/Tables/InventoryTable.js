@@ -152,7 +152,11 @@ const InventoryTable = () => {
         return newRow;
       }
       else {
-        console.log(newRow);
+        if (inventory.filter((row) => (row.id === newRow.id)).length != 0) {
+          setInventory(inventory.filter((row) => (row.id !== '')));
+          return newRow;
+        }
+        // console.log(newRow);
         const updatedRow = { ...newRow, isNew: false};
         setInventory(inventory.map((row) => (row.id === '' ? updatedRow : row)));
         handleUpdate('add', {'id': newRow.id, 'name': newRow.name, 'lastRestockDate': newRow.last_restock_date, 'amountUsed': newRow.amount_used, 'amountRemaining': newRow.amount_remaining, 'minimumAmount': newRow.min_amount});

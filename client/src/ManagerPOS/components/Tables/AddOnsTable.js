@@ -149,7 +149,11 @@ const AddOnsTable = () => {
         return newRow;
       }
       else {
-        console.log(newRow);
+        // console.log(newRow);
+        if (addOns.filter((row) => (row.id === newRow.id)).length != 0) {
+          setAddOns(addOns.filter((row) => (row.id !== '')));
+          return newRow;
+        }
         const updatedRow = { ...newRow, isNew: false};
         setAddOns(addOns.map((row) => (row.id === '' ? updatedRow : row)));
         handleUpdate('add', {'id': newRow.id, 'name': newRow.name, 'price': newRow.price, 'inventoryId': newRow.inventory_id});
