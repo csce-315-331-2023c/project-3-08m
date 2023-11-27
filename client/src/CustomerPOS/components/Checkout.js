@@ -11,7 +11,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     const [ isEditOpen, setIsEditOpen ] = useState({});
     const [ rows, setRows ] = useState([]);
     const [ orderSubmitted, setOrderSubmitted ] = useState(false);
-    const [ zeroOrder, setZeroOrder ] = useState(false);
+    // const [ zeroOrder, setZeroOrder ] = useState(false);
 
     const handleDelete = (id, subPrice) => () => {
         var newMenuItems = [];
@@ -125,11 +125,15 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     }, []);
 
     const checkout = () => {
-        // console.log('asdf');
-        if (price.toFixed(2) === '0.00' || price.toFixed(2) === '-0.00') {
-            setZeroOrder(true);
+        if (orderMenuItems.length === 0) {
+            setOrderSubmitted(true);
             return;
         }
+        // console.log('asdf');
+        // if (price.toFixed(2) === '0.00' || price.toFixed(2) === '-0.00') {
+        //     setZeroOrder(true);
+        //     return;
+        // }
         var menuItemIds = [];
         var menuItemAddOnIds = [];
         for (let i = 0; i < orderMenuItems.length; ++i) {
@@ -165,6 +169,10 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     }
 
     const handleOk = () => {
+        if (orderMenuItems.length === 0) {
+            setOrderSubmitted(false);
+            return;
+        }
         setPrice(0);
         setOrderMenuItemAddOns([]);
         setOrderMenuItems([]);
@@ -210,8 +218,8 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                     </Box>
                 </DialogTitle>
                 <DialogContent sx={{// Prevent scroll on the dialog content
-    flex: '1 1 auto', // DialogContent will expand to fill the space, minus the DialogTitle
-  }}> 
+                    flex: '1 1 auto', // DialogContent will expand to fill the space, minus the DialogTitle
+                }}> 
                     <ThemeProvider theme={theme}>
                 <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText>
                 {/* <Box sx={{ height: '70vh'}}>  */}
@@ -222,18 +230,22 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 {/* </Box> */}
                 <Button onClick={() => setIsOpen(false)}>Cancel</Button>
                 <Button color='primary' variant='contained'onClick={checkout}>Checkout</Button>
-             </ThemeProvider> 
-             </DialogContent> 
+                </ThemeProvider> 
+                </DialogContent> 
              {/* </Box> */}
             </Dialog>
+        {       
+            orderMenuItems.length !== 0 ?
             <Dialog open={orderSubmitted}>
                 <DialogTitle>Order Submitted!</DialogTitle>
                 <Button onClick={handleOk}>Ok</Button>
             </Dialog>
-            <Dialog open={zeroOrder}>
+            :
+            <Dialog open={orderSubmitted}>
                 <DialogTitle>No Orders to Checkout!</DialogTitle>
-                <Button onClick={() => setZeroOrder(false)}>Ok</Button>
+                <Button onClick={handleOk}>Ok</Button>
             </Dialog>
+        }
         
         {
             rows.map((item) => {
