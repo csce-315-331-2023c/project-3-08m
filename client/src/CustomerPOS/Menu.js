@@ -114,24 +114,24 @@ const Menu = () => {
 
   return (
     <div>
-     <ThemeProvider theme={theme}>
-     <AppBar position="static">
-         <Toolbar sx={{ justifyContent: 'space-between' }}>
-           
-         <Box sx={{mb:1, mt:1, flexGrow: 1 }}>
-           <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-         </Box>  
-           <LanguageDialog />
-           <div>
+      <ThemeProvider theme={theme}>
+      <AppBar position="static">
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          
+          <Box sx={{mb:1, mt:1, flexGrow: 1 }}>
+            <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
+          </Box>  
+          <LanguageDialog />
+          <div>
            {/* <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
-           <IconButton 
-              onClick={() => setOpenCheckout(true)} 
-              aria-label="View Order and Checkout" 
-              sx={{ color: 'white' }} // Apply white color to the icon
-            >
-              <Badge badgeContent={orderMenuItems.length} color='secondary'>
-                <ShoppingCartIcon />
-              </Badge>
+          <IconButton 
+            onClick={() => setOpenCheckout(true)} 
+            aria-label="View Order and Checkout" 
+            sx={{ color: 'white' }} // Apply white color to the icon
+          >
+            <Badge badgeContent={orderMenuItems.length} color='secondary'>
+              <ShoppingCartIcon />
+            </Badge>
           </IconButton>
         </div>
       </Toolbar>
