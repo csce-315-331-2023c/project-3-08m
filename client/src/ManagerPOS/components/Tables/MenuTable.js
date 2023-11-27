@@ -27,8 +27,8 @@ function AddToolbar(props) {
     <>
     {isOpen[''] && <EditDialog key={''} id='' menu={menuItems} setMenu={setMenuItems} open={isOpen} setOpen={setIsOpen}/>}
     <GridToolbarContainer>
-      <Button color='primary' startIcon={<div>+</div>} onClick={handleAdd}>
-        Add Menu Item
+      <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
+        Create New Menu Item
       </Button>
     </GridToolbarContainer>
     </>

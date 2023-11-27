@@ -58,7 +58,7 @@ function AddToolbar(props) {
     <GridToolbarContainer>
       {/* <div style={{flex: '1 1 0%'}} /> */}
       <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
-      <Button color='primary' variant='contained' onClick={handleAdd}>
+      <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
         Create New Inventory Item
       </Button>
       </Box>
