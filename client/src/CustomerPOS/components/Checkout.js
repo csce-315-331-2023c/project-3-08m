@@ -1,8 +1,9 @@
-import { Box, Button, Dialog, DialogContentText, DialogTitle } from '@mui/material';
+import { Box, Button, Dialog, DialogContentText, DialogTitle, DialogContent,ThemeProvider } from '@mui/material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { Edit as EditIcon, Delete as DeleteIcon, Close as CloseIcon } from '@mui/icons-material';
 import { EditDialog } from './EditOrderDialog';
 import { useState, useEffect } from 'react';
+import theme from '../../theme';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -179,18 +180,51 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     }
 
     return (
-        <>
-        <Box sx={{ width: '100%', '& .super-app-theme--header': {
-            backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
-            <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullScreen>
-                <DialogTitle>Checkout</DialogTitle>
+        <Box>
+        {/* <Box sx={{ width: '50%', height:200, '& .super-app-theme--header': {
+            backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}> */}
+            <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth  maxWidth="xl"sx={{'& .MuiDialog-paper': { maxHeight: 'none', height: '90vh', '@media (max-height:800px)': {height: 'calc(100% - 24px)', },},}}>
+            {/* <Box sx={{ width: 800}}> */}
+                <DialogTitle><Box sx={{ 
+                    display: 'flex', // Enable flexbox
+                    justifyContent: 'space-between', // Place items at the start and end of the container
+                    alignItems: 'center', // Align items vertically at the center
+                    }}>
+                    <h3>Checkout</h3> {/* Text aligned to left */}
+                    <Button
+                    variant="contained"
+                    onClick={() => setIsOpen(false)}
+                    sx={{
+                        backgroundColor: 'red',
+                        width: '30px',  // Set the width
+                        height: '30px', // Set the height to make it square
+                        minWidth: '30px', // Override minimum width
+                        padding: 0, // Optional: Adjust padding to your preference
+                        '&:hover': {
+                        backgroundColor: 'darkred', // Change for hover state
+                        }
+                    }}
+                    >
+                        <CloseIcon sx={{ color: 'white' }} />
+                    </Button>
+                    </Box>
+                </DialogTitle>
+                <DialogContent sx={{// Prevent scroll on the dialog content
+    flex: '1 1 auto', // DialogContent will expand to fill the space, minus the DialogTitle
+  }}> 
+                    <ThemeProvider theme={theme}>
                 <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText>
+                {/* <Box sx={{ height: '70vh'}}>  */}
                 <DataGrid 
                     columns={columns}
                     rows={rows}
                 />
+                {/* </Box> */}
                 <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-                <Button onClick={checkout}>Checkout</Button>
+                <Button color='primary' variant='contained'onClick={checkout}>Checkout</Button>
+             </ThemeProvider> 
+             </DialogContent> 
+             {/* </Box> */}
             </Dialog>
             <Dialog open={orderSubmitted}>
                 <DialogTitle>Order Submitted!</DialogTitle>
@@ -200,7 +234,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 <DialogTitle>No Orders to Checkout!</DialogTitle>
                 <Button onClick={() => setZeroOrder(false)}>Ok</Button>
             </Dialog>
-        </Box>
+        
         {
             rows.map((item) => {
                 return (
@@ -215,6 +249,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 );
             })
         }
-        </>
+        </Box>
+        
     );
 }

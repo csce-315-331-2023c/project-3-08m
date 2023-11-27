@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import OrdersTable from '../components/Tables/OrdersTable';
-import SalesReport from '../components/Reports/SalesReport'; // Updated import
 import { Box, Button, ThemeProvider,  } from '@mui/material';
 import InventoryTable from '../components/Tables/InventoryTable';
 import ExcessReport from '../components/Reports/ExcessReport';

@@ -31,15 +31,15 @@ function MenuItemCard({ title, price, imageUrl }) {
         flexDirection: 'column', 
         alignItems: 'flex-start',
       }}>
-        <Box sx={{ m: 1 }} />
+        <Box sx={{ m: 2 }} />
         <Typography variant="h6" component="h3" sx={{ m: 0, color: '#333' }}>
           {title}
         </Typography>
-        <Box sx={{ m: 1 }} />
+        {/* <Box sx={{ m: 1 }} /> */}
         <Typography variant="body1" sx={{ color: '#888' }}>
           {price}
         </Typography>
-        <Box sx={{ m: 1 }} />
+        <Box sx={{ m: 2 }} />
       </Box>
     </Box>
   );
