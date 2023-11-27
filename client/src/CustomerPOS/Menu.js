@@ -143,7 +143,7 @@ const Menu = () => {
         {menuItems.map(item => {
           let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
           if (!(menuPicture in images)) {
-            menuPicture = 'boba.svg';
+            menuPicture = 'boba.png';
           }
           return (
             <div>
