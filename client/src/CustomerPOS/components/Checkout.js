@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogContentText, DialogTitle, DialogContent,ThemeProvider } from '@mui/material';
+import { Box, Button, Dialog, DialogContentText, DialogTitle, DialogContent,ThemeProvider, Stack } from '@mui/material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { Edit as EditIcon, Delete as DeleteIcon, Close as CloseIcon } from '@mui/icons-material';
 import { EditDialog } from './EditOrderDialog';
@@ -23,6 +23,9 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             }
             newMenuItems.push(orderMenuItems[i]);
             newAddOns.push(orderMenuItemsAddOns[i]);
+            if (i > id) {
+                rows[i].id--;
+            }
             newRows.push(rows[i]);
         }
         console.log(subPrice);
@@ -223,11 +226,43 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                     <ThemeProvider theme={theme}>
                 <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText>
                 {/* <Box sx={{ height: '70vh'}}>  */}
-                <DataGrid 
-                    columns={columns}
-                    rows={rows}
-                />
+                {/* <Box style={{maxHeight: 500, overflow: 'auto'}}> */}
+                    <DataGrid 
+                        columns={columns}
+                        rows={rows}
+                        // hideFooter
+                        // hideFooterPagination
+                        hideFooterSelectedRowCount
+                        // tbh idk how this hid the page count lol
+                        initialState={{
+                            pagination: { paginationModel: {pageSize: 8}}
+                        }}
+                        // pageSizeOptions={[8]}
+                        // density='compact'
+                        // rowHeight={20}
+                        // pageSize={20}
+                        autoHeight
+                        minHeight={500}
+                        slots={{
+                            noRowsOverlay: () => {
+                                return (
+                                    <Stack height="100%" alignItems="center" justifyContent="center">
+                                        No Items Ordered!
+                                    </Stack>
+                                );
+                            },
+                            noResultsOverlay: () => {
+                                return (
+                                    <Stack height="100%" alignItems="center" justifyContent="center">
+                                        No Results from Filter
+                                    </Stack>
+                                )
+                            }
+                        }}
+                    />
                 {/* </Box> */}
+                {/* </Box> */}
+                <br></br>
                 <Button onClick={() => setIsOpen(false)}>Cancel</Button>
                 <Button color='primary' variant='contained'onClick={checkout}>Checkout</Button>
                 </ThemeProvider> 
