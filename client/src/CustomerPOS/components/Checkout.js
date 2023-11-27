@@ -9,6 +9,8 @@ const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes}) => {
     const [ isEditOpen, setIsEditOpen ] = useState({});
     const [ rows, setRows ] = useState([]);
+    const [ orderSubmitted, setOrderSubmitted ] = useState(false);
+    const [ zeroOrder, setZeroOrder ] = useState(false);
 
     const handleDelete = (id, subPrice) => () => {
         var newMenuItems = [];
@@ -122,7 +124,11 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     }, []);
 
     const checkout = () => {
-        console.log('asdf');
+        // console.log('asdf');
+        if (price.toFixed(2) === '0.00' || price.toFixed(2) === '-0.00') {
+            setZeroOrder(true);
+            return;
+        }
         var menuItemIds = [];
         var menuItemAddOnIds = [];
         for (let i = 0; i < orderMenuItems.length; ++i) {
@@ -149,10 +155,20 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             }
         }
         sendOrder();
+        setOrderSubmitted(true);
+        // setPrice(0);
+        // setOrderMenuItemAddOns([]);
+        // setOrderMenuItems([]);
+        // setNotes([]);
+        // setIsOpen(false);
+    }
+
+    const handleOk = () => {
         setPrice(0);
         setOrderMenuItemAddOns([]);
         setOrderMenuItems([]);
         setNotes([]);
+        setOrderSubmitted(false);
         setIsOpen(false);
     }
 
@@ -175,6 +191,14 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 />
                 <Button onClick={() => setIsOpen(false)}>Cancel</Button>
                 <Button onClick={checkout}>Checkout</Button>
+            </Dialog>
+            <Dialog open={orderSubmitted}>
+                <DialogTitle>Order Submitted!</DialogTitle>
+                <Button onClick={handleOk}>Ok</Button>
+            </Dialog>
+            <Dialog open={zeroOrder}>
+                <DialogTitle>No Orders to Checkout!</DialogTitle>
+                <Button onClick={() => setZeroOrder(false)}>Ok</Button>
             </Dialog>
         </Box>
         {
