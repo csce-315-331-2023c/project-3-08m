@@ -45,13 +45,18 @@ const handleUpdate = (type, updateVals) => {
 }
 
 function AddToolbar(props) {
-  const { setEmployees, setRowModes } = props;
+  const { setEmployees, setRowModes, inAdd, setInAdd } = props;
   var id = '';
   const handleAdd = () => {
+    if (inAdd) {
+      console.log("hi");
+      return;
+    }
     // if (id !== '') {
     setEmployees((oldRows) => [...oldRows, {id, isNew: true }]);
     // }
     setRowModes((oldModes) => ({...oldModes, [id]: { mode: GridRowModes.Edit, fieldToFocus: 'id'}}));
+    setInAdd(true);
   }
   return (
     <ThemeProvider theme={theme}>
@@ -71,6 +76,7 @@ const EmployeesTable = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [ inAdd, setInAdd ] = useState(false);
 
   // Fetch employees from server
   useEffect(() => {
@@ -136,6 +142,7 @@ const EmployeesTable = () => {
     setRowModes({...rowModes, [id]: {mode: GridRowModes.View, ignoreModifications: true}});
     const editedRow = employees.find((row) => row.id === id);
     if (editedRow.isNew) {
+      setInAdd(false);
       setEmployees(employees.filter((row) => row.id !== id));
     }
   }
@@ -145,6 +152,7 @@ const EmployeesTable = () => {
     // newRow holds the updated row
     // event holds the old row
     if (newRow.isNew) {
+      setInAdd(false);
       if (newRow.id === '') {
         setEmployees(employees.filter((row) => (row.id !== '')));
         return newRow;
@@ -300,7 +308,7 @@ const EmployeesTable = () => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setEmployees, setRowModes }
+          toolbar: { setEmployees, setRowModes, inAdd, setInAdd }
         }}
         initialState={{
           sorting: {

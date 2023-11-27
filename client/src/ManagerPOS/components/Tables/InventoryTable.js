@@ -45,13 +45,17 @@ const handleUpdate = (type, updateVals) => {
 }
 
 function AddToolbar(props) {
-  const { setInventory, setRowModes } = props;
+  const { setInventory, setRowModes, inAdd, setInAdd } = props;
   var id = '';
   const handleAdd = () => {
+    if (inAdd) {
+      return;
+    }
     // if (id !== '') {
     setInventory((oldRows) => [...oldRows, {id, isNew: true }]);
     // }
     setRowModes((oldModes) => ({...oldModes, [id]: { mode: GridRowModes.Edit, fieldToFocus: 'id'}}));
+    setInAdd(true);
   }
   return (
     <ThemeProvider theme={theme}>
@@ -71,6 +75,7 @@ const InventoryTable = () => {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [ inAdd, setInAdd ] = useState(false);
 
   const formatDateTime = (dateTime) => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric'};
@@ -131,6 +136,7 @@ const InventoryTable = () => {
     setRowModes({...rowModes, [id]: {mode: GridRowModes.View, ignoreModifications: true}});
     const editedRow = inventory.find((row) => row.id === id);
     if (editedRow.isNew) {
+      setInAdd(false);
       setInventory(inventory.filter((row) => row.id !== id));
     }
   }
@@ -140,6 +146,7 @@ const InventoryTable = () => {
     // newRow holds the updated row
     // event holds the old row
     if (newRow.isNew) {
+      setInAdd(false)
       if (newRow.id === '') {
         setInventory(inventory.filter((row) => (row.id !== '')));
         return newRow;
@@ -307,7 +314,7 @@ const InventoryTable = () => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setInventory, setRowModes }
+          toolbar: { setInventory, setRowModes, inAdd, setInAdd }
         }}
         initialState={{
           sorting: {
