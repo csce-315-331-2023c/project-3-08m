@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Translate.css";
 // import { Dialog } from '@headlessui/react';
-import { Dialog, List, ListItem, ListItemButton, ListItemText, IconButton, DialogTitle, Box } from '@mui/material';
+import { Dialog, List, ListItem, ListItemButton, ListItemText, IconButton, DialogTitle, Box, Badge } from '@mui/material';
 import TranslateIcon from '@mui/icons-material/Translate';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_TL_API_KEY;
@@ -288,11 +288,28 @@ const dropDownSymbol = 'V';
 export function LanguageDialog() {
     let [isOpen, setIsOpen] = useState(false);
 
-    const ChangeLanguage = (language, e) => {
+    const ChangeLanguage = (name, language) => {
         sessionStorage.setItem("language", language);
+        sessionStorage.setItem("languageName", name);
         window.location.reload(false);
         setIsOpen(false);
     }
+
+    // function languageBadgeContent() {
+    //     if (sessionStorage.getItem("languageName") === null || sessionStorage.getItem("languageName") === 'English') {
+    //         return '';
+    //     }
+    //     return sessionStorage.getItem("languageName");
+    // }
+
+    // function languageBadgeShow() {
+    //     if (sessionStorage.getItem("languageName") === null || sessionStorage.getItem("languageName") === 'English') {
+    //         console.log("yay");
+    //         return false;
+    //     }
+    //     console.log('huh');
+    //     return true;
+    // }
 
     return (
         // <Box style={{maxHeight: 200, overflow: 'auto'}}>
@@ -326,6 +343,17 @@ export function LanguageDialog() {
                 aria-label="Languages"
                 sx={{ color: 'white' }} // Apply white color to the icon
                 >
+                {/* {
+                    languageBadgeShow() ? 
+                    <Badge badgeContent={languageBadgeContent()} color="secondary"
+                        anchorOrigin={{vertical: 'bottom', horizontal: 'bottom'}}
+                        sx={{ "& .MuiBadge-badge": { fontSize: 9, maxWidth: 1000 } }}
+                    >
+                        <TranslateIcon />
+                    </Badge>
+                    :
+                    <TranslateIcon />
+                } */}
                 <TranslateIcon />
                 </IconButton>
                 {isOpen &&
@@ -338,7 +366,7 @@ export function LanguageDialog() {
                         disablePadding
                         dense
                         >
-                        <ListItemButton onClick={() => ChangeLanguage(v)}>
+                        <ListItemButton onClick={() => ChangeLanguage(k,v)}>
                             <ListItemText primary={k} />
                         </ListItemButton>
                         </ListItem>

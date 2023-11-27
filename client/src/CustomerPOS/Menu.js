@@ -5,7 +5,7 @@ import { TranslateBulk, LanguageDialog } from '../Translate';
 import { AddOnDialog } from './AddOns';
 import MenuItemCard from './components/MenuItemCard';
 import { CheckoutDialog } from './components/Checkout';
-import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider} from '@mui/material';
+import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider, Badge} from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import alleyLogo from './assets/the_alley_logo.png';
 import theme from '../theme';
@@ -104,7 +104,7 @@ const Menu = () => {
   }
 
   // console.log(menuItems);
-  console.log(isOpen);
+  // console.log(isOpen);
 
   for (const item of menuItems) {
     if (isOpen[item.id] === undefined) {
@@ -129,7 +129,9 @@ const Menu = () => {
               aria-label="View Order and Checkout" 
               sx={{ color: 'white' }} // Apply white color to the icon
             >
-              <ShoppingCartIcon />
+              <Badge badgeContent={orderMenuItems.length} color='secondary'>
+                <ShoppingCartIcon />
+              </Badge>
           </IconButton>
         </div>
       </Toolbar>
