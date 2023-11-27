@@ -39,6 +39,7 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
     const [ nameText, setNameText ] = useState(menuItem.name || "");
     const [ priceText, setPriceText ] = useState(menuItem.price || "");
     const [ idText, setIdText ] = useState(menuItem.id || '');
+    const [ errorIdText, setErrorIdText ] = useState(" ");
 
     useEffect(() => {
         setIdText(menuItem.id);
@@ -201,6 +202,9 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
     }
 
     const handleSave = (id) => {
+        if (errorIdText != ' ') {
+            return;
+        }
         console.log(id);
         var changedMenuItem = {'name': nameText, 'price': priceText, 'id': idText};
         console.log(changedMenuItem);
@@ -228,7 +232,7 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
         }
         changedMenuItem['inventoryItems'] = inventory;
         if (id !== '') {
-            console.log(changedMenuItem);
+            // console.log(changedMenuItem);
             for (const item of changed) {
                 handleUpdate(item, {'id': menuItem.id, [item]: changedMenuItem[item]});
                 // console.log({'id': menuItem.id, [item]: changedMenuItem[item]});
@@ -237,14 +241,21 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
             setMenuItem({'id': changedMenuItem.id, 'name': changedMenuItem.name, 'price': changedMenuItem.price});
         }
         else {
-            handleUpdate('add', {'id': changedMenuItem.id, 'name': changedMenuItem.name, 'price': changedMenuItem.price, 'addOns': changedMenuItem.addOns, 'inventoryItems': changedMenuItem.inventoryItems});
-            setMenu([...menu, {'id': changedMenuItem.id, 'name': changedMenuItem.name, 'price': changedMenuItem.price}]);
+            handleUpdate('add', {'id': Number(changedMenuItem.id), 'name': changedMenuItem.name, 'price': Number(changedMenuItem.price), 'addOns': changedMenuItem.addOns, 'inventoryItems': changedMenuItem.inventoryItems});
+            setMenu([...menu, {'id': Number(changedMenuItem.id), 'name': changedMenuItem.name, 'price': Number(changedMenuItem.price)}]);
         }
         handleCancel(id);
     }
 
     const handleID = (event) => {
         // console.log(event.target.value);
+        console.log(menu.filter((row) => (row.id === Number(event.target.value))));
+        if (menu.filter((row) => (row.id === Number(event.target.value))).length != 0) {
+            setErrorIdText("ID in use");
+        }
+        else {
+            setErrorIdText(" ");
+        }
         setIdText(event.target.value)
     }
 
@@ -262,31 +273,6 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
     // console.log(selectedInventory);
 
     return (
-        // <Box>
-    //     <Dialog open={open[id]} onClose={() => handleCancel(id)} fullWidth>
-    //     <DialogTitle>{menuItem.name}</DialogTitle>
-    //     <Box sx={{ m: 1, width: '100%' }}>
-    //         <Box sx={{ display: 'flex', gap: 2 }}>
-    //             <Box flex={1}>
-    //                 <TextField required size='small' label="ID" defaultValue={menuItem.id || ''} onChange={handleID} disabled={id !== ''} />
-    //             </Box>
-    //             <Box flex={3}>
-    //                 <TextField required size='small' label="Name" defaultValue={menuItem.name || ''} onChange={handleName} />
-    //             </Box>
-    //             <Box flex={1}>
-    //                 <TextField required size='small' label="Price" defaultValue={menuItem.price || ''} onChange={handlePrice} />
-    //             </Box>
-    //         </Box>
-    
-    //         <AddOnsCheckbox isChecked={selectedAddOns} setIsChecked={setSelectedAddOns} />
-    //         <InventoryCheckbox isChecked={selectedInventory} setIsChecked={setSelectedInventory} />
-    
-    //         <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1, mt: 2 }}>
-    //             <Button color="primary" onClick={() => handleCancel(id)}>Cancel</Button>
-    //             <Button variant="contained" color="primary" onClick={() => handleSave(id)}>Save</Button>
-    //         </Box>
-    //     </Box>
-    // </Dialog>
     <Dialog open={open[id]} onClose={() => handleCancel(id)} fullWidth>
     {/* <DialogTitle>{menuItem.name}</DialogTitle> */}
     <Box sx={{ m: 3}}>
@@ -294,13 +280,13 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
         <Box sx={{m:3}}></Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Box sx={{ flexGrow: 0, flexBasis: '20%' }}>
-                <TextField required size='small' label="ID" defaultValue={menuItem.id || ''} onChange={handleID} disabled={id !== ''} />
+                <TextField required size='small' label="ID" defaultValue={menuItem.id || ''} onChange={handleID} disabled={id !== ''} error={errorIdText !== ' '} helperText={errorIdText} />
             </Box>
             <Box sx={{ flexGrow: 1, flexBasis: '60%' }}>
-                <TextField required size='small' label="Name" defaultValue={menuItem.name || ''} onChange={handleName} fullWidth />
+                <TextField required size='small' label="Name" defaultValue={menuItem.name || ''} onChange={handleName} fullWidth helperText=' ' />
             </Box>
             <Box sx={{ flexGrow: 0, flexBasis: '20%' }}>
-                <TextField required size='small' label="Price" defaultValue={menuItem.price || ''} onChange={handlePrice} />
+                <TextField required size='small' label="Price" defaultValue={menuItem.price || ''} onChange={handlePrice} helperText=' ' />
             </Box>
         </Box>
         <Box sx={{m:2}}></Box>

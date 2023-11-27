@@ -49,7 +49,7 @@ function AddToolbar(props) {
   var id = '';
   const handleAdd = () => {
     if (inAdd) {
-      console.log("hi");
+      // console.log("hi");
       return;
     }
     // if (id !== '') {
@@ -158,7 +158,12 @@ const EmployeesTable = () => {
         return newRow;
       }
       else {
-        console.log(newRow);
+        // console.log(newRow);
+        console.log(employees.filter((row) => (row.id === newRow.id)))
+        if (employees.filter((row) => (row.id === newRow.id)).length != 0) {
+          setEmployees(employees.filter((row) => (row.id !== '')));
+          return newRow;
+        }
         const updatedRow = { ...newRow, isNew: false};
         setEmployees(employees.map((row) => (row.id === '' ? updatedRow : row)));
         handleUpdate('add', {'id': newRow.id, 'username': newRow.username, 'password': newRow.password, 'name': newRow.name, 'startDate': newRow.start_date, 'salary': newRow.salary, 'position': newRow.position});
