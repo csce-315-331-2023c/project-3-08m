@@ -91,8 +91,8 @@ const GenerateMenu = () => {
         <ul>
           {menuItems.map((item) => (
             <button
+              class="menu_button"
               type="button"
-              className="btn btn-primary"
               key={item.id}
               onClick={() => handleMenuItemClick(item)}
             >

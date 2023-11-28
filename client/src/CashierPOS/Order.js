@@ -3,21 +3,32 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+var price = 0;
 const Order = () => {
   const dispatch = useDispatch();
   const menuItems = useSelector((state) => state.menuItems);
   const addons = useSelector((state) => state.addons);
   const ordersEntered = useSelector((state) => state.ordersEntered);
 
+  price = 0;
+    ordersEntered.forEach((item) => {
+      price += item.menuItem.price;
+      item.addOnList.forEach((addon) => {
+        price += addon.price;
+      });
+  }, 0);
+
   const checkout = () => {
     //insert code to send order to database
-    var price = 0;
+    price = 0;
     ordersEntered.forEach((item) => {
       price += item.menuItem.price;
       item.addOnList.forEach((addon) => {
         price += addon.price;
       });
     }, 0);
+
+    price = price * 1.0825;
     
     const orderIds = ordersEntered.map((item) => item.menuItem.id);
     const addonsIds = ordersEntered.map((item) => item.addOnList.map((addon) => addon.id));
@@ -49,8 +60,7 @@ const Order = () => {
     console.log("itemAddons: ", itemAddons);
     return (
       <div key={item.menuItem.name} className="orderItem">
-        <div className="orderItemName">{item.menuItem.name}</div>
-        <div className="orderItemPrice">${orderPrice.toFixed(2)}</div>
+        <div className="orderItemName">{item.menuItem.name} ${orderPrice.toFixed(2)}</div>
         <div className="orderItemAddons">
           {itemAddons.map((addon) => (
             <div key={addon.id} className="orderItemAddon">
@@ -73,7 +83,9 @@ const Order = () => {
         <div></div>
       )}
       <div className="totals">
-        {/* Display total, tax, etc. as needed */}
+        <h2>Subtotal: {price.toFixed(2)}</h2>
+        <h2>Tax: {(price * 0.0825).toFixed(2)}</h2>
+        <h2>Total: {(price * 1.0825).toFixed(2)}</h2>
       </div>
       <div className='position-relative'>
         <button type="button" className="btn btn-success btn-lg" onClick={checkout}>

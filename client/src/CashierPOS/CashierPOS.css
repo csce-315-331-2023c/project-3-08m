@@ -1,20 +1,37 @@
 .cashier-container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .left-half,
-  .right-half {
-    flex: 1;
-    overflow: auto;
-  }
-  
-  .left-half {
-    background-color: #f0f0f0; /* Adjust the background color as needed */
-    padding: 20px;
-  }
-  
-  .right-half {
-    padding: 20px;
-  }
+  display: flex;
+  height: 100vh;
+}
+
+.left-half,
+.right-half {
+  flex: 1;
+  overflow: auto;
+}
+
+.left-half {
+  background-color: #CFCFCD;
+  padding: 20px;
+}
+
+.right-half {
+  padding: 20px;
+}
+
+.menu_button {
+  background-color: #2E4647;
+  color: white;
+  border: none;
+  padding: 15px 32px;
+  margin: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 300px;
+}
+
+.orderItemAddon {
+  padding-left: 20px;
+}
   
