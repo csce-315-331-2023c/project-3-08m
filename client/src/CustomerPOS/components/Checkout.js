@@ -243,7 +243,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                     flex: '1 1 auto', // DialogContent will expand to fill the space, minus the DialogTitle
                 }}> 
                     <ThemeProvider theme={theme}>
-                <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText>
+                {/* <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText> */}
                 {/* <Box sx={{ height: '70vh'}}>  */}
                 {/* <Box style={{maxHeight: 500, overflow: 'auto'}}> */}
                     <DataGrid 
@@ -282,8 +282,12 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 {/* </Box> */}
                 {/* </Box> */}
                 <br></br>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end'}} >
+                    <h4>Total: {`$${Number(price).toFixed(2)}`}</h4>
+                </Box>
+                <Box sx={{ mb:1}} ></Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between'}} >
-                    <Button onClick={handleCancel}>Cancel Order</Button>
+                    <Button onClick={handleCancel} color='primary' variant='outlined'>Cancel Order</Button>
                 {/* <Button onClick={() => setIsOpen(false)}>Cancel</Button> */}
                     <Button color='primary' variant='contained' onClick={checkout}>Checkout</Button>
                 </Box>
