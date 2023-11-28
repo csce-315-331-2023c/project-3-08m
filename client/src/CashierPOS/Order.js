@@ -88,12 +88,12 @@ const Order = () => {
         <h2>Total: {(price * 1.0825).toFixed(2)}</h2>
       </div>
       <div className='position-relative'>
-        <button type="button" className="btn btn-success btn-lg" onClick={checkout}>
+        <button type="button" class="checkout_button" className="btn btn-success btn-lg" onClick={checkout}>
           Checkout
         </button>
       </div>
       <div className='position-relative'>
-        <button type="button" className="btn btn-danger" onClick={clearOrder}>
+        <button type="button" class="clear_button" className="btn btn-danger" onClick={clearOrder}>
           Clear Orders
         </button>
       </div>
