@@ -9,6 +9,7 @@ import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider, Ba
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import alleyLogo from './assets/the_alley_logo.png';
 import theme from '../theme';
+import { Weather } from '../Weather';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
@@ -118,9 +119,12 @@ const Menu = () => {
       <AppBar position="static">
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           
-          <Box sx={{mb:1, mt:1, flexGrow: 1 }}>
+          <Box sx={{mb:1, mt:1, flexGrow: 2, justifyContent: 'space-between'}}>
             <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-          </Box>  
+            <Box sx={{m: 1}}></Box>
+            <Weather />
+          </Box>
+          {/* <Weather /> */}
           <LanguageDialog />
           <div>
            {/* <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
