@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, NavLink,Route,Routes} from 'react-router-dom';
 import { AppBar, Toolbar, Tabs, Tab } from '@mui/material';
 import ManagerPOS from './ManagerPOS/ManagerPOS';
@@ -10,17 +10,48 @@ import AddAddOns from './CashierPOS/AddAddOns';
 import './App.css'; // Assuming your CSS is in this file
 import './ManagerPOS/components/Tables/table.css';
 import LoginPage from './LoginPage';
+import LoginLanding from './LoginLanding';
+import { Navigate } from 'react-router-dom';
+
+
+
 
 
 function App() {
+  // const navigate = useNavigate();
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [userRole, setUserRole] = useState('');
+
+  // const handleLogin = (role) => {
+  //   setIsLoggedIn(true);
+  //   setUserRole(role);
+  // };
+
   return (
-    <BrowserRouter>
-      <div className="App">
-        {/* <LoginPage /> */}
-        <LandingPage />
-      </div>
-    </BrowserRouter>
+    
+    <Routes>  
+      <Route path="/manager/*" element={<ManagerPOS />} />
+      <Route path="/cashier/*" element={<CashierPOS />} />
+      <Route path="/menu_board" element={<MenuBoard />} />
+      <Route path="/customer/*" element={<CustomerPOS />} />
+      <Route path="/cashier/add-ons" element={<AddAddOns />} />
+      <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
+      <Route path="/menu_board" element={<MenuBoard />} />
+      {/* <Route path="/login/*" element={<LoginLanding onLogin={handleLogin} />} /> */}
+      {/* Redirect to login by default */}
+      <Route path="*" element={<LoginLanding />} />
+    </Routes>
   );
+
+  // return (
+  //   <BrowserRouter>
+  //     <div className="App">
+  //       {/* <LoginPage /> */}
+  //       <LoginLanding />
+  //       {/* <LandingPage /> */}
+  //     </div>
+  //   </BrowserRouter>
+  // );
 }
 
 function LinkTab(props) {
