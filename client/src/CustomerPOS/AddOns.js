@@ -18,6 +18,8 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
     const [ addOns, setAddOns ] = useState([]);
     const [ price, setPrice ] = useState(menuItem.price);
     const [ orderNotes, setOrderNotes ] = useState("");
+    const [ doTL, setDoTL ] = useState(false);
+    const [ translation, setTranslation ] = useState([]);
 
     useEffect(() => {
         var abortController = new AbortController();
@@ -33,7 +35,11 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
                 });
                 var data = await response.json();
                 // console.log(data.response);
+                for (var item of data.response) {
+                    item.enName = item.name;
+                }
                 setAddOns(data.response);
+                setDoTL(true);
             }
             catch (error) {
                 console.error('Error fetching data: ', error);
@@ -46,19 +52,37 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
     }, []);
     // console.log(addOns);
 
-    try {
-        var temp = [];
-        for (const addOn of addOns) {
-            temp.push(addOn.name);
+    useEffect(() => {
+        if (doTL) {
+            var temp = [];
+            for (const item of addOns) {
+                temp.push(item.enName);
+            }
+            TranslateBulk(temp, setTranslation);
+            setDoTL(false);
         }
-        var translations = TranslateBulk(temp);
-        for (let i = 0; i < translations.length && i < addOns.length; ++i) {
-            addOns[i].name = translations[i];
+    }, [doTL]);
+
+    useEffect(() => {
+        for (let i = 0; i < translation.length; ++i) {
+            addOns[i].name = translation[i];
         }
-    }
-    catch (error) {
-        console.log(error);
-    }
+        setAddOns([...addOns]);
+    }, [translation])
+
+    // try {
+    //     var temp = [];
+    //     for (const addOn of addOns) {
+    //         temp.push(addOn.name);
+    //     }
+    //     var translations = TranslateBulk(temp);
+    //     for (let i = 0; i < translations.length && i < addOns.length; ++i) {
+    //         addOns[i].name = translations[i];
+    //     }
+    // }
+    // catch (error) {
+    //     console.log(error);
+    // }
     const [ selectedAddOns, setSelectedAddOns ] = useState({});
 
     const handleClose = (id) => () => {
@@ -73,6 +97,7 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
                 orderItemAddOns.push(item);
             }
         }
+        console.log(orderItemAddOns);
         orderMenuItemAddOns.push(orderItemAddOns);
         totalPrice += price;
         setTotalPrice(totalPrice*1);

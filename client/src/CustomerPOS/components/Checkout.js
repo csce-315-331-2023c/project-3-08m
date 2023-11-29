@@ -4,6 +4,7 @@ import { Edit as EditIcon, Delete as DeleteIcon, Close as CloseIcon } from '@mui
 import { EditDialog } from './EditOrderDialog';
 import { useState, useEffect } from 'react';
 import theme from '../../theme';
+import { TranslateBulk } from '../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 

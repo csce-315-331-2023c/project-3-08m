@@ -285,13 +285,14 @@ const langAbbrevs2 = {
 
 const dropDownSymbol = 'V';
 
-export function LanguageDialog() {
+export function LanguageDialog({setDoTL}) {
     let [isOpen, setIsOpen] = useState(false);
 
     const ChangeLanguage = (name, language) => {
         sessionStorage.setItem("language", language);
         sessionStorage.setItem("languageName", name);
-        window.location.reload(false);
+        // window.location.reload(false);
+        setDoTL(true);
         setIsOpen(false);
     }
 
@@ -312,31 +313,6 @@ export function LanguageDialog() {
     // }
 
     return (
-        // <Box style={{maxHeight: 200, overflow: 'auto'}}>
-            // <Button sx={{ color: 'white' }} onClick={() => setIsOpen(true)}>Languages
-            // {isOpen &&
-            //     <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth>
-            //         <DialogTitle>Select Language</DialogTitle>
-            //         <List>
-            //         {
-            //             Object.entries(langAbbrevs2).map(([k,v]) => {
-            //                 return (
-            //                     <ListItem
-            //                         key={k}
-            //                         disablePadding
-            //                         dense
-            //                     >
-            //                         <ListItemButton onClick={() => ChangeLanguage(v)}>
-            //                             <ListItemText>{k}</ListItemText>
-            //                         </ListItemButton>
-            //                     </ListItem>
-            //                 );
-            //             })
-            //         }
-            //         </List>
-            //     </Dialog>
-            // }
-            // </Button>
             <div>
             <IconButton 
                 onClick={() => setIsOpen(true)} 
@@ -376,143 +352,129 @@ export function LanguageDialog() {
                 }
             </div>
     );
-    
-    // return (
-    //     <>
-    //         <div className="dropdown">
-    //             <button onClick={() => setIsOpen(true)} className="dropdown openButton">
-    //                 {/* {dropDownSymbol} */}
-    //                 Languages
-    //             </button>
-    //         </div>
-    //         <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="dropdown dialog">
-    //             <Dialog.Panel>
-    //                 {/* <Dialog.Title className="dropdown title">Languages</Dialog.Title> */}
-    //                 <Dialog.Description className="dropdown desc">
-    //                     Please select a language
-    //                 </Dialog.Description>
-    //                 <ul>
-    //                 {
-    //                     Object.keys(langAbbrevs2).map((key, index) => (
-    //                         <li key={index}>
-    //                             <button onClick={(e) => ChangeLanguage(langAbbrevs2[key], e)}>
-    //                                 {key}
-    //                             </button>
-    //                         </li>
-    //                     ))
-    //                 }
-    //             </ul>
-    //             <button onClick={() => setIsOpen(false)} className="dropdown cancelButton">Cancel</button>
-    //             </Dialog.Panel>
-    //         </Dialog>
-    //     </>
-    // )
 }
 
 const GetTranslateLanguage = () => {
     return (sessionStorage.getItem("language") !== null) ? sessionStorage.getItem("language") : 'en';
 }
 
-export const TranslateBulk = (textArray) => {
-    // console.log(textArray);
-    // var targetLanguage = GetTranslateLanguage();
-    // const [t] = useState(textArray);
-    const [translations, setTranslations] = useState(textArray);
-    const [alreadyTLed, setAlreadyTLed] = useState(false);
-    // var translations = textArray;
+export const TranslateBulk = (textArray, setTranslation) => {
     var tLang = GetTranslateLanguage();
-    // console.log(tLang);
-    // const [targetLanguage] = useState(tLang);
-    // const [textArr] = useState(textArray);
-    // console.log(tLang);
-    // console.log(textArray);
-    useEffect(() => {
-        if (tLang !== 'en' && !alreadyTLed && textArray.length > 0) {
-            console.log(textArray);
-            console.log(tLang);
-            // console.log('test');
-            const abortController = new AbortController();
-            async function translate(tLang) {
-                var translateURL = API_URL;
-                translateURL += '?key='+API_KEY;
-                for (const text of textArray) {
-                    translateURL += '&q='+encodeURI(text);
-                }
-                translateURL += '&source=en';
-                translateURL += '&target='+tLang;
-                try {
-                    const response = await fetch(translateURL, {
-                        method: 'POST',
-                        referrer: window.location.href
-                    });
-                    console.log(response.body);
-                    const res = await response.json();
-                    // var temp2 = ["你好", "再见"];
-                    var temp = [];
-                    for (const text of res.data.translations) {
-                        temp.push(text.translatedText);
-                    }
-                    // // console.log(temp2);
-                    setTranslations(temp);
-                    setAlreadyTLed(true);
-                    // translations = temp;
-                    // return temp;
-                }
-                catch (error) {
-                    console.log(error);
-                }
+    const translate = () => {
+        const sendRequest = async () => {
+            var translateURL = API_URL;
+            translateURL += '?key='+API_KEY;
+            for (const text of textArray) {
+                translateURL += '&q='+encodeURI(text);
             }
-            translate(tLang);
-            // return translations;
-            return () => {
-                abortController.abort();
+            translateURL += '&source=en';
+            translateURL += '&target='+tLang;
+            try {
+                const response = await fetch(translateURL, {
+                    method: 'POST',
+                    referrer: window.location.href
+                });
+                // console.log(response.body);
+                const res = await response.json();
+                // var temp2 = ["你好", "再见"];
+                var temp = [];
+                for (const text of res.data.translations) {
+                    temp.push(text.translatedText);
+                }
+                console.log(temp);
+                setTranslation(temp);
+                // return temp;
+            }
+            catch (error) {
+                console.log(error);
             }
         }
-    }, [tLang, textArray, alreadyTLed]);
+        sendRequest();
+    }
+    if (tLang != 'en' && textArray.length > 0) {
+        translate();
+    }
+    else {
+        // translations = textArray;
+        setTranslation(textArray);
+    }
+    // setDoTL(false);
     // console.log(translations);
-    return translations;
+    // console.log(tLang);
+    // return translations;
 };
 
-const TranslateText = (text) => {
-    const [translation, setTranslation] = useState(text);
+export const TranslateText = (text, setTranslation) => {
     // var translation = text;
     var tLang = GetTranslateLanguage();
-    const [targetLanguage] = useState(tLang);
 
-    useEffect( () => {
-    // console.log(targetLanguage);
-        if (targetLanguage !== 'en') {
-            const abortController = new AbortController();
+    // useEffect( () => {
+    // // console.log(targetLanguage);
+    //     if (targetLanguage !== 'en') {
+    //         const abortController = new AbortController();
         
-            async function translate(targetLanguage) {
-                console.log(targetLanguage);
-                var translateURL = API_URL;
-                translateURL += '?key='+API_KEY;
-                translateURL += '&q='+encodeURI(text);
-                translateURL += '&source=en';
-                translateURL += '&target='+targetLanguage;
-                try {
-                    // console.log("test");
-                    const response = await fetch(translateURL, {
-                        signal: abortController.signal,
-                        method: 'POST',
-                        referrer: window.location.href
-                    });
-                    // console.log(response.body);
-                    const res = await response.json();
-                    console.log(res);
-                    setTranslation(res.data.translations[0].translatedText)
+    //         async function translate(targetLanguage) {
+    //             console.log(targetLanguage);
+                // var translateURL = API_URL;
+                // translateURL += '?key='+API_KEY;
+                // translateURL += '&q='+encodeURI(text);
+                // translateURL += '&source=en';
+                // translateURL += '&target='+targetLanguage;
+    //             try {
+    //                 // console.log("test");
+    //                 const response = await fetch(translateURL, {
+    //                     signal: abortController.signal,
+    //                     method: 'POST',
+    //                     referrer: window.location.href
+    //                 });
+    //                 // console.log(response.body);
+    //                 const res = await response.json();
+    //                 console.log(res);
+    //                 setTranslation(res.data.translations[0].translatedText)
+    //             }
+    //             catch (error) {
+    //                 console.log(error);
+    //             }
+    //         }
+    //         translate(targetLanguage);
+    //         // return translation;
+    //         return () => {
+    //             abortController.abort();
+    //         }
+    //     }
+    // }, []);
+    // return translation;
+    const translate = () => {
+        const sendRequest = async () => {
+            var translateURL = API_URL;
+            translateURL += '?key='+API_KEY;
+            translateURL += '&q='+encodeURI(text);
+            translateURL += '&source=en';
+            translateURL += '&target='+tLang;
+            try {
+                const response = await fetch(translateURL, {
+                    method: 'POST',
+                    referrer: window.location.href
+                });
+                const res = await response.json();
+                var temp = [];
+                for (const text of res.data.translations) {
+                    temp.push(text.translatedText);
                 }
-                catch (error) {
-                    console.log(error);
-                }
+                // console.log(temp);
+                setTranslation(temp);
+                // return temp;
             }
-            translate(targetLanguage);
-            // return translation;
-            return () => {
-                abortController.abort();
+            catch (error) {
+                console.log(error);
             }
         }
-    }, []);
-    return translation;
+        sendRequest();
+    }
+    if (tLang !== 'en' && text.length > 0) {
+        translate();
+    }
+    else {
+        setTranslation(text);
+    }
 };

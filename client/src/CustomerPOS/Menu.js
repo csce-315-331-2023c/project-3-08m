@@ -35,6 +35,8 @@ const Menu = () => {
   const [ price, setPrice ] = useState(0);
   const [ openCheckout, setOpenCheckout ] = useState(false);
   const [ notes, setNotes ] = useState([]);
+  const [ doTL, setDoTL ] = useState(false);
+  const [ translation, setTranslation ] = useState([]);
 
   useEffect(() => {
     var abortController = new AbortController();
@@ -46,6 +48,7 @@ const Menu = () => {
           data.menu[i].enName = data.menu[i].name;
         }
         setMenuItems(data.menu);
+        setDoTL(true);
       }
       catch (error) {
         console.error('Error fetching data: ', error);
@@ -59,28 +62,67 @@ const Menu = () => {
   console.log(menuItems);
 
   useEffect(() => {
+    if (doTL) {
+      var temp = [];
+      for (const menuItem of menuItems) {
+        temp.push(menuItem.enName);
+      }
+      // setTranslation(TranslateBulk(temp));
+      TranslateBulk(temp, setTranslation);
+      setDoTL(false);
+    }
+  }, [doTL])
+
+  useEffect(() => {
     var open = {};
     for (const item of menuItems) {
       open[item.id] = false;
     }
     setIsOpen(open);
   }, [menuItems]);
+
+  useEffect(() => {
+    for (let i = 0; i < translation.length; ++i) {
+      menuItems[i].name = translation[i];
+    }
+    setMenuItems([...menuItems]);
+  }, [translation])
   // let menuItemsDialogDict = [];
-  try {
-    var temp = [];
-    for (const menuItem of menuItems) {
-      temp.push(menuItem.name);
-    }
-    // console.log(temp);
-    var translations = TranslateBulk(temp);
-    console.log(menuItems);
-    for (let i = 0; i < translations.length && i < menuItems.length; ++i) {
-      menuItems[i].name = translations[i];
-    }
-  }
-  catch (error) {
-    console.log(error);
-  }
+  // useEffect(() => {
+  //   try {
+  //     if (!alreadyTL && menuItems.length > 0) {
+  //     // while (!alreadyTL) {
+  //       // if (menuItems.length == 0) {
+  //       //   continue;
+  //       // }
+  //       var temp = [];
+  //       for (const menuItem of menuItems) {
+  //         temp.push(menuItem.name);
+  //       }
+  //       // console.log(temp);
+  //       var translations = TranslateBulk(temp);
+  //       console.log(menuItems);
+  //       for (let i = 0; i < translations.length && i < menuItems.length; ++i) {
+  //         menuItems[i].name = translations[i];
+  //       }
+  //       if (translations.length > 0) {
+  //         setAlreadyTL(true);
+  //         setMenuItems([...menuItems]);
+  //       }
+  //       else {
+  //         var f = false;
+  //         setAlreadyTL(f);
+  //       }
+  //       // else {
+  //       //   setAlreadyTL(false);
+  //       // }
+  //       console.log(menuItems);
+  //     }
+  //   }
+  //   catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [alreadyTL, menuItems]);
 
   const importAll = (r) => {
     let images = {};
@@ -125,7 +167,7 @@ const Menu = () => {
             <Weather />
           </Box>
           {/* <Weather /> */}
-          <LanguageDialog />
+          <LanguageDialog setDoTL={setDoTL}/>
           <div>
            {/* <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
           <IconButton 
