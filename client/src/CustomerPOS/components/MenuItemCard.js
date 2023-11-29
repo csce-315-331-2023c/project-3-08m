@@ -11,7 +11,7 @@ function MenuItemCard({ title, price, imageUrl }) {
       boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
       overflow: 'hidden',
       transition: 'box-shadow 0.3s ease',
-      width: '493px',
+      width: '513px',
       maxWidth: '600px', // Set max width
       '&:hover': {
         boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
@@ -32,9 +32,9 @@ function MenuItemCard({ title, price, imageUrl }) {
         alignItems: 'flex-start',
       }}>
         <Box sx={{ m: 2 }} />
-        <Typography variant="h6" component="h3" sx={{ m: 0, color: '#333' }}>
+        <Typography variant="h6" component="h3" sx={{ m: 0, color: '#333', fontWeight: 'bold' }}>
           {title}
-        </Typography>
+      </Typography>
         {/* <Box sx={{ m: 1 }} /> */}
         <Typography variant="body1" sx={{ color: '#888' }}>
           {price}
