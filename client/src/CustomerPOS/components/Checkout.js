@@ -5,6 +5,7 @@ import { EditDialog } from './EditOrderDialog';
 import { useState, useEffect } from 'react';
 import theme from '../../theme';
 import { TranslateBulk } from '../../Translate';
+import { useNavigate } from 'react-router-dom';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -17,6 +18,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     const [ translationHeader, setTranslationHeader ] = useState([]);
     const [ translationText, setTranslationText ] = useState([]);
     const [ translationButtons, setTranslationButtons ] = useState({});
+    const navigate = useNavigate();
 
     // console.log(notes);
 
@@ -201,12 +203,15 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             setOrderSubmitted(false);
             return;
         }
+        sessionStorage.removeItem('language');
+        sessionStorage.removeItem('languageName');
         setPrice(0);
         setOrderMenuItemAddOns([]);
         setOrderMenuItems([]);
         setNotes([]);
         setOrderSubmitted(false);
         setIsOpen(false);
+        navigate('/login');
     }
 
     const handleCancel = () => {

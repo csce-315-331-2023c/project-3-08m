@@ -31,6 +31,8 @@ function AccountButton() {
   const handleLogout = () => {
     // Clear authentication data here (e.g., localStorage, context, Redux)
     localStorage.removeItem('userToken'); // Example: Clearing token from localStorage
+    sessionStorage.removeItem('language');
+    sessionStorage.removeItem('languageName');
 
     navigate('/login'); // Redirect to login page
     handleClose();
