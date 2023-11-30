@@ -12,6 +12,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import LoginPage from './LoginPage';
 import { useNavigate } from 'react-router-dom';
+import AlleyBackgroundVideo from './AlleyBackgroundVideo';
 
 
 export default function LoginLanding({onLogin}) {
@@ -45,10 +46,10 @@ export default function LoginLanding({onLogin}) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      {/* <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         {/* ... (Rest of the Grid layout) */}
-        <Grid
+        {/* <Grid
           item
           xs={false}
           sm={4}
@@ -60,9 +61,13 @@ export default function LoginLanding({onLogin}) {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-          }}
-        />
+          }} */}
+        {/* /> */}
+          <AlleyBackgroundVideo/>
+          {/* <Box sx={{m:10}}></Box> */}
+
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        
           <Box
             sx={{
               my: 8,
@@ -72,6 +77,7 @@ export default function LoginLanding({onLogin}) {
               alignItems: 'center',
             }}
           >
+            <Box sx={{m:1}}></Box>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -107,12 +113,12 @@ export default function LoginLanding({onLogin}) {
               >
                 Sign In
               </Button>
-              <LoginPage></LoginPage>
+              <LoginPage />
               {/* ... (Rest of the UI components) */}
             </Box>
           </Box>
         </Grid>
-      </Grid>
+      {/* </Grid> */}
     </ThemeProvider>
   );
 }
