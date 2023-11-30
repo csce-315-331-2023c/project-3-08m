@@ -1,30 +1,17 @@
-import { Box, Dialog, DialogTitle, TextField, Button, DialogContentText } from "@mui/material"
+import { Box, Dialog, DialogTitle, TextField, Button, DialogContentText, ThemeProvider } from "@mui/material"
 import { useEffect, useState } from "react";
 import { AddOnsCheckbox } from "./AddOnsCheckbox";
+import { Close as CloseIcon } from '@mui/icons-material';
+import theme from '../../theme';
 
-const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+// const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns, setTotalPrice, open, setIsOpen}) => {
+export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns, setTotalPrice, open, setIsOpen, addOns}) => {
     const [ selected, setSelected ] = useState({});
     const [ price, setPrice ] = useState(Number(row.price.substring(1)));
     const [ notes, setNotes ] = useState(row.notes);
     // to put the new Add-Ons in orderMenuAddOns
-    const [ addOns, setAddOns ] = useState([]);
-
-    useEffect ( () => {
-        const getAddOns = async (id) => {
-            var response = await fetch(serverURL + '/single',{
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/json; charset = UTF-8"
-                },
-                body: JSON.stringify({'menu_add_ons': id})
-            });
-            var res = await response.json();
-            setAddOns(res.response);
-        }
-        getAddOns(row.menuItemId);
-    }, []);
+    // const [ addOns, setAddOns ] = useState([]);
 
     useEffect( () => {
         // orderMenuAddOns[row.id] should contain an array of addOns
@@ -41,11 +28,6 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
 
     const handleSave = (id) => () => {
         var newSelected = [];
-        // for (const [k,v] of Object.entries(selected)) {
-        //     if (v === true) {
-        //         newSelected.push(k);
-        //     }
-        // }
         for (const item of addOns) {
             if (selected[item.id]) {
                 newSelected.push(item);
@@ -75,7 +57,7 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
         setNotes(event.target.value);
     }
 
-    console.log(row);
+    // console.log(row);
 
     if (row === undefined) {
         return <div></div>
@@ -83,15 +65,58 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
 
     return (
         <Box>
+            <ThemeProvider theme={theme}>
             <Dialog open={open[row.id]} onClose={handleClose(row.id)} fullWidth>
-                <DialogTitle>{row.menuItemName}</DialogTitle>
-                <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText>
-                <AddOnsCheckbox menuId={row.menuItemId} selected={selected} setSelected={setSelected} totalPrice={price} setTotalPrice={setPrice}/>
-                <br></br>
-                <TextField defaultValue={row.notes} placeholder='Add Notes to your order!' label='Order Notes' onChange={handleNotes} multiline maxRows='3'/>
-                <Button onClick={handleClose(row.id)}>Cancel</Button>
-                <Button onClick={handleSave(row.id)}>Save</Button>
+            <Box sx={{m:3}}> 
+                <Box sx={{ 
+                    display: 'flex', // Enable flexbox
+                    justifyContent: 'space-between', // Place items at the start and end of the container
+                    alignItems: 'center', // Align items vertically at the center
+                    }}>
+                    <h3>{row.menuItemName}</h3> {/* Text aligned to left */}
+                    <Button
+                    variant="contained"
+                    onClick={handleClose(row.id)}
+                    sx={{
+                        backgroundColor: 'red',
+                        width: '30px',  // Set the width
+                        height: '30px', // Set the height to make it square
+                        minWidth: '30px', // Override minimum width
+                        padding: 0, // Optional: Adjust padding to your preference
+                        '&:hover': {
+                        backgroundColor: 'darkred', // Change for hover state
+                        }
+                    }}
+                    >
+                        <CloseIcon sx={{ color: 'white' }} />
+                    </Button>
+                    </Box>
+                    <Box sx={{m:2}}></Box>
+                {/* <DialogTitle>{row.menuItemName}</DialogTitle> */}
+                {/* <DialogContentText>{`$${Number(price).toFixed(2)}`}</DialogContentText> */}
+                <AddOnsCheckbox menuId={row.menuItemId} selected={selected} setSelected={setSelected} totalPrice={price} setTotalPrice={setPrice} allAddOns={addOns}/>
+                {/* <br></br> */}
+                <Box sx={{m:3}}></Box>
+                <Box 
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                        gap: 1
+                    }}
+                >
+                <TextField fullWidth defaultValue={row.notes} placeholder='Add Notes to your order!' label='Order Notes' onChange={handleNotes} multiline maxRows='3'/>
+                <Box sx={{m:.5}}></Box>
+                {/* <Button onClick={handleClose(row.id)}>Cancel</Button> */}
+                <div>
+                    <Button variant='contained' onClick={handleSave(row.id)}>
+                        Save <span style={{ marginRight: '30px' }}></span>{`$${Number(price).toFixed(2)}`}
+                    </Button>
+                </div>
+                </Box>
+                </Box>
             </Dialog>
+            </ThemeProvider>
         </Box>
     );
 }

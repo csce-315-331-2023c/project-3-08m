@@ -8,35 +8,46 @@ import { TranslateBulk } from '../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes}) => {
+export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes, addOns}) => {
     const [ isEditOpen, setIsEditOpen ] = useState({});
     const [ rows, setRows ] = useState([]);
     const [ orderSubmitted, setOrderSubmitted ] = useState(false);
     const [ cancelOpen, setCancelOpen ] = useState(false);
 
+    // console.log(notes);
+
     const handleDelete = (id, subPrice) => () => {
         var newMenuItems = [];
         var newAddOns = [];
         var newRows = [];
+        var newNotes = [];
         for (let i = 0; i < orderMenuItems.length; i++) {
             if (i == id) {
                 continue;
             }
             newMenuItems.push(orderMenuItems[i]);
             newAddOns.push(orderMenuItemsAddOns[i]);
+            newNotes.push(notes[i]);
             if (i > id) {
                 rows[i].id--;
             }
             newRows.push(rows[i]);
         }
-        console.log(subPrice);
-        // gets rid of the $ and subtracts it from the totalPrice
-        price -= Number(subPrice.substring(1));
-        console.log(price);
-        setPrice(price*1);
+        // console.log(subPrice);
+        if (newMenuItems.length === 0) {
+            setPrice(0);
+        }
+        else {
+            // gets rid of the $ and subtracts it from the totalPrice
+            price -= Number(subPrice.substring(1));
+            setPrice(price*1);
+        }
+        // console.log(price);
+        // setPrice(price*1);
         setOrderMenuItemAddOns(newAddOns);
         setOrderMenuItems(newMenuItems);
         setRows(newRows);
+        setNotes(newNotes);
     }
 
     const handleEdit = (id) => () => {
@@ -133,11 +144,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             setOrderSubmitted(true);
             return;
         }
-        // console.log('asdf');
-        // if (price.toFixed(2) === '0.00' || price.toFixed(2) === '-0.00') {
-        //     setZeroOrder(true);
-        //     return;
-        // }
+
         var menuItemIds = [];
         var menuItemAddOnIds = [];
         for (let i = 0; i < orderMenuItems.length; ++i) {
@@ -165,11 +172,6 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         }
         sendOrder();
         setOrderSubmitted(true);
-        // setPrice(0);
-        // setOrderMenuItemAddOns([]);
-        // setOrderMenuItems([]);
-        // setNotes([]);
-        // setIsOpen(false);
     }
 
     const handleOk = () => {
@@ -187,12 +189,6 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
 
     const handleCancel = () => {
         setCancelOpen(true);
-        // setPrice(0);
-        // setOrderMenuItemAddOns([]);
-        // setOrderMenuItems([]);
-        // setNotes([]);
-        // setOrderSubmitted(false);
-        // setIsOpen(false);
     }
 
     const handleCancelOk = () => {
@@ -200,7 +196,6 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setOrderMenuItemAddOns([]);
         setOrderMenuItems([]);
         setNotes([]);
-        // setOrderSubmitted(false);
         setIsOpen(false);
     }
 
@@ -257,7 +252,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                         initialState={{
                             pagination: { paginationModel: {pageSize: 8}}
                         }}
-                        // pageSizeOptions={[8]}
+                        pageSizeOptions={[8]}
                         // density='compact'
                         // rowHeight={20}
                         // pageSize={20}
@@ -288,7 +283,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 </Box>
                 <Box sx={{ mb:1}} ></Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between'}} >
-                    <Button onClick={handleCancel} color='primary' variant='outlined'>Cancel Order</Button>
+                    <Button onClick={handleCancel} color='primary' variant='outlined'>Clear Cart</Button>
                 {/* <Button onClick={() => setIsOpen(false)}>Cancel</Button> */}
                     <Button color='primary' variant='contained' onClick={checkout}>Checkout</Button>
                 </Box>
@@ -317,11 +312,13 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             rows.map((item) => {
                 return (
                     <>
-                    {isEditOpen[item.id] && <EditDialog 
+                    {isEditOpen[item.id] && <EditDialog
+                                                key={item.id}
                                                 open={isEditOpen} setIsOpen={setIsEditOpen}
                                                 row={item}
                                                 totalPrice={price} setTotalPrice={setPrice}
                                                 orderMenuAddOns={orderMenuItemsAddOns} setOrderMenuAddOns={setOrderMenuItemAddOns}
+                                                addOns={addOns}
                                             />}
                     </>
                 );
