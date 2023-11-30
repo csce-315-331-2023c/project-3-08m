@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Container, Typography, Box } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:9000";
 
@@ -26,30 +27,21 @@ export default function LoginPage() {
 
     return (
         <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            height: '100vh', 
-            bgcolor: 'background.paper' 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          bgcolor: 'background.paper' 
         }}>
-            <Container maxWidth="sm" sx={{ 
-                bgcolor: 'background.paper', 
-                p: 4, 
-                borderRadius: 1, 
-                boxShadow: 1 
-            }}>
-                <Typography variant="h4" component="h2" gutterBottom>
-                    Login
-                </Typography>
-                <Button 
-                    variant="contained" 
-                    color="primary" 
-                    onClick={signInWithGitHub}
-                    sx={{ mt: 2 }}
-                >
-                    Sign in with GitHub
-                </Button>
-            </Container>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              startIcon={<GitHubIcon />} // Leading icon
+              onClick={signInWithGitHub}
+              sx={{ mt: 2 }}
+              fullWidth // Optional: if you want the button to take the full width of the container
+            >
+              Sign in with GitHub
+            </Button>
         </Box>
-    );
+      );
 }

@@ -13,6 +13,7 @@ import theme from './theme';
 import LoginPage from './LoginPage';
 import { useNavigate } from 'react-router-dom';
 import AlleyBackgroundVideo from './AlleyBackgroundVideo';
+import { Height } from '@mui/icons-material';
 
 
 export default function LoginLanding({onLogin}) {
@@ -46,6 +47,7 @@ export default function LoginLanding({onLogin}) {
 
   return (
     <ThemeProvider theme={theme}>
+
       {/* <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         {/* ... (Rest of the Grid layout) */}
@@ -65,11 +67,12 @@ export default function LoginLanding({onLogin}) {
         {/* /> */}
           <AlleyBackgroundVideo/>
           {/* <Box sx={{m:10}}></Box> */}
-
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+    <Box sx={{ flexGrow: 1, bgcolor: 'background.paper' }}>
+        <Grid item xs={12} sm={8} md={5} elevation={6} square>
         
           <Box
             sx={{
+                flexGrow: 1,
               my: 8,
               mx: 4,
               display: 'flex',
@@ -77,6 +80,7 @@ export default function LoginLanding({onLogin}) {
               alignItems: 'center',
             }}
           >
+            {/* <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square> */}
             <Box sx={{m:1}}></Box>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
@@ -109,16 +113,20 @@ export default function LoginLanding({onLogin}) {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, }}
               >
                 Sign In
               </Button>
               <LoginPage />
+              {/* <Box sx={{m:1}}></Box> */}
               {/* ... (Rest of the UI components) */}
             </Box>
           </Box>
         </Grid>
+        </Box>
+       
       {/* </Grid> */}
     </ThemeProvider>
+    
   );
 }
