@@ -146,18 +146,19 @@ const Menu = () => {
     <div>
       <ThemeProvider theme={theme}>
       <AppBar position="static">
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          
+      <Toolbar>
+        <Box sx={{ flexGrow: 1 }}>
           <Box sx={{mb:1, mt:1, flexGrow: 2, justifyContent: 'space-between'}}>
             <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-            <Box sx={{m: 1}}></Box>
+            {/* <Box sx={{m: 1}}></Box> */}
             <Weather />
           </Box>
+        </Box>
           {/* <Weather /> */}
           <LanguageDialog setDoTL={setDoTL}/>
           <div>
            {/* <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
-           <IconButton 
+          <IconButton 
             onClick={() => setOpenCheckout(true)} 
             aria-label="View Order and Checkout" 
             sx={{ color: 'white' }} // Apply white color to the icon
