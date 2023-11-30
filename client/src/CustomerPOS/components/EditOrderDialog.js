@@ -3,15 +3,18 @@ import { useEffect, useState } from "react";
 import { AddOnsCheckbox } from "./AddOnsCheckbox";
 import { Close as CloseIcon } from '@mui/icons-material';
 import theme from '../../theme';
+import { TranslateBulk } from "../../Translate";
 
 // const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns, setTotalPrice, open, setIsOpen, addOns}) => {
+export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns, setTotalPrice, open, setIsOpen, addOns, allNotes, setAllNotes}) => {
     const [ selected, setSelected ] = useState({});
     const [ price, setPrice ] = useState(Number(row.price.substring(1)));
     const [ notes, setNotes ] = useState(row.notes);
     // to put the new Add-Ons in orderMenuAddOns
     // const [ addOns, setAddOns ] = useState([]);
+    const [ translationText, setTranslationText ] = useState([]);
+    const [ translationButtons, setTranslationButtons ] = useState([]);
 
     useEffect( () => {
         // orderMenuAddOns[row.id] should contain an array of addOns
@@ -21,6 +24,13 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
         }
         setSelected({...selected});
     }, []);
+
+    useEffect(() => {
+        var text = ['Order Notes', 'Add Notes to your Order!'];
+        TranslateBulk(text, setTranslationText);
+        var buttons = ['Save'];
+        TranslateBulk(buttons, setTranslationButtons);
+    }, [])
 
     const handleClose = (id) => () => {
         setIsOpen({...open, [id]: false});
@@ -48,12 +58,17 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
         row.notes = notes;
         totalPrice += Number(diff);
         orderMenuAddOns[row.id] = newSelected;
+        allNotes[row.id] = notes;
+        console.log(notes);
+        console.log(allNotes[row.id]);
+        setAllNotes([...allNotes]);
         setOrderMenuAddOns([...orderMenuAddOns]);
         setTotalPrice(totalPrice*1);
         setIsOpen({...open, [id]: false});
     }
 
     const handleNotes = (event) => {
+        // console.log(event.target.value);
         setNotes(event.target.value);
     }
 
@@ -105,12 +120,12 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
                         gap: 1
                     }}
                 >
-                <TextField fullWidth defaultValue={row.notes} placeholder='Add Notes to your order!' label='Order Notes' onChange={handleNotes} multiline maxRows='3'/>
+                <TextField fullWidth defaultValue={row.notes} placeholder={translationText[1] || 'Add Notes to your order!'} label={translationText[0] || 'Order Notes'} onChange={handleNotes} multiline maxRows='3'/>
                 <Box sx={{m:.5}}></Box>
                 {/* <Button onClick={handleClose(row.id)}>Cancel</Button> */}
                 <div>
                     <Button variant='contained' onClick={handleSave(row.id)}>
-                        Save <span style={{ marginRight: '30px' }}></span>{`$${Number(price).toFixed(2)}`}
+                        {translationButtons[0] || 'Save'} <span style={{ marginRight: '30px' }}></span>{`$${Number(price).toFixed(2)}`}
                     </Button>
                 </div>
                 </Box>

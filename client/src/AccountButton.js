@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
+import { TranslateBulk } from './Translate';
 
 function AccountButton() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [ translationText, setTranslationText] = useState([]);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // console.log('a');
+    if (open) {
+      var text = ['Logout'];
+      TranslateBulk(text, setTranslationText);
+    }
+  }, [open]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,6 +31,8 @@ function AccountButton() {
   const handleLogout = () => {
     // Clear authentication data here (e.g., localStorage, context, Redux)
     localStorage.removeItem('userToken'); // Example: Clearing token from localStorage
+    sessionStorage.removeItem('language');
+    sessionStorage.removeItem('languageName');
 
     navigate('/login'); // Redirect to login page
     handleClose();
@@ -32,7 +44,7 @@ function AccountButton() {
         <AccountCircle />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>{translationText[0] || 'Logout'}</MenuItem>
       </Menu>
     </div>
   );

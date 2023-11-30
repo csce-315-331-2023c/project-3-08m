@@ -8,6 +8,7 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
     const [ addOns, setAddOns ] = useState([]);
     // const [ doTL, setDoTL ] = useState(false);
     // const [ translation, setTranslation ] = useState([]);
+    const [ translationText, setTranslationText ] = useState([]);
 
     useEffect(() => {
         const getAddOns = async (id) => {
@@ -38,6 +39,11 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
             }
         }
         getAddOns(menuId);
+    }, []);
+
+    useEffect(() => {
+        var text = ['Add-Ons'];
+        TranslateBulk(text, setTranslationText);
     }, []);
 
     const toggleCheck = (id, price) => {
@@ -72,7 +78,7 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
 
     return (
         <div>
-            Add-Ons
+            {translationText[0] || 'Add-Ons'}
         <Box style={{maxHeight: 300, overflow: 'auto'}}>
         <List>
             {
