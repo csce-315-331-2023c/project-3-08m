@@ -69,8 +69,8 @@ const Menu = () => {
       abortController.abort();
     }
   }, []);
-  console.log(menuItems);
-  console.log(addOns);
+  // console.log(menuItems);
+  // console.log(addOns);
 
   useEffect(() => {
     if (doTL) {
@@ -177,7 +177,7 @@ const Menu = () => {
       <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
       <div className="menu">
         {/* <button> */}
-        {menuItems.map(item => {
+        {menuItems.map((item, i) => {
           let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
           if (!(menuPicture in images)) {
             menuPicture = 'boba.png';
@@ -188,7 +188,8 @@ const Menu = () => {
               <MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
             </button> 
             <Box sx={{ m:3}}></Box>
-            </div>       )})}
+            </div>
+          )})}
         {/* </button> */}
       </div>
       {/* <LanguageDialog /> */}
