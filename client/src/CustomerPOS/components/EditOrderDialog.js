@@ -4,27 +4,27 @@ import { AddOnsCheckbox } from "./AddOnsCheckbox";
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns, setTotalPrice, open, setIsOpen}) => {
+export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns, setTotalPrice, open, setIsOpen, addOns}) => {
     const [ selected, setSelected ] = useState({});
     const [ price, setPrice ] = useState(Number(row.price.substring(1)));
     const [ notes, setNotes ] = useState(row.notes);
     // to put the new Add-Ons in orderMenuAddOns
-    const [ addOns, setAddOns ] = useState([]);
+    // const [ addOns, setAddOns ] = useState([]);
 
-    useEffect ( () => {
-        const getAddOns = async (id) => {
-            var response = await fetch(serverURL + '/single',{
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/json; charset = UTF-8"
-                },
-                body: JSON.stringify({'menu_add_ons': id})
-            });
-            var res = await response.json();
-            setAddOns(res.response);
-        }
-        getAddOns(row.menuItemId);
-    }, []);
+    // useEffect ( () => {
+    //     const getAddOns = async (id) => {
+    //         var response = await fetch(serverURL + '/single',{
+    //             method: 'POST',
+    //             headers: {
+    //                 "Content-type": "application/json; charset = UTF-8"
+    //             },
+    //             body: JSON.stringify({'menu_add_ons': id})
+    //         });
+    //         var res = await response.json();
+    //         setAddOns(res.response);
+    //     }
+    //     getAddOns(row.menuItemId);
+    // }, []);
 
     useEffect( () => {
         // orderMenuAddOns[row.id] should contain an array of addOns

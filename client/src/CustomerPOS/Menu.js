@@ -37,7 +37,9 @@ const Menu = () => {
   const [ openCheckout, setOpenCheckout ] = useState(false);
   const [ notes, setNotes ] = useState([]);
   const [ doTL, setDoTL ] = useState(false);
-  const [ translation, setTranslation ] = useState([]);
+  const [ translationMenu, setTranslationMenu ] = useState([]);
+  const [ translationAddOns, setTranslationAddOns ] = useState([]);
+  const [ addOns, setAddOns ] = useState([]);
 
   useEffect(() => {
     var abortController = new AbortController();
@@ -49,6 +51,13 @@ const Menu = () => {
           data.menu[i].enName = data.menu[i].name;
         }
         setMenuItems(data.menu);
+
+        response = await fetch(serverURL+'/addOns', {signal: abortController.signal});
+        data = await response.json();
+        for (let i = 0; i < data.addOns.length; ++i) {
+          data.addOns[i].enName = data.addOns[i].name;
+        }
+        setAddOns(data.addOns);
         setDoTL(true);
       }
       catch (error) {
@@ -61,6 +70,7 @@ const Menu = () => {
     }
   }, []);
   console.log(menuItems);
+  console.log(addOns);
 
   useEffect(() => {
     if (doTL) {
@@ -69,7 +79,12 @@ const Menu = () => {
         temp.push(menuItem.enName);
       }
       // setTranslation(TranslateBulk(temp));
-      TranslateBulk(temp, setTranslation);
+      TranslateBulk(temp, setTranslationMenu);
+      temp = [];
+      for (const addOn of addOns) {
+        temp.push(addOn.enName);
+      }
+      TranslateBulk(temp, setTranslationAddOns)
       setDoTL(false);
     }
   }, [doTL])
@@ -83,47 +98,18 @@ const Menu = () => {
   }, [menuItems]);
 
   useEffect(() => {
-    for (let i = 0; i < translation.length; ++i) {
-      menuItems[i].name = translation[i];
+    for (let i = 0; i < translationMenu.length; ++i) {
+      menuItems[i].name = translationMenu[i];
     }
     setMenuItems([...menuItems]);
-  }, [translation])
-  // let menuItemsDialogDict = [];
-  // useEffect(() => {
-  //   try {
-  //     if (!alreadyTL && menuItems.length > 0) {
-  //     // while (!alreadyTL) {
-  //       // if (menuItems.length == 0) {
-  //       //   continue;
-  //       // }
-  //       var temp = [];
-  //       for (const menuItem of menuItems) {
-  //         temp.push(menuItem.name);
-  //       }
-  //       // console.log(temp);
-  //       var translations = TranslateBulk(temp);
-  //       console.log(menuItems);
-  //       for (let i = 0; i < translations.length && i < menuItems.length; ++i) {
-  //         menuItems[i].name = translations[i];
-  //       }
-  //       if (translations.length > 0) {
-  //         setAlreadyTL(true);
-  //         setMenuItems([...menuItems]);
-  //       }
-  //       else {
-  //         var f = false;
-  //         setAlreadyTL(f);
-  //       }
-  //       // else {
-  //       //   setAlreadyTL(false);
-  //       // }
-  //       console.log(menuItems);
-  //     }
-  //   }
-  //   catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [alreadyTL, menuItems]);
+  }, [translationMenu])
+
+  useEffect(() => {
+    for (let i = 0; i < translationAddOns.length; ++i) {
+      addOns[i].name = translationAddOns[i];
+    }
+    setAddOns([...addOns]);
+  }, [translationAddOns])
 
   const importAll = (r) => {
     let images = {};
@@ -217,6 +203,7 @@ const Menu = () => {
                                 orderMenuItemAddOns={orderMenuItemAddOns}
                                 totalPrice={price} setTotalPrice={setPrice} 
                                 notes={notes}
+                                addOns={addOns}
                               />}
           </>
         )
@@ -227,6 +214,7 @@ const Menu = () => {
                           price={price} setPrice={setPrice}
                           notes={notes} setNotes={setNotes}
                           isOpen={openCheckout} setIsOpen={setOpenCheckout}
+                          addOns={addOns}
                       />}
     </div>
   );

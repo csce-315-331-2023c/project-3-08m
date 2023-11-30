@@ -1,4 +1,3 @@
-import { Listbox } from '@headlessui/react';
 import { Dialog, DialogContentText, DialogContent, DialogTitle, TextField, ThemeProvider } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import{ Box, Button, Checkbox } from '@mui/material';
@@ -14,75 +13,62 @@ import theme from '../theme';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuItemAddOns, totalPrice, setTotalPrice, notes, setNotes}) {
-    const [ addOns, setAddOns ] = useState([]);
+export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuItemAddOns, totalPrice, setTotalPrice, notes, addOns}) {
+    // const [ addOns, setAddOns ] = useState([]);
     const [ price, setPrice ] = useState(menuItem.price);
     const [ orderNotes, setOrderNotes ] = useState("");
     const [ doTL, setDoTL ] = useState(false);
     const [ translation, setTranslation ] = useState([]);
 
-    useEffect(() => {
-        var abortController = new AbortController();
-        const getMenu = async () => {
-            try {
-                var response = await fetch(serverURL+'/single', {
-                    signal: abortController.signal,
-                    method: 'POST',
-                    headers: {
-                        "Content-type": "application/json; charset = UTF-8"
-                    },
-                    body: JSON.stringify({'menu_add_ons': menuItem.id})
-                });
-                var data = await response.json();
-                // console.log(data.response);
-                for (var item of data.response) {
-                    item.enName = item.name;
-                }
-                setAddOns(data.response);
-                setDoTL(true);
-            }
-            catch (error) {
-                console.error('Error fetching data: ', error);
-            }
-        };
-        getMenu();
-        return () => {
-            abortController.abort();
-        }
-    }, []);
+    // useEffect(() => {
+    //     var abortController = new AbortController();
+    //     const getMenu = async () => {
+    //         try {
+    //             var response = await fetch(serverURL+'/single', {
+    //                 signal: abortController.signal,
+    //                 method: 'POST',
+    //                 headers: {
+    //                     "Content-type": "application/json; charset = UTF-8"
+    //                 },
+    //                 body: JSON.stringify({'menu_add_ons': menuItem.id})
+    //             });
+    //             var data = await response.json();
+    //             // console.log(data.response);
+    //             for (var item of data.response) {
+    //                 item.enName = item.name;
+    //             }
+    //             setAddOns(data.response);
+    //             setDoTL(true);
+    //         }
+    //         catch (error) {
+    //             console.error('Error fetching data: ', error);
+    //         }
+    //     };
+    //     getMenu();
+    //     return () => {
+    //         abortController.abort();
+    //     }
+    // }, []);
     // console.log(addOns);
 
-    useEffect(() => {
-        if (doTL) {
-            var temp = [];
-            for (const item of addOns) {
-                temp.push(item.enName);
-            }
-            TranslateBulk(temp, setTranslation);
-            setDoTL(false);
-        }
-    }, [doTL]);
-
-    useEffect(() => {
-        for (let i = 0; i < translation.length; ++i) {
-            addOns[i].name = translation[i];
-        }
-        setAddOns([...addOns]);
-    }, [translation])
-
-    // try {
-    //     var temp = [];
-    //     for (const addOn of addOns) {
-    //         temp.push(addOn.name);
+    // useEffect(() => {
+    //     if (doTL) {
+    //         var temp = [];
+    //         for (const item of addOns) {
+    //             temp.push(item.enName);
+    //         }
+    //         TranslateBulk(temp, setTranslation);
+    //         setDoTL(false);
     //     }
-    //     var translations = TranslateBulk(temp);
-    //     for (let i = 0; i < translations.length && i < addOns.length; ++i) {
-    //         addOns[i].name = translations[i];
+    // }, [doTL]);
+
+    // useEffect(() => {
+    //     for (let i = 0; i < translation.length; ++i) {
+    //         addOns[i].name = translation[i];
     //     }
-    // }
-    // catch (error) {
-    //     console.log(error);
-    // }
+    //     setAddOns([...addOns]);
+    // }, [translation])
+
     const [ selectedAddOns, setSelectedAddOns ] = useState({});
 
     const handleClose = (id) => () => {

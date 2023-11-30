@@ -8,7 +8,7 @@ import { TranslateBulk } from '../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes}) => {
+export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes, addOns}) => {
     const [ isEditOpen, setIsEditOpen ] = useState({});
     const [ rows, setRows ] = useState([]);
     const [ orderSubmitted, setOrderSubmitted ] = useState(false);
@@ -288,7 +288,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 </Box>
                 <Box sx={{ mb:1}} ></Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between'}} >
-                    <Button onClick={handleCancel} color='primary' variant='outlined'>Cancel Order</Button>
+                    <Button onClick={handleCancel} color='primary' variant='outlined'>Clear Cart</Button>
                 {/* <Button onClick={() => setIsOpen(false)}>Cancel</Button> */}
                     <Button color='primary' variant='contained' onClick={checkout}>Checkout</Button>
                 </Box>
@@ -322,6 +322,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                                                 row={item}
                                                 totalPrice={price} setTotalPrice={setPrice}
                                                 orderMenuAddOns={orderMenuItemsAddOns} setOrderMenuAddOns={setOrderMenuItemAddOns}
+                                                addOns={addOns}
                                             />}
                     </>
                 );
