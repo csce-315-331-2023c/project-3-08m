@@ -10,7 +10,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import alleyLogo from './assets/the_alley_logo.png';
 import theme from '../theme';
 import { Weather } from '../Weather';
-import AccountButton from './AccountButton';
+import AccountButton from '../AccountButton';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';

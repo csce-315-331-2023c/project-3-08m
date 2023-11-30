@@ -1,48 +1,74 @@
 // ManagerPOS.js
-import React from 'react';
-import './ManagerPOS.css'; // Assuming your CSS is in this file
-import './components/Tables/table.css'; 
-import { NavLink, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, Route, Routes } from 'react-router-dom';
+import { AppBar, Toolbar, Tabs, Button, Box, ThemeProvider} from '@mui/material';
+import theme from '../theme';
+import alleyLogo from '../CustomerPOS/assets/the_alley_logo.png';
+// import { NavLink, Routes, Route } from 'react-router-dom';
 
 // Import your page components
 import Employees from './pages/Employees';
-import Sales from './pages/Orders';
+import Orders from './pages/Orders';
 import Inventory from './pages/Inventory';
 import Menu from './pages/Menu';
 import AddOns from './pages/AddOns';
-
+import AccountButton from '../AccountButton';
 const ManagerPOS = () => {
-  return (
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/manager/employees" className={({ isActive }) => isActive ? 'active' : ''}>Employees</NavLink>
-          </li>
-          <li>
-            <NavLink to="/manager/orders" className={({ isActive }) => isActive ? 'active' : ''}>Orders</NavLink>
-          </li>
-          <li>
-            <NavLink to="/manager/inventory" className={({ isActive }) => isActive ? 'active' : ''}>Inventory</NavLink>
-          </li>
-          <li>
-            <NavLink to="/manager/menu" className={({ isActive }) => isActive ? 'active' : ''}>Menu</NavLink>
-          </li>
-          <li>
-            <NavLink to="/manager/add-ons" className={({ isActive }) => isActive ? 'active' : ''}>Add-ons</NavLink>
-          </li>
-        </ul>
-      </nav>
+  const [selectedTab, setSelectedTab] = useState('/manager/employees');
 
+  const handleButtonClick = (path) => {
+    setSelectedTab(path);
+  };
+
+  const navButton = (label, path) => (
+    <Button
+      variant={selectedTab === path ? 'contained' : 'text'}
+      color="inherit"
+      component={NavLink}
+      to={path}
+      onClick={() => handleButtonClick(path)}
+      sx={{
+        borderRadius: 50,
+        marginX: 1,
+        color: selectedTab === path ? theme.palette.primary.main : 'inherit',
+        backgroundColor: selectedTab === path ? 'white' : 'inherit',
+        '&:hover': {
+          backgroundColor: '#CFCFCD', // Change background color on hover
+          color: selectedTab === path ? 'inherit' : 'black', // Optional: Change text color on hover
+        },
+      }}
+    >
+      {label}
+    </Button>
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <AppBar position="static">
+        <Toolbar>
+          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{mb:2, mt:2, flexGrow: 2, justifyContent: 'space-between'}}>
+            <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
+          </Box>
+          </Box>
+          {navButton('Employees', '/manager/employees')}
+          {navButton('Orders', '/manager/orders')}
+          {navButton('Inventory', '/manager/inventory')}
+          {navButton('Menu', '/manager/menu')}
+          {navButton('Add-ons', '/manager/add-ons')}
+          <AccountButton />
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ m:1}}></Box>
       <Routes>
         <Route path="/employees" element={<Employees />} />
-        <Route path="/orders" element={<Sales />} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/add-ons" element={<AddOns />} />
         <Route path="/" element={<Employees />} />
       </Routes>
-    </div>
+    </ThemeProvider>
   );
 };
 
