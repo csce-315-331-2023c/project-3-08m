@@ -21,14 +21,17 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     // console.log(notes);
 
     const handleDelete = (id, subPrice) => () => {
+        // console.log(id);
         var newMenuItems = [];
         var newAddOns = [];
         var newRows = [];
         var newNotes = [];
+        // console.log(orderMenuItems.length);
         for (let i = 0; i < orderMenuItems.length; i++) {
             if (i == id) {
                 continue;
             }
+            // console.log(i);
             newMenuItems.push(orderMenuItems[i]);
             newAddOns.push(orderMenuItemsAddOns[i]);
             newNotes.push(notes[i]);
@@ -52,6 +55,8 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setOrderMenuItems(newMenuItems);
         setRows(newRows);
         setNotes(newNotes);
+        // console.log(newMenuItems);
+        console.log(newRows);
     }
 
     const handleEdit = (id) => () => {
@@ -107,6 +112,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 getActions: ({id, row}) => {
                     // console.log(id);
                     // console.log(price);
+                    // console.log(row);
                     return [
                         <GridActionsCellItem
                             icon={<EditIcon />}
@@ -123,7 +129,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             }
         ];
         setCols(columns);
-    }, [translationHeader]);
+    }, [translationHeader, rows]);
     
     useEffect (() => {
         const r = [];
@@ -153,7 +159,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         }
         setIsEditOpen({...isEditOpen});
         setRows(r);
-    }, []);
+    }, [orderMenuItems, orderMenuItemsAddOns, notes]);
 
     const checkout = () => {
         if (orderMenuItems.length === 0) {
@@ -337,6 +343,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                                                 totalPrice={price} setTotalPrice={setPrice}
                                                 orderMenuAddOns={orderMenuItemsAddOns} setOrderMenuAddOns={setOrderMenuItemAddOns}
                                                 addOns={addOns}
+                                                allNotes={notes} setAllNotes={setNotes}
                                             />}
                     </>
                 );

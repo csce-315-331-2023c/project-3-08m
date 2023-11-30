@@ -1,5 +1,5 @@
 import { Dialog, DialogContentText, DialogContent, DialogTitle, TextField, ThemeProvider } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { Close as CloseIcon, Translate } from '@mui/icons-material';
 import{ Box, Button, Checkbox } from '@mui/material';
 import { useState, useEffect } from 'react';
 import './AddOns.css';
@@ -9,6 +9,7 @@ import './Menu.css';
 // import defaultDrinkImage from './assets/boba.svg';
 import { AddOnsCheckbox } from './components/AddOnsCheckbox';
 import theme from '../theme';
+import { TranslateBulk } from '../Translate';
 
 
 // const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -19,8 +20,17 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
     const [ orderNotes, setOrderNotes ] = useState("");
     // const [ doTL, setDoTL ] = useState(false);
     // const [ translation, setTranslation ] = useState([]);
+    const [ translationText, setTranslationText ] = useState([]);
+    const [ translationButtons, setTranslationButtons ] = useState([]);
 
     const [ selectedAddOns, setSelectedAddOns ] = useState({});
+
+    useEffect(() => {
+        var text = ['Order Notes', 'Add Notes to your Order!'];
+        TranslateBulk(text, setTranslationText);
+        var buttons = ['Add To Cart'];
+        TranslateBulk(buttons, setTranslationButtons);
+    }, []);
 
     const handleClose = (id) => () => {
         setOpen({...open, [id]: false});
@@ -95,8 +105,8 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
     >
         <TextField 
             fullWidth 
-            placeholder='Add Notes to your order!' 
-            label='Order Notes' 
+            placeholder={translationText[1] || 'Add Notes to your order!'}
+            label={translationText[0] || 'Order Notes' }
             onChange={handleNotes} 
             multiline 
             maxRows={3}
@@ -110,7 +120,7 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
             {/* <Button sx={{mr:3}} onClick={handleClose(menuItem.id)}>Cancel</Button> */}
             {/* <Box sx={{m:.5}}></Box> */}
             <Button variant='contained' onClick={handleAdd(menuItem.id)}>
-                Add To Cart <span style={{ marginRight: '30px' }}></span>{`$${Number(price).toFixed(2)}`}
+                {translationButtons[0] || 'Add To Cart'} <span style={{ marginRight: '30px' }}></span>{`$${Number(price).toFixed(2)}`}
             </Button>
         </div>
     </Box>
