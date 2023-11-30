@@ -33,13 +33,14 @@ function App() {
       <Route path="/manager/*" element={<ManagerPOS />} />
       <Route path="/cashier/*" element={<CashierPOS />} />
       <Route path="/menu_board" element={<MenuBoard />} />
-      <Route path="/customer/*" element={<CustomerPOS />} />
+      <Route path="/customer" element={<CustomerPOS />} />
       <Route path="/cashier/add-ons" element={<AddAddOns />} />
       <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
       <Route path="/menu_board" element={<MenuBoard />} />
       {/* <Route path="/login/*" element={<LoginLanding onLogin={handleLogin} />} /> */}
       {/* Redirect to login by default */}
       <Route path="*" element={<LoginLanding />} />
+      <Route path="/login" element={<LoginLanding />} />
     </Routes>
   );
 

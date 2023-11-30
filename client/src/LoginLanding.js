@@ -34,9 +34,9 @@ export default function LoginLanding({onLogin}) {
       if (email === profiles.cashier.email && password === profiles.cashier.password) {
         navigate('/cashier/*');
       } else if (email === profiles.manager.email && password === profiles.manager.password) {
-        navigate('/manager/*');
+        navigate('/manager');
       } else if (email === profiles.customer.email && password === profiles.customer.password) {
-        navigate('/customer/*');
+        navigate('/customer');
       } else {
         // Handle invalid credentials
         console.log('Invalid credentials');
