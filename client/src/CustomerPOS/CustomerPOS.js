@@ -6,10 +6,6 @@ import { NavLink, Route, Routes } from 'react-router-dom';
 const CustomerPOS = () => {
   return (
     <div>
-      <h2>
-        {/* Menu */}
-        {/* <LanguageDialog /> */}
-      </h2>
       <Menu />
     </div>
   );
