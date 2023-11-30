@@ -4,17 +4,15 @@ import { TranslateBulk } from '../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTotalPrice}) => {
+export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTotalPrice, allAddOns}) => {
     const [ addOns, setAddOns ] = useState([]);
-    const [ doTL, setDoTL ] = useState(false);
-    const [ translation, setTranslation ] = useState([]);
+    // const [ doTL, setDoTL ] = useState(false);
+    // const [ translation, setTranslation ] = useState([]);
 
     useEffect(() => {
-        // var abortController = new AbortController();
         const getAddOns = async (id) => {
             try {
                 var response = await fetch(serverURL+'/single', {
-                    // signal: abortController.signal,
                     method: 'POST',
                     headers: {
                         "Content-type": "application/json; charset = UTF-8"
@@ -22,58 +20,25 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
                     body: JSON.stringify({'menu_add_ons': id})
                 });
                 var res = await response.json();
+                var temp = [];
+                // console.log(res.response);
                 for (var item of res.response) {
+                    temp.push(allAddOns.filter((value) => item.id === value.id)[0]);
                     item['enName'] = item.name;
                     if (selected[item.id] !== undefined) {
                         continue;
                     }
                     selected[item.id] = false;
                 }
-                // console.log(res.response);
-                // for (let i = 0; i < res.response.length; i++) {
-                //     res.response[i].enName = res.response[i].name;
-                //     if (selected[res.response[i].id] !== undefined) {
-                //         continue;
-                //     }
-                //     selected[res.response[i].id] = false;
-                // }
-                // console.log(res.response);
                 setSelected({...selected});
-                setAddOns(res.response);
-                setDoTL(true);
+                setAddOns(temp);
             }
             catch (error) {
                 console.log(error);
             }
         }
         getAddOns(menuId);
-        // return (
-        //     abortController.abort()
-        // )
     }, []);
-
-    useEffect(() => {
-        // console.log('l');
-        if (doTL) {
-            var temp = [];
-            // console.log(addOns);
-            for (const item of addOns) {
-                temp.push(item.enName);
-            }
-            // console.log(temp);
-            TranslateBulk(temp, setTranslation);
-            setDoTL(false);
-        }
-    }, [doTL])
-
-    useEffect(() => {
-        // console.log(addOns);
-        // console.log(translation);
-        for (let i = 0; i < translation.length; i++) {
-            addOns[i].name = translation[i];
-        }
-        setAddOns([...addOns]);
-    }, [translation])
 
     const toggleCheck = (id, price) => {
         console.log(price);
@@ -100,24 +65,7 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
         setSelected(checked);
     }
 
-    console.log(addOns);
-
-    // try {
-    //     var text = [];
-    //     for (const item of addOns) {
-    //         if (item !== 'default') {
-    //             text.push(item.name);
-    //         }
-    //     }
-    //     var translation = TranslateBulk(text);
-    //     for (let i = 0; i < translation.length && i < addOns.length; ++i) {
-    //         addOns[i].name = translation[i];
-    //     }
-    // }
-    // catch (error) {
-    //     console.log(error);
-    // }
-
+    // console.log(addOns);
     if (addOns === undefined || addOns.length === 0) {
         return <div></div>
     }

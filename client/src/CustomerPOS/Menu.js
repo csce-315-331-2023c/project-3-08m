@@ -15,17 +15,17 @@ import { Weather } from '../Weather';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-const MenuItem = ({ name, price }) => (
-  // let [isOpen, setIsOpen] = useState(false);
-  // <button onClick={}>
-  <div className="menu-item">
-    <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
-    <h3>{name}</h3>
-    <div className="menu-price">{`$${price.toFixed(2)}`}</div>
-    {/* Likes functionality can be added if you have that data */}
-  </div>
-  // </button>
-);
+// const MenuItem = ({ name, price }) => (
+//   // let [isOpen, setIsOpen] = useState(false);
+//   // <button onClick={}>
+//   <div className="menu-item">
+//     <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
+//     <h3>{name}</h3>
+//     <div className="menu-price">{`$${price.toFixed(2)}`}</div>
+//     {/* Likes functionality can be added if you have that data */}
+//   </div>
+//   // </button>
+// );
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -68,8 +68,8 @@ const Menu = () => {
       abortController.abort();
     }
   }, []);
-  console.log(menuItems);
-  console.log(addOns);
+  // console.log(menuItems);
+  // console.log(addOns);
 
   useEffect(() => {
     if (doTL) {
@@ -174,7 +174,7 @@ const Menu = () => {
       <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
       <div className="menu">
         {/* <button> */}
-        {menuItems.map(item => {
+        {menuItems.map((item, i) => {
           let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
           if (!(menuPicture in images)) {
             menuPicture = 'boba.png';
@@ -185,7 +185,8 @@ const Menu = () => {
               <MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
             </button> 
             <Box sx={{ m:3}}></Box>
-            </div>       )})}
+            </div>
+          )})}
         {/* </button> */}
       </div>
       {/* <LanguageDialog /> */}

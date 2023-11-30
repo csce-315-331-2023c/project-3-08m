@@ -4,70 +4,21 @@ import{ Box, Button, Checkbox } from '@mui/material';
 import { useState, useEffect } from 'react';
 import './AddOns.css';
 import './Menu.css';
-import { TranslateBulk } from '../Translate';
-import MenuItemCard from './components/MenuItemCard';
+// import { TranslateBulk } from '../Translate';
+// import MenuItemCard from './components/MenuItemCard';
 // import defaultDrinkImage from './assets/boba.svg';
 import { AddOnsCheckbox } from './components/AddOnsCheckbox';
 import theme from '../theme';
 
 
-const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+// const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuItemAddOns, totalPrice, setTotalPrice, notes, addOns}) {
     // const [ addOns, setAddOns ] = useState([]);
     const [ price, setPrice ] = useState(menuItem.price);
     const [ orderNotes, setOrderNotes ] = useState("");
-    const [ doTL, setDoTL ] = useState(false);
-    const [ translation, setTranslation ] = useState([]);
-
-    // useEffect(() => {
-    //     var abortController = new AbortController();
-    //     const getMenu = async () => {
-    //         try {
-    //             var response = await fetch(serverURL+'/single', {
-    //                 signal: abortController.signal,
-    //                 method: 'POST',
-    //                 headers: {
-    //                     "Content-type": "application/json; charset = UTF-8"
-    //                 },
-    //                 body: JSON.stringify({'menu_add_ons': menuItem.id})
-    //             });
-    //             var data = await response.json();
-    //             // console.log(data.response);
-    //             for (var item of data.response) {
-    //                 item.enName = item.name;
-    //             }
-    //             setAddOns(data.response);
-    //             setDoTL(true);
-    //         }
-    //         catch (error) {
-    //             console.error('Error fetching data: ', error);
-    //         }
-    //     };
-    //     getMenu();
-    //     return () => {
-    //         abortController.abort();
-    //     }
-    // }, []);
-    // console.log(addOns);
-
-    // useEffect(() => {
-    //     if (doTL) {
-    //         var temp = [];
-    //         for (const item of addOns) {
-    //             temp.push(item.enName);
-    //         }
-    //         TranslateBulk(temp, setTranslation);
-    //         setDoTL(false);
-    //     }
-    // }, [doTL]);
-
-    // useEffect(() => {
-    //     for (let i = 0; i < translation.length; ++i) {
-    //         addOns[i].name = translation[i];
-    //     }
-    //     setAddOns([...addOns]);
-    // }, [translation])
+    // const [ doTL, setDoTL ] = useState(false);
+    // const [ translation, setTranslation ] = useState([]);
 
     const [ selectedAddOns, setSelectedAddOns ] = useState({});
 
@@ -83,7 +34,7 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
                 orderItemAddOns.push(item);
             }
         }
-        console.log(orderItemAddOns);
+        // console.log(orderItemAddOns);
         orderMenuItemAddOns.push(orderItemAddOns);
         totalPrice += price;
         setTotalPrice(totalPrice*1);
@@ -131,7 +82,7 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
                 
                     {/* <DialogContentText></DialogContentText> */}
                     <Box sx={{m:2}}></Box>
-                    <AddOnsCheckbox menuId={menuItem.id} selected={selectedAddOns} setSelected={setSelectedAddOns} totalPrice={price} setTotalPrice={setPrice} />
+                    <AddOnsCheckbox menuId={menuItem.id} selected={selectedAddOns} setSelected={setSelectedAddOns} totalPrice={price} setTotalPrice={setPrice} allAddOns={addOns} />
                     {/* <br></br> */}
                     <Box sx={{m:3}}></Box>
                     <Box 
