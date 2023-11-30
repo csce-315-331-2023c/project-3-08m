@@ -283,10 +283,19 @@ const langAbbrevs2 = {
     'Zulu': 'zu',
 }
 
-const dropDownSymbol = 'V';
+// const dropDownSymbol = 'V';
 
 export function LanguageDialog({setDoTL}) {
     let [isOpen, setIsOpen] = useState(false);
+    const [ translationText, setTranslationText ] = useState([]);
+
+    useEffect(() => {
+        // console.log('b');
+        if (isOpen) {
+            var text = ['Select Language'];
+            TranslateBulk(text, setTranslationText);
+        }
+    }, [isOpen])
 
     const ChangeLanguage = (name, language) => {
         sessionStorage.setItem("language", language);
@@ -334,7 +343,7 @@ export function LanguageDialog({setDoTL}) {
                 </IconButton>
                 {isOpen &&
                 <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth>
-                    <DialogTitle>Select Language</DialogTitle>
+                    <DialogTitle>{translationText[0] || 'Select Language'}</DialogTitle>
                     <List>
                     {Object.entries(langAbbrevs2).map(([k, v]) => (
                         <ListItem
