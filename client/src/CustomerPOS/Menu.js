@@ -10,22 +10,23 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import alleyLogo from './assets/the_alley_logo.png';
 import theme from '../theme';
 import { Weather } from '../Weather';
+import AccountButton from './AccountButton';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-const MenuItem = ({ name, price }) => (
-  // let [isOpen, setIsOpen] = useState(false);
-  // <button onClick={}>
-  <div className="menu-item">
-    <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
-    <h3>{name}</h3>
-    <div className="menu-price">{`$${price.toFixed(2)}`}</div>
-    {/* Likes functionality can be added if you have that data */}
-  </div>
-  // </button>
-);
+// const MenuItem = ({ name, price }) => (
+//   // let [isOpen, setIsOpen] = useState(false);
+//   // <button onClick={}>
+//   <div className="menu-item">
+//     <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
+//     <h3>{name}</h3>
+//     <div className="menu-price">{`$${price.toFixed(2)}`}</div>
+//     {/* Likes functionality can be added if you have that data */}
+//   </div>
+//   // </button>
+// );
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -170,7 +171,7 @@ const Menu = () => {
           <LanguageDialog setDoTL={setDoTL}/>
           <div>
            {/* <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
-          <IconButton 
+           <IconButton 
             onClick={() => setOpenCheckout(true)} 
             aria-label="View Order and Checkout" 
             sx={{ color: 'white' }} // Apply white color to the icon
@@ -179,7 +180,9 @@ const Menu = () => {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
+          
         </div>
+        <AccountButton />
       </Toolbar>
     </AppBar>
     </ThemeProvider>
