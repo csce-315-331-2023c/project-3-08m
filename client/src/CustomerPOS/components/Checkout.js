@@ -11,8 +11,12 @@ const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes, addOns}) => {
     const [ isEditOpen, setIsEditOpen ] = useState({});
     const [ rows, setRows ] = useState([]);
+    const [ cols, setCols ] = useState([]);
     const [ orderSubmitted, setOrderSubmitted ] = useState(false);
     const [ cancelOpen, setCancelOpen ] = useState(false);
+    const [ translationHeader, setTranslationHeader ] = useState([]);
+    const [ translationText, setTranslationText ] = useState([]);
+    const [ translationButtons, setTranslationButtons ] = useState({});
 
     // console.log(notes);
 
@@ -54,60 +58,72 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setIsEditOpen({...isEditOpen, [id]: true});
     }
 
-    const columns = [
-        {
-            field: 'menuItemName',
-            headerName: 'Item',
-            headerClassName: 'super-app-theme--header',
-            flex: 2,
-            minWidth: 150,
-        },
-        {
-            field: 'addOns',
-            headerName: 'Add-Ons',
-            headerClassName: 'super-app-theme--header',
-            flex: 2,
-            minWidth: 150,
-        },
-        {
-            field: 'price',
-            headerName: 'Price',
-            headerClassName: 'super-app-theme--header',
-            flex: 2,
-            minWidth: 150,
-        },
-        {
-            field: 'notes',
-            headerName: 'Order Notes',
-            headerClassName: 'super-app-theme--header',
-            flex: 2,
-            minWidth: 150,
-        },
-        {
-            field: 'actions',
-            type: 'actions',
-            headerName: 'Actions',
-            flex: 2,
-            minWidth: 100,
-            cellClassName: 'actions',
-            getActions: ({id, row}) => {
-                // console.log(id);
-                // console.log(price);
-                return [
-                    <GridActionsCellItem
-                        icon={<EditIcon />}
-                        label='Edit'
-                        onClick={handleEdit(id)}
-                    />,
-                    <GridActionsCellItem
-                        icon={<DeleteIcon />}
-                        label='Delete'
-                        onClick={handleDelete(id, row.price)}
-                    />
-                ]
+    useEffect(() => {
+        var headers = ['Item', 'Add-Ons', 'Price', 'Order Notes', 'Actions'];
+        TranslateBulk(headers, setTranslationHeader);
+        var text = ['Checkout', 'No Items Ordered!', 'No Results From Filter', 'Total', 'Order Submitted!', 'No Items To Checkout', 'Order Cancelled!'];
+        TranslateBulk(text, setTranslationText);
+        var buttons = ['Clear Cart', 'Checkout'];
+        TranslateBulk(buttons, setTranslationButtons);
+    }, []);
+
+    useEffect(() => {
+        const columns = [
+            {
+                field: 'menuItemName',
+                headerName: translationHeader[0] || 'Item',
+                headerClassName: 'super-app-theme--header',
+                flex: 2,
+                minWidth: 150,
+            },
+            {
+                field: 'addOns',
+                headerName: translationHeader[1] || 'Add-Ons',
+                headerClassName: 'super-app-theme--header',
+                flex: 2,
+                minWidth: 150,
+            },
+            {
+                field: 'price',
+                headerName: translationHeader[2] || 'Price',
+                headerClassName: 'super-app-theme--header',
+                flex: 2,
+                minWidth: 150,
+            },
+            {
+                field: 'notes',
+                headerName: translationHeader[3] || 'Order Notes',
+                headerClassName: 'super-app-theme--header',
+                flex: 2,
+                minWidth: 150,
+            },
+            {
+                field: 'actions',
+                type: 'actions',
+                headerName: translationHeader[4] || 'Actions',
+                flex: 2,
+                minWidth: 100,
+                cellClassName: 'actions',
+                getActions: ({id, row}) => {
+                    // console.log(id);
+                    // console.log(price);
+                    return [
+                        <GridActionsCellItem
+                            icon={<EditIcon />}
+                            label='Edit'
+                            onClick={handleEdit(id)}
+                        />,
+                        <GridActionsCellItem
+                            icon={<DeleteIcon />}
+                            label='Delete'
+                            onClick={handleDelete(id, row.price)}
+                        />
+                    ]
+                }
             }
-        }
-    ];
+        ];
+        setCols(columns);
+    }, [translationHeader]);
     
     useEffect (() => {
         const r = [];
@@ -216,7 +232,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                     justifyContent: 'space-between', // Place items at the start and end of the container
                     alignItems: 'center', // Align items vertically at the center
                     }}>
-                    <h3>Checkout</h3> {/* Text aligned to left */}
+                    <h3>{translationText[0] || 'Checkout'}</h3> {/* Text aligned to left */}
                     <Button
                     variant="contained"
                     onClick={() => setIsOpen(false)}
@@ -243,7 +259,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 {/* <Box sx={{ height: '70vh'}}>  */}
                 {/* <Box style={{maxHeight: 500, overflow: 'auto'}}> */}
                     <DataGrid 
-                        columns={columns}
+                        columns={cols}
                         rows={rows}
                         // hideFooter
                         // hideFooterPagination
@@ -262,14 +278,16 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                             noRowsOverlay: () => {
                                 return (
                                     <Stack height="100%" alignItems="center" justifyContent="center">
-                                        No Items Ordered!
+                                        {/* No Items Ordered! */}
+                                        {translationText[1] || 'No Items Ordered!'}
                                     </Stack>
                                 );
                             },
                             noResultsOverlay: () => {
                                 return (
                                     <Stack height="100%" alignItems="center" justifyContent="center">
-                                        No Results from Filter
+                                        {/* No Results from Filter */}
+                                        {translationText[2] || 'No Results from Filter'}
                                     </Stack>
                                 )
                             }
@@ -279,13 +297,13 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 {/* </Box> */}
                 <br></br>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end'}} >
-                    <h4>Total: {`$${Number(price).toFixed(2)}`}</h4>
+                    <h4>{translationText[3] || 'Total'}: {`$${Number(price).toFixed(2)}`}</h4>
                 </Box>
                 <Box sx={{ mb:1}} ></Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between'}} >
-                    <Button onClick={handleCancel} color='primary' variant='outlined'>Clear Cart</Button>
+                    <Button onClick={handleCancel} color='primary' variant='outlined'>{translationButtons[0] || 'Clear Cart'}</Button>
                 {/* <Button onClick={() => setIsOpen(false)}>Cancel</Button> */}
-                    <Button color='primary' variant='contained' onClick={checkout}>Checkout</Button>
+                    <Button color='primary' variant='contained' onClick={checkout}>{translationButtons[1] || 'Checkout'}</Button>
                 </Box>
                 </ThemeProvider> 
                 </DialogContent> 
@@ -294,17 +312,17 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         {       
             orderMenuItems.length !== 0 ?
             <Dialog open={orderSubmitted}>
-                <DialogTitle>Order Submitted!</DialogTitle>
+                <DialogTitle>{translationText[4] || 'Order Submitted!'}</DialogTitle>
                 <Button onClick={handleOk}>Ok</Button>
             </Dialog>
             :
             <Dialog open={orderSubmitted}>
-                <DialogTitle>No Items to Checkout!</DialogTitle>
+                <DialogTitle>{translationText[5] || 'No Items to Checkout!'}</DialogTitle>
                 <Button onClick={handleOk}>Ok</Button>
             </Dialog>
         }
             <Dialog open={cancelOpen}>
-                <DialogTitle>Order Cancelled!</DialogTitle>
+                <DialogTitle>{translationText[6] || 'Order Cancelled!'}</DialogTitle>
                 <Button onClick={handleCancelOk}>Ok</Button>
             </Dialog>
         
