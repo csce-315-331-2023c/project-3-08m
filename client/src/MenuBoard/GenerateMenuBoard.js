@@ -21,15 +21,21 @@ const GenerateMenuBoard = () => {
       try {
         var response = await fetch(serverURL+'/menu');
         var data = await response.json();
-        for (var item of data.menu) {
-          item.enName = item.name;
+        // for (var item of data.menu) {
+        //   item.enName = item.name;
+        // }
+        for (let i = 0; i < data.menu.length; ++i) {
+          data.menu[i].enName = data.menu[i].name;
         }
         setMenuItems(data.menu);
         
         response = await fetch(serverURL+'/addOns');
         data = await response.json();
-        for (var item of data.addOns) {
-          item.enName = item.name;
+        // for (var item of data.addOns) {
+        //   item.enName = item.name;
+        // }
+        for (let i = 0; i < data.addOns.length; ++i) {
+          data.addOns[i].enName = data.addOns[i].name;
         }
         setAddOns(data.addOns);
         
