@@ -21,7 +21,8 @@ function processWeatherData(response) {
     var curr = day.temp;
     var conditions = day.conditions;
     var icon = day.icon;
-    return {min, max, curr, conditions, icon};
+    var description = day.description;
+    return {min, max, curr, conditions, icon, description};
 }
 
 // const getWeatherData = () => {
@@ -40,6 +41,15 @@ function processWeatherData(response) {
 
 export const Weather = () => {
     const [ weather, setWeather ] = useState({});
+    const {open, setOpen} = useState(false);
+
+    const handleBoxClick = () => {
+        setOpen(true);
+    };
+    
+      const handleClose = () => {
+        setOpen(false);
+    };
 
     useEffect(() => {
         const getWeatherData = async () => {
@@ -84,6 +94,17 @@ export const Weather = () => {
                 <Typography variant="string">
                     {`H:${weather.min}° L:${weather.max}°`}
                 </Typography>
+
+                {/* Dialog for the Pop-up */}
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>Weather Today</DialogTitle>
+                    <DialogContent>
+                        <Typography>
+                            {`${weather.description}`}
+                        </Typography>
+                    </DialogContent>
+                    <Button onClick={handleClose}>Close</Button>
+                </Dialog>
             </Box>
         </>
     )
