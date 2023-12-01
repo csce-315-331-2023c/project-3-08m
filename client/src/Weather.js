@@ -63,22 +63,28 @@ export const Weather = () => {
     // console.log(weather);
 
     return (
-        // <Box>
-            // <SunnyIcon />
-        // </Box>
         <>
-        <Box sx={{ display: 'flex', alignItems: 'center', m: 1 }}>
-    <Icon style={{ maxHeight: 70 }}>
-        <SunnyIcon />
-        {/* <img src={'./WeatherIcons/'+weather.icon+'.png'} /> */}
-    </Icon>
-    <Box sx={{ ml: 1, mt:.5 }}>
-        {` ${weather.min} / ${weather.max} F`}
-    </Box>
-</Box>
-            {/* <Typography>
-                Hello
-            </Typography> */}
+            <Box sx={{ display: 'flex', alignItems: 'center', m: 1 }}>
+                {/* First Line with Icon and Text */}
+                <Box>
+                    <Icon style={{maxHeight: 70}}>
+                        {<img src={'./WeatherIcons/'+weather.icon+'.svg'}></img>}
+                    </Icon>
+                    <Typography variant="string">
+                        {`${weather.curr}°`}
+                    </Typography>
+                </Box>
+
+                {/* Second Line */}
+                <Typography variant="string">
+                    {`${weather.conditions}`}
+                </Typography>
+
+                {/* Third Line */}
+                <Typography variant="string">
+                    {`H:${weather.min}° L:${weather.max}°`}
+                </Typography>
+            </Box>
         </>
     )
 }
