@@ -147,30 +147,30 @@ const Menu = () => {
       <ThemeProvider theme={theme}>
       <AppBar position="static">
       <Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <Box sx={{mb:1, mt:1, flexGrow: 2, justifyContent: 'space-between'}}>
-            <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-            {/* <Box sx={{m: 1}}></Box> */}
-            <Weather />
-          </Box>
+      {/* Left Side: Image and Weather Component */}
+      <Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
+        <Box sx={{ mb: 1, mt: 1 }}>
+          <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
         </Box>
-          {/* <Weather /> */}
-          <LanguageDialog setDoTL={setDoTL}/>
-          <div>
-           {/* <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
-          <IconButton 
-            onClick={() => setOpenCheckout(true)} 
-            aria-label="View Order and Checkout" 
-            sx={{ color: 'white' }} // Apply white color to the icon
-          >
-            <Badge badgeContent={orderMenuItems.length} color='secondary'>
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
-          
-        </div>
+        <Box sx={{ ml:2 }}><Weather /></Box>
+        
+      </Box>
+
+      {/* Right Side: Icon Buttons */}
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <LanguageDialog setDoTL={setDoTL} />
+        <IconButton 
+          onClick={() => setOpenCheckout(true)} 
+          aria-label="View Order and Checkout" 
+          sx={{ color: 'white' }} // Apply white color to the icon
+        >
+          <Badge badgeContent={orderMenuItems.length} color='secondary'>
+            <ShoppingCartIcon />
+          </Badge>
+        </IconButton>
         <AccountButton />
-      </Toolbar>
+      </Box>
+    </Toolbar>
     </AppBar>
     </ThemeProvider>
     <Box sx={{ m:3}}></Box>

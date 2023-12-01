@@ -67,11 +67,15 @@ export const Weather = () => {
             // <SunnyIcon />
         // </Box>
         <>
-            <Icon style={{maxHeight: 70}}>
-                <SunnyIcon />
-                {/* <img src={'./WeatherIcons/'+weather.icon+'.png'}></img> */}
-            </Icon>
-            {` ${weather.min} / ${weather.max} F`}
+        <Box sx={{ display: 'flex', alignItems: 'center', m: 1 }}>
+    <Icon style={{ maxHeight: 70 }}>
+        <SunnyIcon />
+        {/* <img src={'./WeatherIcons/'+weather.icon+'.png'} /> */}
+    </Icon>
+    <Box sx={{ ml: 1, mt:.5 }}>
+        {` ${weather.min} / ${weather.max} F`}
+    </Box>
+</Box>
             {/* <Typography>
                 Hello
             </Typography> */}
