@@ -96,6 +96,8 @@ const GenerateMenuBoard = () => {
   //   return <div></div>
   // }
 
+  return <div></div>
+
   return (
     <div>
       <div className="menu">
