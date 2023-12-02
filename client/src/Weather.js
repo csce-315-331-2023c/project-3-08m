@@ -21,6 +21,10 @@ function processWeatherData(response) {
     var conditions = day.conditions;
     var icon = day.icon;
     var description = day.description;
+    var feelslike = day.feelslike;
+    var feelslikemin = day.feelslikemin;
+    var feelslikemax = day.feelslikemax;
+    var humidity = day.humidity;
     var svg;
     if (icon === "partly-cloudy-day") {
         svg = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 113.56 78.96"><defs><style>{`.cls-1{fill:#f5b952;}.cls-2{fill:#cae3f6;}.cls-3,.cls-4,.cls-5{fill:none;stroke-miterlimit:10;stroke-width:4px;}.cls-3,.cls-4{stroke:#000;}.cls-4{stroke-linecap:square;}.cls-5{stroke:#0a0b0b;}`}</style></defs><title>partly-cloudy-dayAsset 159colored</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M40.4,15.88A24.8,24.8,0,1,0,65.19,40.67,24.82,24.82,0,0,0,40.4,15.88Z"/><path class="cls-2" d="M91,77H38.92c-2.19,0-5.09-1.72-5.92-3.58a9.49,9.49,0,0,1-.4-9.56,9.78,9.78,0,0,1,9.37-5c1.57.08,1.9-.5,2.09-1.8a23.93,23.93,0,0,1,19.7-19.77l.12,0a24,24,0,0,1,16,3.39c.46.28.93.6,1.39.94a24.66,24.66,0,0,1,6.47,7.32l.75,1.27"/><path class="cls-2" d="M66.19,63.82a10.32,10.32,0,0,1,8.23-8.68,11.11,11.11,0,0,1,2-.15,10.62,10.62,0,0,1,7.19,2.78,10,10,0,0,1,2.84,4.75"/><path class="cls-2" d="M80.26,55.63c3-4.65,9.95-6.36,15.49-5.22a12.58,12.58,0,0,1,10,9.69c.71,3.06.93,4.22,3.29,5.86,3.36,2.33,3.13,7.53.41,10a4.19,4.19,0,0,1-2.61,1h-18"/><line class="cls-2" x1="94.67" y1="76.95" x2="100.07" y2="76.95"/><path class="cls-3" d="M63.22,31A24.79,24.79,0,1,0,28.14,62"/><line class="cls-4" x1="40.21" y1="15.51" x2="40.21" y2="2"/><line class="cls-4" x1="15.51" y1="40.47" x2="2" y2="40.47"/><line class="cls-4" x1="22.7" y1="22.88" x2="13.14" y2="13.32"/><line class="cls-4" x1="57.81" y1="22.7" x2="67.36" y2="13.14"/><line class="cls-4" x1="22.88" y1="57.99" x2="13.32" y2="67.54"/><path class="cls-5" d="M91,77H38.92c-2.19,0-5.09-1.72-5.92-3.58a9.49,9.49,0,0,1-.4-9.56,9.78,9.78,0,0,1,9.37-5c1.57.08,1.9-.5,2.09-1.8a23.93,23.93,0,0,1,19.7-19.77l.12,0a24,24,0,0,1,16,3.39c.46.28.93.6,1.39.94a24.66,24.66,0,0,1,6.47,7.32l.75,1.27"/><path class="cls-5" d="M66.19,63.82a10.32,10.32,0,0,1,8.23-8.68,11.11,11.11,0,0,1,2-.15,10.62,10.62,0,0,1,7.19,2.78,10,10,0,0,1,2.84,4.75"/><path class="cls-5" d="M80.26,55.63c3-4.65,9.95-6.36,15.49-5.22a12.58,12.58,0,0,1,10,9.69c.71,3.06.93,4.22,3.29,5.86,3.36,2.33,3.13,7.53.41,10a4.19,4.19,0,0,1-2.61,1h-3.36"/><line class="cls-5" x1="94.67" y1="76.95" x2="100.07" y2="76.95"/></g></g></svg>;
@@ -323,7 +327,7 @@ function processWeatherData(response) {
     else if (icon === "wind") {
         svg = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 94.85 66.53"><defs><style>{`.cls-1{fill:#cae3f6;}.cls-2,.cls-3{fill:none;stroke-miterlimit:10;}.cls-2{stroke:#000;stroke-linecap:round;stroke-width:3px;}.cls-3{stroke:#0a0b0b;stroke-width:4px;}`}</style></defs><title>windAsset 169colored</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M58.31,39.74H9.59a6.88,6.88,0,0,1-5.53-3.4,9,9,0,0,1,8.39-13.79c1.47.07,1.77-.47,2-1.71A22.53,22.53,0,0,1,32.82,2.08l.11,0A22.24,22.24,0,0,1,47.85,5.27c.44.27.88.58,1.31.9a23.18,23.18,0,0,1,6,7l.71,1.21"/><path class="cls-1" d="M35.09,27.27A9.73,9.73,0,0,1,42.78,19a11.72,11.72,0,0,1,1.9-.15,9.88,9.88,0,0,1,6.72,2.64A9.57,9.57,0,0,1,54.07,26"/><path class="cls-1" d="M48.25,19.49c2.82-4.4,9.31-6,14.48-4.95a11.85,11.85,0,0,1,9.38,9.2c.66,2.9.87,4,3.08,5.56,3.14,2.21,2.92,7.15.38,9.48a3.87,3.87,0,0,1-2.44.95H56.28"/><line class="cls-1" x1="61.72" y1="39.73" x2="66.77" y2="39.73"/><path class="cls-2" d="M58.7,53.08c-2.65,0-5.3,0-8,0"/><path class="cls-2" d="M50.75,47.79c1.43,0,2.87,0,4.31,0"/><path class="cls-2" d="M61,47.8q12.51,0,25,0a7.38,7.38,0,0,0,6.33-3.15,5.85,5.85,0,0,0-1.27-8,4.44,4.44,0,0,0-5.76.49,3.29,3.29,0,0,0,0,4.57,2.36,2.36,0,0,0,3.34.1"/><path class="cls-2" d="M75.85,59.15a2.48,2.48,0,0,0-3-.43,3.25,3.25,0,0,0-1.42,3.05A3.91,3.91,0,0,0,74.77,65a4.83,4.83,0,0,0,5.42-3.65,6.07,6.07,0,0,0-3-7.13,8,8,0,0,0-4.07-1.1H64.4"/><path class="cls-3" d="M58.22,39.72H9a7,7,0,0,1-5.59-3.38,9,9,0,0,1-.38-9,9.25,9.25,0,0,1,8.86-4.71c1.48.08,1.79-.46,2-1.69A22.6,22.6,0,0,1,32.47,2.24h.12A22.69,22.69,0,0,1,47.66,5.42q.66.41,1.32.9a23.26,23.26,0,0,1,6.11,6.91l.71,1.2"/><path class="cls-3" d="M34.77,27.31a9.73,9.73,0,0,1,7.77-8.2A10.79,10.79,0,0,1,44.46,19a10.05,10.05,0,0,1,6.79,2.62,9.68,9.68,0,0,1,2.69,4.49"/><path class="cls-3" d="M48.06,19.57c2.85-4.38,9.4-6,14.63-4.92a11.85,11.85,0,0,1,9.47,9.15c.67,2.89.88,4,3.11,5.53,3.18,2.2,3,7.12.39,9.44a4,4,0,0,1-2.47.95H70"/><line class="cls-3" x1="61.67" y1="39.72" x2="66.77" y2="39.72"/></g></g></svg>;
     }
-    return {min, max, curr, conditions, icon, description, svg};
+    return {min, max, curr, conditions, icon, description, svg, feelslike, feelslikemax, feelslikemin, humidity};
 }
 
 // const getWeatherData = () => {
@@ -400,7 +404,7 @@ export const Weather = () => {
                 {/* Third Line */}
                 <div>
                     <Typography variant="string">
-                        {`\nH: ${weather.min}° L: ${weather.max}°`}
+                        {`H: ${weather.min}° L: ${weather.max}°`}
                     </Typography>
                 </div>
 
@@ -410,6 +414,21 @@ export const Weather = () => {
                     <DialogContent>
                         <Typography>
                             {`${weather.description}`}
+                        </Typography>
+                        <Typography>
+                            {`Current Temperature: ${weather.curr}°`}
+                        </Typography>
+                        <Typography>
+                            {`Feels Like: ${weather.feelslike}°`}
+                        </Typography>
+                        <Typography>
+                            {`H: ${weather.max}° L: ${weather.min}°`}
+                        </Typography>
+                        <Typography>
+                            {`Feels Like H: ${weather.feelslikemax}° Feels Like L: ${weather.feelslikemin}°`}
+                        </Typography>
+                        <Typography>
+                            {`Humidity: ${weather.humidity}`}
                         </Typography>
                     </DialogContent>
                     <Button onClick={handleClose}>Close</Button>
