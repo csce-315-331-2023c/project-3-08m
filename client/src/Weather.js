@@ -2,7 +2,7 @@
 
 import { Box, Typography, Dialog, DialogTitle, DialogContent, Button, SvgIcon} from "@mui/material";
 import { useEffect, useState } from "react";
-// import './WeatherIcons';
+import { TranslateBulk } from "./Translate";
 
 // getting date
 const date = new Date();
@@ -331,9 +331,12 @@ function processWeatherData(response) {
     return {min, max, curr, conditions, icon, description, svg, feelslike, feelslikemax, feelslikemin, humidity};
 }
 
-export const Weather = () => {
+export const Weather = ({doTL}) => {
     const [ weather, setWeather ] = useState({});
     const [open, setOpen] = useState(false);
+    // const [ doTL, setDoTL ] = useState(false);
+    const [ translationTextWeather, setTranslationTextWeather ] = useState([]);
+    const [ translationText, setTranslationText ] = useState([]);
 
     const handleBoxClick = () => {
         setOpen(true);
@@ -349,7 +352,11 @@ export const Weather = () => {
                 const response = await fetch(API_URL);
                 const json = await response.json();
                 // console.log(json);
-                setWeather(processWeatherData(json));
+                var processed = processWeatherData(json);
+                processed['enConditions'] = processed.conditions;
+                processed['enDescription'] = processed.description;
+                setWeather(processed);
+                // setDoTL(true);
             }
             catch (error) {
                 console.log(error);
@@ -359,11 +366,37 @@ export const Weather = () => {
         getWeatherData();
     }, []);
 
+    useEffect(() => {
+        // console.log('jjkl');
+        // console.log(doTL);
+        if (doTL) {
+            // console.log('h');
+            var weatherText = [weather.enConditions, weather.enDescription];
+            TranslateBulk(weatherText, setTranslationTextWeather);
+            var text = ["Today's Weather", 'Current Temperature', 'Feels Like', 'Humidity', 'Close'];
+            TranslateBulk(text, setTranslationText);
+            // setDoTL(false);
+        }
+    }, [doTL])
+
+    useEffect(() => {
+        // console.log('asdf');
+        weather.conditions = translationTextWeather[0];
+        weather.description = translationTextWeather[1];
+        setWeather({...weather});
+    }, [translationTextWeather])
+
     if (Object.entries(weather).length === 0) {
-        return <div>L</div>; // Added a loading placeholder
+        return <div></div>; // Added a loading placeholder
+    }
+    for (const [k,v] of Object.entries(weather)) {
+        if (weather[k] === undefined) {
+            return <div></div>
+        }
     }
     // console.log(weather);
     // console.log(open);
+    // console.log(translationTextWeather);
 
     return (
         <>
@@ -378,7 +411,7 @@ export const Weather = () => {
                         {weather.svg}
                     </SvgIcon>
                     <Typography variant="string">
-                        {` ${weather.curr}°`}
+                        {` ${weather.curr}°F`}
                     </Typography>
                 </Box>
 
@@ -392,7 +425,7 @@ export const Weather = () => {
                 {/* Third Line */}
                 <div>
                     <Typography variant="string">
-                        {`H: ${weather.min}° L: ${weather.max}°`}
+                        {`H: ${weather.min}°F / L: ${weather.max}°F`}
                     </Typography>
                 </div>
             </Box>
@@ -401,28 +434,31 @@ export const Weather = () => {
             {
                 open &&
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Today's Weather</DialogTitle>
+                    <DialogTitle>{translationText[0] || "Today's Weather"}</DialogTitle>
                     <DialogContent>
                         <Typography>
                             {`${weather.description}`}
                         </Typography>
                         <Typography>
-                            {`Current Temperature: ${weather.curr}°`}
+                            {`${translationText[1] || 'Current Temperature'}: ${weather.curr}°F`}
                         </Typography>
                         <Typography>
-                            {`Feels Like: ${weather.feelslike}°`}
+                            {`${translationText[2] || "Feels Like"}: ${weather.feelslike}°F`}
                         </Typography>
                         <Typography>
-                            {`H: ${weather.max}° L: ${weather.min}°`}
+                            {`H: ${weather.max}°F / L: ${weather.min}°F`}
                         </Typography>
                         <Typography>
-                            {`Feels Like H: ${weather.feelslikemax}° Feels Like L: ${weather.feelslikemin}°`}
+                            {`${translationText[2] || 'Feels Like'} H: ${weather.feelslikemax}°F`}
                         </Typography>
                         <Typography>
-                            {`Humidity: ${weather.humidity}`}
+                            {`${translationText[2] || 'Feels Like'} L: ${weather.feelslikemin}°F`}
+                        </Typography>
+                        <Typography>
+                            {`${translationText[3] || 'Humidity'}: ${weather.humidity}%`}
                         </Typography>
                     </DialogContent>
-                    <Button onClick={handleClose}>Close</Button>
+                    <Button onClick={handleClose}>{translationText[4] || 'Close'}</Button>
                 </Dialog>
             }
         </>

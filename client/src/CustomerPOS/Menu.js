@@ -152,7 +152,7 @@ const Menu = () => {
         <Box sx={{ mb: 1, mt: 1 }}>
           <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
         </Box>
-        <Box sx={{ ml:2 }}><Weather /></Box>
+        <Box sx={{ ml:2 }}><Weather doTL={doTL} /></Box>
         
       </Box>
 
