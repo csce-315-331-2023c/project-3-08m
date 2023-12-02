@@ -2,6 +2,7 @@
 
 import { Box, Typography, Dialog, DialogTitle, DialogContent, Button, SvgIcon} from "@mui/material";
 import { useEffect, useState } from "react";
+// import './WeatherIcons';
 
 // getting date
 const date = new Date();
@@ -330,20 +331,6 @@ function processWeatherData(response) {
     return {min, max, curr, conditions, icon, description, svg, feelslike, feelslikemax, feelslikemin, humidity};
 }
 
-// const getWeatherData = () => {
-//     const 
-//     var weatherReport = [];
-//     try {
-//         const response = await fetch(API_URL);
-//         const json = await response.json();
-//         weatherReport = processWeatherData(json);
-
-//     } catch (error) {
-//         console.log(error);
-//     }
-//     return weatherReport;
-// }
-
 export const Weather = () => {
     const [ weather, setWeather ] = useState({});
     const [open, setOpen] = useState(false);
@@ -352,7 +339,7 @@ export const Weather = () => {
         setOpen(true);
     };
     
-      const handleClose = () => {
+    const handleClose = () => {
         setOpen(false);
     };
 
@@ -376,6 +363,7 @@ export const Weather = () => {
         return <div>L</div>; // Added a loading placeholder
     }
     // console.log(weather);
+    // console.log(open);
 
     return (
         <>
@@ -407,8 +395,11 @@ export const Weather = () => {
                         {`H: ${weather.min}° L: ${weather.max}°`}
                     </Typography>
                 </div>
+            </Box>
 
-                {/* Dialog for the Pop-up */}
+            {/* Dialog for the Pop-up */}
+            {
+                open &&
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Today's Weather</DialogTitle>
                     <DialogContent>
@@ -433,7 +424,7 @@ export const Weather = () => {
                     </DialogContent>
                     <Button onClick={handleClose}>Close</Button>
                 </Dialog>
-            </Box>
+            }
         </>
     )
 }
