@@ -1,9 +1,10 @@
 // ManagerPOS.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { AppBar, Toolbar, Tabs, Button, Box, ThemeProvider} from '@mui/material';
 import theme from '../theme';
 import alleyLogo from '../CustomerPOS/assets/the_alley_logo.png';
+import { LanguageDialog, TranslateBulk } from '../Translate';
 // import { NavLink, Routes, Route } from 'react-router-dom';
 
 // Import your page components
@@ -15,6 +16,16 @@ import AddOns from './pages/AddOns';
 import AccountButton from '../AccountButton';
 const ManagerPOS = () => {
   const [selectedTab, setSelectedTab] = useState('/manager/employees');
+  const [ doTL, setDoTL ] = useState(true);
+  const [ translationButtons, setTranslationButtons ] = useState([]);
+
+  useEffect(() => {
+    if (doTL) {
+      var buttons = ['Employees', 'Orders', 'Inventory', 'Menu', 'Add-Ons'];
+      TranslateBulk(buttons, setTranslationButtons);
+      setDoTL(false);
+    }
+  }, [doTL]);
 
   const handleButtonClick = (path) => {
     setSelectedTab(path);
@@ -51,17 +62,18 @@ const ManagerPOS = () => {
             <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
           </Box>
           </Box>
-          {navButton('Employees', '/manager/employees')}
-          {navButton('Orders', '/manager/orders')}
-          {navButton('Inventory', '/manager/inventory')}
-          {navButton('Menu', '/manager/menu')}
-          {navButton('Add-ons', '/manager/add-ons')}
+          {navButton(translationButtons[0] || 'Employees', '/manager/employees')}
+          {navButton(translationButtons[1] || 'Orders', '/manager/orders')}
+          {navButton(translationButtons[2] || 'Inventory', '/manager/inventory')}
+          {navButton(translationButtons[3] || 'Menu', '/manager/menu')}
+          {navButton(translationButtons[4] || 'Add-ons', '/manager/add-ons')}
+          <LanguageDialog setDoTL={setDoTL} />
           <AccountButton />
         </Toolbar>
       </AppBar>
       <Box sx={{ m:1}}></Box>
       <Routes>
-        <Route path="/employees" element={<Employees />} />
+        <Route path="/employees" element={<Employees doTL={doTL}/>} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/menu" element={<Menu />} />

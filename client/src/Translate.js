@@ -416,43 +416,7 @@ export const TranslateBulk = (textArray, setTranslation) => {
 export const TranslateText = (text, setTranslation) => {
     // var translation = text;
     var tLang = GetTranslateLanguage();
-
-    // useEffect( () => {
-    // // console.log(targetLanguage);
-    //     if (targetLanguage !== 'en') {
-    //         const abortController = new AbortController();
-        
-    //         async function translate(targetLanguage) {
-    //             console.log(targetLanguage);
-                // var translateURL = API_URL;
-                // translateURL += '?key='+API_KEY;
-                // translateURL += '&q='+encodeURI(text);
-                // translateURL += '&source=en';
-                // translateURL += '&target='+targetLanguage;
-    //             try {
-    //                 // console.log("test");
-    //                 const response = await fetch(translateURL, {
-    //                     signal: abortController.signal,
-    //                     method: 'POST',
-    //                     referrer: window.location.href
-    //                 });
-    //                 // console.log(response.body);
-    //                 const res = await response.json();
-    //                 console.log(res);
-    //                 setTranslation(res.data.translations[0].translatedText)
-    //             }
-    //             catch (error) {
-    //                 console.log(error);
-    //             }
-    //         }
-    //         translate(targetLanguage);
-    //         // return translation;
-    //         return () => {
-    //             abortController.abort();
-    //         }
-    //     }
-    // }, []);
-    // return translation;
+    
     const translate = () => {
         const sendRequest = async () => {
             var translateURL = API_URL;
@@ -471,7 +435,7 @@ export const TranslateText = (text, setTranslation) => {
                     temp.push(text.translatedText);
                 }
                 // console.log(temp);
-                setTranslation(temp);
+                setTranslation(temp[0]);
                 // return temp;
             }
             catch (error) {

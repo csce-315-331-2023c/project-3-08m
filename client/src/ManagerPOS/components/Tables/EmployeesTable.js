@@ -11,6 +11,7 @@ import {
 } from '@mui/x-data-grid';
 import theme from '../../../theme';
 import { ThemeProvider } from '@emotion/react';
+import { TranslateBulk, TranslateText } from '../../../Translate';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -45,7 +46,14 @@ const handleUpdate = (type, updateVals) => {
 }
 
 function AddToolbar(props) {
-  const { setEmployees, setRowModes, inAdd, setInAdd } = props;
+  const { setEmployees, setRowModes, inAdd, setInAdd, doTL } = props;
+  const [ translationButton, setTranslationButton ] = useState('');
+
+  useEffect(() => {
+    if (doTL) {
+      TranslateText('Create New Employee', setTranslationButton);
+    }
+  },[doTL]);
   var id = '';
   const handleAdd = () => {
     if (inAdd) {
@@ -64,7 +72,7 @@ function AddToolbar(props) {
       {/* <div style={{flex: '1 1 0%'}} /> */}
       <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        Create New Employee
+        {translationButton || 'Create New Employee'}
       </Button>
       </Box>
     </GridToolbarContainer>
@@ -72,11 +80,12 @@ function AddToolbar(props) {
   )
 }
 
-const EmployeesTable = () => {
+const EmployeesTable = ({doTL}) => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [ inAdd, setInAdd ] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
 
   // Fetch employees from server
   useEffect(() => {
@@ -101,6 +110,14 @@ const EmployeesTable = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (doTL) {
+      // console.log("asdf");
+      var headers = ['ID', 'Username', 'Password', 'Name', 'Start Date', 'Salary', 'Position', 'Actions'];
+      TranslateBulk(headers, setTranslationHeaders);
+    }
+  }, [doTL])
 
   // Format date for display
   const formatDate = (dateString) => {
@@ -189,10 +206,10 @@ const EmployeesTable = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, editable: true, type: 'number', align: 'left', headerAlign: 'left'},
+    { field: 'id', headerName: translationHeaders[0] || 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, editable: true, type: 'number', align: 'left', headerAlign: 'left'},
     {
       field: 'username',
-      headerName: 'Username',
+      headerName: translationHeaders[1] || 'Username',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -200,7 +217,7 @@ const EmployeesTable = () => {
     },
     {
       field: 'password',
-      headerName: 'Password',
+      headerName: translationHeaders[2] || 'Password',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -208,7 +225,7 @@ const EmployeesTable = () => {
     },
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: translationHeaders[3] || 'Name',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -216,7 +233,7 @@ const EmployeesTable = () => {
     },
     {
       field: 'start_date',
-      headerName: 'Start Date',
+      headerName: translationHeaders[4] || 'Start Date',
       headerClassName: 'super-app-theme--header',
       type: 'date',
       flex: 2,
@@ -225,7 +242,7 @@ const EmployeesTable = () => {
     },
     {
       field: 'salary',
-      headerName: 'Salary',
+      headerName: translationHeaders[5] || 'Salary',
       headerClassName: 'super-app-theme--header',
       flex: 1,
       type: 'number',
@@ -236,7 +253,7 @@ const EmployeesTable = () => {
     },
     {
       field: 'position',
-      headerName: 'Position',
+      headerName: translationHeaders[6] || 'Position',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -245,7 +262,7 @@ const EmployeesTable = () => {
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Actions',
+      headerName: translationHeaders[7] || 'Actions',
       headerClassName: 'super-app-theme--header',
       minWidth: 100,
       cellClassName: 'actions',
@@ -313,7 +330,7 @@ const EmployeesTable = () => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setEmployees, setRowModes, inAdd, setInAdd }
+          toolbar: { setEmployees, setRowModes, inAdd, setInAdd, doTL }
         }}
         initialState={{
           sorting: {
