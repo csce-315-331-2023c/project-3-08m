@@ -16,7 +16,7 @@ import AddOns from './pages/AddOns';
 import AccountButton from '../AccountButton';
 const ManagerPOS = () => {
   const [selectedTab, setSelectedTab] = useState('/manager/employees');
-  const [ doTL, setDoTL ] = useState(true);
+  const [ doTL, setDoTL ] = useState(false);
   const [ translationButtons, setTranslationButtons ] = useState([]);
 
   useEffect(() => {
@@ -28,6 +28,7 @@ const ManagerPOS = () => {
   }, [doTL]);
 
   const handleButtonClick = (path) => {
+    setDoTL(true);
     setSelectedTab(path);
   };
 
@@ -74,11 +75,11 @@ const ManagerPOS = () => {
       <Box sx={{ m:1}}></Box>
       <Routes>
         <Route path="/employees" element={<Employees doTL={doTL}/>} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/add-ons" element={<AddOns />} />
-        <Route path="/" element={<Employees />} />
+        <Route path="/orders" element={<Orders doTL={doTL} />} />
+        <Route path="/inventory" element={<Inventory doTL={doTL} />} />
+        <Route path="/menu" element={<Menu doTL={doTL} />} />
+        <Route path="/add-ons" element={<AddOns doTL={doTL} />} />
+        <Route path="/" element={<Employees doTL={doTL} />} />
       </Routes>
     </ThemeProvider>
   );
