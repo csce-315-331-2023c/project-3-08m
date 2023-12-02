@@ -1,6 +1,6 @@
 // const fetch = require('node-fetch');
 
-import { Box, Divider, Icon, Typography } from "@mui/material";
+import { Box, Divider, Icon, Typography, Dialog, DialogTitle, DialogContent, } from "@mui/material";
 import { useEffect, useState } from "react";
 import { WbSunny as SunnyIcon, Cloud as CloudyIcon, Thermostat as TemperatureIcon } from '@mui/icons-material';
 
@@ -74,7 +74,7 @@ export const Weather = () => {
 
     return (
         <>
-            <Box sx={{ display: 'flex', alignItems: 'center', m: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', m: 1 }} onClick={handleBoxClick}>
                 {/* First Line with Icon and Text */}
                 <Box>
                     <Icon style={{maxHeight: 70}}>
