@@ -2,11 +2,13 @@ import { Checkbox, FormControlLabel, FormGroup, ListItemButton } from '@mui/mate
 import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import Box from '@mui/material/Box';
+import { TranslateText } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 const AddOnsCheckbox = ({isChecked, setIsChecked}) => {
     const [ addOns, setAddOns ] = useState([]);
+    const [ translationText, setTranslationText ] = useState('');
 
     useEffect(() => {
         fetch(serverURL+'/addOns')
@@ -30,6 +32,10 @@ const AddOnsCheckbox = ({isChecked, setIsChecked}) => {
                 console.error('Fetch error:', error);
             });
     }, []);
+
+    useEffect(() => {
+        TranslateText('Add-Ons', setTranslationText);
+    }, [])
 
     const toggleCheck = (id) => {
         var checked = {};
@@ -58,7 +64,7 @@ const AddOnsCheckbox = ({isChecked, setIsChecked}) => {
     }
     return (
         <div>
-        <h5>Add-Ons</h5>
+        <h5>{translationText || 'Add-Ons'}</h5>
         <Box style={{maxHeight: 200, overflow: 'auto'}}>
         <List>
             {

@@ -3,12 +3,8 @@ import { Box, Button, Dialog, Typography, CircularProgress} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { format } from 'date-fns';
 import { DataGrid } from '@mui/x-data-grid';
+import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
-
-const columns = [
-  { field: 'name', headerName: 'Name', flex: 3, minWidth: 200, editable: false},
-  { field: 'order_count', headerName: 'Order Count', flex: 2, minWidth: 200,editable: false},
-];
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -17,6 +13,8 @@ const PopularityReportTable = ({ startTime, endTime, numItems, isOpen, onClose }
   const [popularityReportData, setShowPopularityReport] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationText, setTranslationText ] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,6 +65,13 @@ const PopularityReportTable = ({ startTime, endTime, numItems, isOpen, onClose }
   
     fetchData();
   }, [isOpen, startTime, endTime, numItems]);
+
+  useEffect(() => {
+    var headers = ['Name', 'Order Count'];
+    TranslateBulk(headers, setTranslationHeaders);
+    var text = ['Popularity Report', 'Error: No data found, enter a different time window.', 'No data available for the selected time window.'];
+    TranslateBulk(text, setTranslationText);
+  }, [])
   
 
   const handleOnClose = () => {
@@ -74,6 +79,11 @@ const PopularityReportTable = ({ startTime, endTime, numItems, isOpen, onClose }
     setShowPopularityReport([]);
     onClose();
   }
+
+  const columns = [
+    { field: 'name', headerName: translationHeaders[0] || 'Name', flex: 3, minWidth: 200, editable: false},
+    { field: 'order_count', headerName: translationHeaders[1] || 'Order Count', flex: 2, minWidth: 200,editable: false},
+  ];
 
   if (!isOpen) return null;
 
@@ -88,7 +98,7 @@ const PopularityReportTable = ({ startTime, endTime, numItems, isOpen, onClose }
       alignItems: 'center', // Align items vertically at the center
       m: 1 // Margin
     }}>
-      <h3>Popularity Report</h3> {/* Text aligned to left */}
+      <h3>{translationText[0] || 'Popularity Report'}</h3> {/* Text aligned to left */}
       <Button
       variant="contained"
       onClick={handleOnClose}
@@ -114,7 +124,7 @@ const PopularityReportTable = ({ startTime, endTime, numItems, isOpen, onClose }
       ) : error ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1" color="error">
-            Error: No data found, enter a different time window.
+            {translationText[1] || 'Error: No data found, enter a different time window.'}
           </Typography>
         </Box>
       ) : popularityReportData.length > 0 ? (
@@ -124,7 +134,7 @@ const PopularityReportTable = ({ startTime, endTime, numItems, isOpen, onClose }
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1">
-            No data available for the selected time window.
+            {translationText[2] || 'No data available for the selected time window.'}
           </Typography>
         </Box>
       )}

@@ -8,13 +8,22 @@ import {
   GridActionsCellItem,
 } from '@mui/x-data-grid';
 import { EditDialog, handleUpdate } from './MenuTableEditDialog';
+import { TranslateBulk, TranslateText } from '../../../Translate';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com' || 'http://localhost:9000';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
 function AddToolbar(props) {
-  const { menuItems, setMenuItems, isOpen, setIsOpen } = props;
+  const { menuItems, setMenuItems, isOpen, setIsOpen, doTL } = props;
+  const [ translationButton, setTranslationButton ] = useState('');
+
+  useEffect(() => {
+    if (doTL) {
+      TranslateText('Create New Menu Item', setTranslationButton);
+    }
+  }, [doTL])
+
   const handleAdd = () => {
     console.log('h');
     setIsOpen({...isOpen, '': true});
@@ -28,18 +37,19 @@ function AddToolbar(props) {
     {isOpen[''] && <EditDialog key={''} id='' menu={menuItems} setMenu={setMenuItems} open={isOpen} setOpen={setIsOpen}/>}
     <GridToolbarContainer>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        Create New Menu Item
+        {translationButton || 'Create New Menu Item'}
       </Button>
     </GridToolbarContainer>
     </>
   )
 }
 
-const MenuTable = () => {
+const MenuTable = ({doTL}) => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [ isOpen, setIsOpen ] = useState({});
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
 
   useEffect(() => {
     fetch(serverURL+'/menu')
@@ -60,6 +70,13 @@ const MenuTable = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (doTL) {
+      var headers = ['Name', 'Price', 'Actions'];
+      TranslateBulk(headers, setTranslationHeaders);
+    }
+  }, [doTL])
+
   const handleDelete = (id) => () => {
     console.log(id);
     handleUpdate('delete', {'id': id});
@@ -78,7 +95,7 @@ const MenuTable = () => {
     { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', headerAlign: 'left', align: 'left', flex: 1, minWidth: 50, editable: false, type: 'number'},
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: translationHeaders[0] || 'Name',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -86,7 +103,7 @@ const MenuTable = () => {
     },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: translationHeaders[1] || 'Price',
       headerClassName: 'super-app-theme--header',
       headerAlign: 'left', 
       align: 'left', 
@@ -98,7 +115,7 @@ const MenuTable = () => {
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Actions',
+      headerName: translationHeaders[2] || 'Actions',
       headerClassName: 'super-app-theme--header',
       minWidth: 100,
       cellClassName: 'actions',
@@ -160,7 +177,7 @@ const MenuTable = () => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { menuItems, setMenuItems, isOpen, setIsOpen }
+          toolbar: { menuItems, setMenuItems, isOpen, setIsOpen, doTL }
         }}
         initialState={{
           sorting: {

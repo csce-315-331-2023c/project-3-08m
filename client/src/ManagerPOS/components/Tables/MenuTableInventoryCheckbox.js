@@ -2,11 +2,13 @@ import { Checkbox, FormControlLabel, FormGroup, ListItemButton } from '@mui/mate
 import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import Box from '@mui/material/Box';
+import { TranslateText } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 const InventoryCheckbox = ({isChecked, setIsChecked}) => {
     const [ inventory, setInventory ] = useState([]);
+    const [ translationText, setTranslationText ] = useState('');
 
     useEffect(() => {
         fetch(serverURL+'/inventory')
@@ -30,6 +32,10 @@ const InventoryCheckbox = ({isChecked, setIsChecked}) => {
                 console.error('Fetch error:', error);
             });
     }, []);
+
+    useEffect(() => {
+        TranslateText('Inventory Items', setTranslationText);
+    }, [])
 
     const toggleCheck = (id) => {
         var checked = {};
@@ -58,7 +64,7 @@ const InventoryCheckbox = ({isChecked, setIsChecked}) => {
 
     return (
         <div>
-        <h5>Inventory Items</h5>
+        <h5>{translationText || 'Inventory Items'}</h5>
         <Box style={{maxHeight: 200, overflow: 'auto'}}>
         <List>
             {

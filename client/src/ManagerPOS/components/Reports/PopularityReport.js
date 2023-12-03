@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider, DateTimePicker} from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -6,6 +6,7 @@ import { ThemeProvider,  Dialog, Button, DialogTitle, DialogContent } from '@mui
 import { Box } from '@mui/material';
 import PopularityReportTable from './PopularityReportTable';
 import theme from '../../../theme';
+import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
 
 const PopularityReport = ({ isOpen, onClose }) => {
@@ -13,6 +14,15 @@ const PopularityReport = ({ isOpen, onClose }) => {
     const [endDate, setEndDate] = useState(new Date());
     const [numberOfItems, setNumberOfItems] = useState(1);
     const [showReportTable, setShowReportTable] = useState(false);
+    const [ translationButtons, setTranslationButtons ] = useState([]);
+    const [ translationText, setTranslationText ] = useState([]);
+
+    useEffect(() => {
+      var buttons = ['Cancel', 'Create Report'];
+      TranslateBulk(buttons, setTranslationButtons);
+      var text = ['Enter Start and End Times and Number of Items for Popularity Report', 'Start Date and Time', 'End Date and Time', 'Number of Items'];
+      TranslateBulk(text, setTranslationText);
+    }, [])
 
     const handleClose = (event, reason) => {
       if (reason && reason === 'backdropClick') {
@@ -30,14 +40,14 @@ const PopularityReport = ({ isOpen, onClose }) => {
 
 return (
   <Dialog open={isOpen} onClose={handleClose} maxWidth="md">
-  <DialogTitle>Enter Start and End Time and Number of Items for Popularity Report</DialogTitle>
+  <DialogTitle>{translationText[0] || 'Enter Start and End Times and Number of Items for Popularity Report'}</DialogTitle>
   <DialogContent>
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         {/* <form className="sales-report-form"> */}
           <DateTimePicker
             sx={{ marginTop: 1 ,width: '100%'}}
-            label="Start Date and Time"
+            label={translationText[1] || "Start Date and Time"}
             value={startDate}
             onChange={(newValue) => setStartDate(newValue)}
             renderInput={(params) => <TextField {...params} fullWidth />}
@@ -50,7 +60,7 @@ return (
           <Box sx={{ m: 2 }} />
           <DateTimePicker
             sx={{ marginTop: 1 ,width: '100%'}}
-            label="End Date and Time"
+            label={translationText[2] || "End Date and Time"}
             value={endDate}
             onChange={(newValue) => setEndDate(newValue)}
             renderInput={(params) => <TextField {...params} fullWidth />}
@@ -64,8 +74,8 @@ return (
           <TextField
             sx={{ marginTop: 1, width: '100%' }}
             type="number"
-            label="Number of Items"
-            defaultValue={1}
+            label={translationText[3] || "Number of Items"}
+            // defaultValue={1}
             value={numberOfItems}
             onChange={(event) => setNumberOfItems(event.target.value)} // Corrected this line
             InputLabelProps={{
@@ -77,10 +87,10 @@ return (
           {/* <div className="sales-report-actions"> */}
           <Box sx={{ display: 'flex', justifyContent: 'right' }}>
             <Button sx={{m:1}}  onClick={onClose} color="primary">
-              Cancel
+              {translationButtons[0] || 'Cancel'}
             </Button>
             <Button sx={{m:1}} onClick={handleCreateReportClick} color="primary" variant="contained">
-              Create Report
+              {translationButtons[1] || 'Create Report'}
             </Button>
             {showReportTable && (
               <PopularityReportTable

@@ -1,12 +1,21 @@
 // Menu.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuTable from '../components/Tables/MenuTable';
 import PopularityReport from '../components/Reports/PopularityReport'; // Ensure correct path
 import { Box, Button, ThemeProvider } from '@mui/material';
 import theme from '../../theme';
+import { TranslateBulk } from '../../Translate';
 
-const Menu = () => {
+const Menu = ({doTL}) => {
   const [showPopularityReport, setShowPopularityReport] = useState(false);
+  const [ translationText, setTranslationText ] = useState([]);
+
+  useEffect(() => {
+    if (doTL) {
+      var text = ['Menu', 'Popularity Report'];
+      TranslateBulk(text, setTranslationText);
+    }
+  }, [doTL])
 
   const handleOpenPopularityReport = () => {
     setShowPopularityReport(true);
@@ -20,13 +29,16 @@ const Menu = () => {
     <div>
       <ThemeProvider theme={theme}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2>Menu</h2>
+          <h2>{translationText[0] || 'Menu'}</h2>
           <Button sx={{ m: 1 }} color="primary" variant="contained" onClick={handleOpenPopularityReport}>
-            Popularity Report
+            {translationText[1] || 'Popularity Report'}
           </Button>
         </Box>
-        <MenuTable />
-        <PopularityReport isOpen={showPopularityReport} onClose={handleClosePopularityReport} />
+        <MenuTable doTL={doTL} />
+        {
+          showPopularityReport &&
+          <PopularityReport isOpen={showPopularityReport} onClose={handleClosePopularityReport} />
+        }
       </ThemeProvider>
     </div>
   );

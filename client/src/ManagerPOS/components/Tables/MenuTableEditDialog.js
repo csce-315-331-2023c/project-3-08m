@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import AddOnsCheckbox from "./MenuTableAddOnCheckbox";
 import { useEffect, useState } from "react";
 import InventoryCheckbox from "./MenuTableInventoryCheckbox";
+import { TranslateBulk } from "../../../Translate";
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -170,6 +171,16 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
         }
     }, []);
 
+    const [ translationHeaders, setTranslationHeaders ] = useState([]);
+    const [ translationButtons, setTranslationButtons ] = useState([]);
+
+    useEffect(() => {
+        var headers = ['Name', 'Price'];
+        TranslateBulk(headers, setTranslationHeaders);
+        var buttons = ['Cancel', 'Save'];
+        TranslateBulk(buttons, setTranslationButtons);
+    }, [])
+
     // if (id === '') {
     //     return "hello";
     // }
@@ -202,7 +213,7 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
     }
 
     const handleSave = (id) => {
-        if (errorIdText != ' ') {
+        if (errorIdText !== ' ') {
             return;
         }
         console.log(id);
@@ -283,10 +294,10 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
                 <TextField required size='small' label="ID" defaultValue={menuItem.id || ''} onChange={handleID} disabled={id !== ''} error={errorIdText !== ' '} helperText={errorIdText} />
             </Box>
             <Box sx={{ flexGrow: 1, flexBasis: '60%' }}>
-                <TextField required size='small' label="Name" defaultValue={menuItem.name || ''} onChange={handleName} fullWidth helperText=' ' />
+                <TextField required size='small' label={translationHeaders[0] || "Name"} defaultValue={menuItem.name || ''} onChange={handleName} fullWidth helperText=' ' />
             </Box>
             <Box sx={{ flexGrow: 0, flexBasis: '20%' }}>
-                <TextField required size='small' label="Price" defaultValue={menuItem.price || ''} onChange={handlePrice} helperText=' ' />
+                <TextField required size='small' label={translationHeaders[1] || "Price"} defaultValue={menuItem.price || ''} onChange={handlePrice} helperText=' ' />
             </Box>
         </Box>
         <Box sx={{m:2}}></Box>
@@ -296,8 +307,8 @@ export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
         <InventoryCheckbox isChecked={selectedInventory} setIsChecked={setSelectedInventory} />
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
-            <Button color="primary" onClick={() => handleCancel(id)}>Cancel</Button>
-            <Button variant="contained" color="primary" onClick={() => handleSave(id)}>Save</Button>
+            <Button color="primary" onClick={() => handleCancel(id)}>{translationButtons[0] || 'Cancel'}</Button>
+            <Button variant="contained" color="primary" onClick={() => handleSave(id)}>{translationButtons[1] || 'Save'}</Button>
         </Box>
     </Box>
 </Dialog>
