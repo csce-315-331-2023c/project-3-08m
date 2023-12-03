@@ -1,0 +1,10 @@
+.addOnPage {
+    text-align: center;
+    padding: 20px;
+    background-color: CFCFCD;
+}
+
+.addOnList {
+    justify-content: center;
+    list-style: none;
+}

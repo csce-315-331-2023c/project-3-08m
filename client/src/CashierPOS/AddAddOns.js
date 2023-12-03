@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToOrder } from './actions';
+import './AddOns.css';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -45,9 +46,9 @@ const AddAddOns = () => {
   };
 
   return (
-    <div>
+    <div class="addOnPage">
       <h1>Add Ons for {menuItem ? menuItem.name : 'Loading...'}</h1>
-      <ul>
+      <ul class="addOnList">
         {addons.map((addOn) => (
           <li key={addOn}>
             <label>
