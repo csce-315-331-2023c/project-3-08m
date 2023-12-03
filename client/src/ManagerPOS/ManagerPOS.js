@@ -16,7 +16,7 @@ import AddOns from './pages/AddOns';
 import AccountButton from '../AccountButton';
 const ManagerPOS = () => {
   const [selectedTab, setSelectedTab] = useState('/manager/employees');
-  const [ doTL, setDoTL ] = useState(false);
+  const [ doTL, setDoTL ] = useState(true);
   const [ translationButtons, setTranslationButtons ] = useState([]);
 
   useEffect(() => {
@@ -28,8 +28,10 @@ const ManagerPOS = () => {
   }, [doTL]);
 
   const handleButtonClick = (path) => {
-    setDoTL(true);
-    setSelectedTab(path);
+    if (path !== selectedTab) {
+      setDoTL(true);
+      setSelectedTab(path);
+    }
   };
 
   const navButton = (label, path) => (

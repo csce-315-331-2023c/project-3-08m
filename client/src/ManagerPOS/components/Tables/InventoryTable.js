@@ -11,6 +11,7 @@ import {
 } from '@mui/x-data-grid';
 import theme from '../../../theme';
 import { ThemeProvider } from '@emotion/react';
+import { TranslateBulk, TranslateText } from '../../../Translate';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -45,7 +46,14 @@ const handleUpdate = (type, updateVals) => {
 }
 
 function AddToolbar(props) {
-  const { setInventory, setRowModes, inAdd, setInAdd } = props;
+  const { setInventory, setRowModes, inAdd, setInAdd, doTL } = props;
+  const [ translationButton, setTranslationButton ] = useState('');
+
+  useEffect(() => {
+    if (doTL) {
+      TranslateText('Create New Inventory Item', setTranslationButton);
+    }
+  }, [doTL])
   var id = '';
   const handleAdd = () => {
     if (inAdd) {
@@ -63,7 +71,7 @@ function AddToolbar(props) {
       {/* <div style={{flex: '1 1 0%'}} /> */}
       <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        Create New Inventory Item
+        {translationButton || 'Create New Inventory Item'}
       </Button>
       </Box>
     </GridToolbarContainer>
@@ -71,11 +79,12 @@ function AddToolbar(props) {
   )
 }
 
-const InventoryTable = () => {
+const InventoryTable = ({doTL}) => {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [ inAdd, setInAdd ] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
 
   const formatDateTime = (dateTime) => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric'};
@@ -104,6 +113,13 @@ const InventoryTable = () => {
 
     fetchInventory();
   }, []);
+
+  useEffect(() => {
+    if (doTL) {
+      var headers = ['Name', 'Last Restock Date', 'Amount Remaining', 'Amount Used', 'Minimum Amount', 'Actions'];
+      TranslateBulk(headers, setTranslationHeaders);
+    }
+  }, [doTL])
 
   const [ rowModes, setRowModes ] = useState({});
 
@@ -199,7 +215,7 @@ const InventoryTable = () => {
     { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, editable: true, type: 'number', align: 'left', headerAlign: 'left'},
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: translationHeaders[0] || 'Name',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -207,7 +223,7 @@ const InventoryTable = () => {
     },
     {
       field: 'last_restock_date',
-      headerName: 'Last Restock Date',
+      headerName: translationHeaders[1] || 'Last Restock Date',
       headerClassName: 'super-app-theme--header',
       type: 'date',
       flex: 2,
@@ -216,7 +232,7 @@ const InventoryTable = () => {
     },
     {
       field: 'amount_remaining',
-      headerName: 'Amount Remaining',
+      headerName: translationHeaders[2] || 'Amount Remaining',
       headerClassName: 'super-app-theme--header',
       flex: 1,
       type: 'number',
@@ -227,7 +243,7 @@ const InventoryTable = () => {
     },
     {
       field: 'amount_used',
-      headerName: 'Amount Used',
+      headerName: translationHeaders[3] || 'Amount Used',
       headerClassName: 'super-app-theme--header',
       type: 'number',
       flex: 1,
@@ -238,7 +254,7 @@ const InventoryTable = () => {
     },
     {
       field: 'min_amount',
-      headerName: 'Minimum Amount',
+      headerName: translationHeaders[4] || 'Minimum Amount',
       headerClassName: 'super-app-theme--header',
       flex: 1,
       type: 'number',
@@ -250,7 +266,7 @@ const InventoryTable = () => {
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Actions',
+      headerName: translationHeaders[5] || 'Actions',
       headerClassName: 'super-app-theme--header',
       minWidth: 100,
       cellClassName: 'actions',
@@ -318,7 +334,7 @@ const InventoryTable = () => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setInventory, setRowModes, inAdd, setInAdd }
+          toolbar: { setInventory, setRowModes, inAdd, setInAdd, doTL }
         }}
         initialState={{
           sorting: {

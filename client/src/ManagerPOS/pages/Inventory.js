@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, ThemeProvider,  } from '@mui/material';
 import InventoryTable from '../components/Tables/InventoryTable';
 import ExcessReport from '../components/Reports/ExcessReport';
 import RestockReport from '../components/Reports/RestockReport';
 import theme from '../../theme';
+import { TranslateBulk } from '../../Translate';
 
-const Inventory = () => {
+const Inventory = ({doTL}) => {
   const [showExcessReport, setShowExcessReport] = useState(false);
   const [showRestockReport, setShowRestockReport] = useState(false);
+  const [ translationText, setTranslationText ] = useState([]);
+
+  useEffect(() => {
+    if (doTL) {
+      var text = ['Inventory', 'Excess Report', 'Restock Report'];
+      TranslateBulk(text, setTranslationText);
+    }
+  }, [doTL])
 
   const handleOpenExcessReport = () => {
     setShowExcessReport(true);
@@ -29,15 +38,21 @@ const Inventory = () => {
     <div>
       <ThemeProvider theme={theme}>
         <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <h2>Inventory</h2>
+          <h2>{translationText[0] || 'Inventory'}</h2>
           <Box>
-            <Button sx={{m:1}} color="primary" variant="contained" onClick={handleOpenExcessReport}>Excess Report</Button>
-            <Button sx={{m:1}} color="primary" variant="contained" onClick={handleOpenRestockReport}>Restock Report</Button>
+            <Button sx={{m:1}} color="primary" variant="contained" onClick={handleOpenExcessReport}>{translationText[1] || 'Excess Report'}</Button>
+            <Button sx={{m:1}} color="primary" variant="contained" onClick={handleOpenRestockReport}>{translationText[2] || 'Restock Report'}</Button>
           </Box>
         </Box>
-        <InventoryTable />
-        <ExcessReport isOpen={showExcessReport} onClose={handleCloseExcessReport} />
-        <RestockReport isOpen={showRestockReport} onClose={handleCloseRestockReport} />
+        <InventoryTable doTL={doTL}/>
+        {
+          showExcessReport &&
+          <ExcessReport isOpen={showExcessReport} onClose={handleCloseExcessReport} />
+        }
+        {
+          showRestockReport &&
+          <RestockReport isOpen={showRestockReport} onClose={handleCloseRestockReport} />
+        }
       </ThemeProvider>
     </div>
   );

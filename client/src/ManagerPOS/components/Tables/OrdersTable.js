@@ -39,7 +39,7 @@ const OrdersTable = ({doTL}) => {
 
   useEffect(() => {
     if (doTL) {
-      var headers = ['ID', 'Order Total', 'Date and Time'];
+      var headers = ['Order Total', 'Date and Time'];
       TranslateBulk(headers, setTranslationHeaders);
     }
   }, [doTL])
@@ -50,10 +50,10 @@ const OrdersTable = ({doTL}) => {
   };
 
   const columns = [
-    { field: 'id', headerName: translationHeaders[0] || 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, type: 'number', align: 'left', headerAlign: 'left', editable: false },
+    { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, type: 'number', align: 'left', headerAlign: 'left', editable: false },
     {
       field: 'price',
-      headerName: translationHeaders[1] || 'Order Total',
+      headerName: translationHeaders[0] || 'Order Total',
       headerClassName: 'super-app-theme--header',
       flex: 1,
       minWidth: 50,
@@ -61,7 +61,7 @@ const OrdersTable = ({doTL}) => {
     },
     {
       field: 'date_time',
-      headerName: translationHeaders[2] || 'Date and Time',
+      headerName: translationHeaders[1] || 'Date and Time',
       headerClassName: 'super-app-theme--header',
       flex: 1,
       minWidth: 50,

@@ -3,39 +3,8 @@ import { Box, Dialog, Button, Typography, CircularProgress} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { format } from 'date-fns';
 import { DataGrid } from '@mui/x-data-grid';
+import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
-
-const columns = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      flex: 1,
-      minWidth: 100,
-      editable: false
-    },
-    {
-      field: 'name',
-      headerName: 'Name',
-      flex: 3,
-      minWidth: 200,
-      editable: false
-    },
-    {
-      field: 'amount_used',
-      headerName: 'Amount Used',
-      flex: 2,
-      minWidth: 150,
-      editable: false
-    },
-    {
-      field: 'total_amount',
-      headerName: 'Total Amount',
-      flex: 2,
-      minWidth: 150,
-      editable: false
-    }
-  ];
-  
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -44,6 +13,8 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
   const [excessReportData, setExcessReport] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationText, setTranslationText ] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,6 +64,13 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
   
     fetchData();
   }, [isOpen, timeStamp]);
+
+  useEffect(() => {
+    var headers = ['Name', 'Amount Used', 'Total Amount'];
+    TranslateBulk(headers, setTranslationHeaders);
+    var text = ['Excess Report', 'Error: No data found, enter a different time stamp.', 'No data available for the selected time stamp.'];
+    TranslateBulk(text, setTranslationText);
+  }, [])
   
 
   const handleOnClose = () => {
@@ -100,6 +78,37 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
     setExcessReport([]);
     onClose();
   }
+
+  const columns = [
+    {
+      field: 'id',
+      headerName: 'ID',
+      flex: 1,
+      minWidth: 100,
+      editable: false
+    },
+    {
+      field: 'name',
+      headerName: translationHeaders[0] || 'Name',
+      flex: 3,
+      minWidth: 200,
+      editable: false
+    },
+    {
+      field: 'amount_used',
+      headerName: translationHeaders[1] || 'Amount Used',
+      flex: 2,
+      minWidth: 150,
+      editable: false
+    },
+    {
+      field: 'total_amount',
+      headerName: translationHeaders[2] || 'Total Amount',
+      flex: 2,
+      minWidth: 150,
+      editable: false
+    }
+  ];
 
   if (!isOpen) return null;
 
@@ -112,7 +121,7 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
       justifyContent: 'space-between', // Place items at the start and end of the container
       alignItems: 'center', // Align items vertically at the center
     }}>
-      <h3>Excess Report</h3> {/* Text aligned to left */}
+      <h3>{translationText[0] || 'Excess Report'}</h3> {/* Text aligned to left */}
       <Button
       variant="contained"
       onClick={handleOnClose}
@@ -139,7 +148,7 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
       ) : error ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1" color="error">
-            Error: No data found, enter a different time stamp.
+            {translationText[1] || 'Error: No data found, enter a different time stamp.'}
           </Typography>
         </Box>
       ) : excessReportData.length > 0 ? (
@@ -149,7 +158,7 @@ const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1">
-            No data available for the selected time stamp.
+            {translationText[2] || 'No data available for the selected time stamp.'}
           </Typography>
         </Box>
       )}

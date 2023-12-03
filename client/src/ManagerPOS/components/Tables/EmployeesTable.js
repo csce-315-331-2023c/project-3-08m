@@ -114,7 +114,7 @@ const EmployeesTable = ({doTL}) => {
   useEffect(() => {
     if (doTL) {
       // console.log("asdf");
-      var headers = ['ID', 'Username', 'Password', 'Name', 'Start Date', 'Salary', 'Position', 'Actions'];
+      var headers = ['Username', 'Password', 'Name', 'Start Date', 'Salary', 'Position', 'Actions'];
       TranslateBulk(headers, setTranslationHeaders);
     }
   }, [doTL])
@@ -206,10 +206,10 @@ const EmployeesTable = ({doTL}) => {
   };
 
   const columns = [
-    { field: 'id', headerName: translationHeaders[0] || 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, editable: true, type: 'number', align: 'left', headerAlign: 'left'},
+    { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, editable: true, type: 'number', align: 'left', headerAlign: 'left'},
     {
       field: 'username',
-      headerName: translationHeaders[1] || 'Username',
+      headerName: translationHeaders[0] || 'Username',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -217,7 +217,7 @@ const EmployeesTable = ({doTL}) => {
     },
     {
       field: 'password',
-      headerName: translationHeaders[2] || 'Password',
+      headerName: translationHeaders[1] || 'Password',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -225,7 +225,7 @@ const EmployeesTable = ({doTL}) => {
     },
     {
       field: 'name',
-      headerName: translationHeaders[3] || 'Name',
+      headerName: translationHeaders[2] || 'Name',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -233,7 +233,7 @@ const EmployeesTable = ({doTL}) => {
     },
     {
       field: 'start_date',
-      headerName: translationHeaders[4] || 'Start Date',
+      headerName: translationHeaders[3] || 'Start Date',
       headerClassName: 'super-app-theme--header',
       type: 'date',
       flex: 2,
@@ -242,7 +242,7 @@ const EmployeesTable = ({doTL}) => {
     },
     {
       field: 'salary',
-      headerName: translationHeaders[5] || 'Salary',
+      headerName: translationHeaders[4] || 'Salary',
       headerClassName: 'super-app-theme--header',
       flex: 1,
       type: 'number',
@@ -253,7 +253,7 @@ const EmployeesTable = ({doTL}) => {
     },
     {
       field: 'position',
-      headerName: translationHeaders[6] || 'Position',
+      headerName: translationHeaders[5] || 'Position',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -262,7 +262,7 @@ const EmployeesTable = ({doTL}) => {
     {
       field: 'actions',
       type: 'actions',
-      headerName: translationHeaders[7] || 'Actions',
+      headerName: translationHeaders[6] || 'Actions',
       headerClassName: 'super-app-theme--header',
       minWidth: 100,
       cellClassName: 'actions',

@@ -3,13 +3,8 @@ import { Box, Dialog, Button, Typography, CircularProgress} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { format } from 'date-fns';
 import { DataGrid } from '@mui/x-data-grid';
+import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
-
-const columns = [
-  { field: 'itemName', headerName: 'Item Name', flex: 3, minWidth: 200, editable: false},
-  { field: 'orderTime', headerName: 'Order Time', flex: 2, minWidth: 200,},
-  { field: 'addOns', headerName: 'Add Ons', flex: 4, minWidth: 200,},
-];
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -18,6 +13,8 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
   const [salesReportData, setSalesReport] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationText, setTranslationText ] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +50,7 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
           orders.forEach((order, orderIndex) => {
             const orderTime = order[1];
             const date = new Date(orderTime);
-            const addOns = order.length > 2 ? order.slice(2).join(', ') : 'None';
+            const addOns = order.length > 2 ? order.slice(2).join(', ') : translationText[3] || 'None';
   
             transformedData.push({
               id: `${index}-${orderIndex}`,
@@ -74,7 +71,14 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
     };
   
     fetchData();
-  }, [isOpen, startTime, endTime]);
+  }, [isOpen, startTime, endTime, translationText]);
+
+  useEffect(() => {
+    var headers = ['Item Name', 'Order Time', 'Add-Ons'];
+    TranslateBulk(headers, setTranslationHeaders);
+    var text = ['Sales Report', 'Error: No data found, enter a different time window.', 'No data available for the selected time window.', 'None'];
+    TranslateBulk(text, setTranslationText);
+  }, [])
   
 
   const handleOnClose = () => {
@@ -82,6 +86,12 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
     setSalesReport([]);
     onClose();
   }
+
+  const columns = [
+    { field: 'itemName', headerName: translationHeaders[0] || 'Item Name', flex: 3, minWidth: 200, editable: false},
+    { field: 'orderTime', headerName: translationHeaders[1] || 'Order Time', flex: 2, minWidth: 200,},
+    { field: 'addOns', headerName: translationHeaders[2] || 'Add-Ons', flex: 4, minWidth: 200,},
+  ];
 
   if (!isOpen) return null;
 
@@ -94,7 +104,7 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
       justifyContent: 'space-between', // Place items at the start and end of the container
       alignItems: 'center', // Align items vertically at the center
     }}>
-      <h3>Sales Report</h3> {/* Text aligned to left */}
+      <h3>{translationText[0] || 'Sales Report'}</h3> {/* Text aligned to left */}
       <Button
       variant="contained"
       onClick={handleOnClose}
@@ -121,7 +131,7 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
       ) : error ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1" color="error">
-            Error: No data found, enter a different time window.
+            {translationText[1] || 'Error: No data found, enter a different time window.'}
           </Typography>
         </Box>
       ) : salesReportData.length > 0 ? (
@@ -131,7 +141,7 @@ const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1">
-            No data available for the selected time window.
+            {translationText[2] || 'No data available for the selected time window.'}
           </Typography>
         </Box>
       )}

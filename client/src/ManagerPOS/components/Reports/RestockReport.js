@@ -2,33 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Dialog, Typography, CircularProgress} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { DataGrid } from '@mui/x-data-grid';
+import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
-
-const columns = [
-  {
-    field: 'name',
-    headerName: 'Name',
-    flex: 3,
-    minWidth: 200,
-    editable: false
-  },
-  {
-    field: 'amount_remaining',
-    headerName: 'Amount Remaining',
-    flex: 2,
-    minWidth: 150,
-    editable: false
-  },
-  {
-    field: 'min_amount',
-    headerName: 'Minimum Amount',
-    flex: 2,
-    minWidth: 150,
-    editable: false
-  }
-];
-
-  
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -37,6 +12,8 @@ const RestockReport = ({isOpen, onClose }) => {
   const [restockReportData, setRestockReport] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationText, setTranslationText ] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,6 +54,13 @@ const RestockReport = ({isOpen, onClose }) => {
   
     fetchData();
   }, [isOpen]);
+
+  useEffect(() => {
+    var headers = ['Name', 'Amount Remaining', 'Minimum Amount'];
+    TranslateBulk(headers, setTranslationHeaders);
+    var text = ['Restock Report', 'Error: No data found, enter a different time stamp.', 'No items need restocking.'];
+    TranslateBulk(text, setTranslationText);
+  }, [])
   
 
   const handleOnClose = () => {
@@ -84,6 +68,30 @@ const RestockReport = ({isOpen, onClose }) => {
     setRestockReport([]);
     onClose();
   }
+
+  const columns = [
+    {
+      field: 'name',
+      headerName: translationHeaders[0] || 'Name',
+      flex: 3,
+      minWidth: 200,
+      editable: false
+    },
+    {
+      field: 'amount_remaining',
+      headerName: translationHeaders[1] || 'Amount Remaining',
+      flex: 2,
+      minWidth: 150,
+      editable: false
+    },
+    {
+      field: 'min_amount',
+      headerName: translationHeaders[2] || 'Minimum Amount',
+      flex: 2,
+      minWidth: 150,
+      editable: false
+    }
+  ];
 
   if (!isOpen) return null;
 
@@ -96,7 +104,7 @@ const RestockReport = ({isOpen, onClose }) => {
       justifyContent: 'space-between', // Place items at the start and end of the container
       alignItems: 'center', // Align items vertically at the center
     }}>
-      <h3>Restock Report</h3> {/* Text aligned to left */}
+      <h3>{translationText[0] || 'Restock Report'}</h3> {/* Text aligned to left */}
       <Button
       variant="contained"
       onClick={handleOnClose}
@@ -123,7 +131,7 @@ const RestockReport = ({isOpen, onClose }) => {
       ) : error ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1" color="error">
-            Error: No data found, enter a different time stamp.
+            {translationText[1] || 'Error: No data found, enter a different time stamp.'}
           </Typography>
         </Box>
       ) : restockReportData.length > 0 ? (
@@ -133,7 +141,7 @@ const RestockReport = ({isOpen, onClose }) => {
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
           <Typography variant="subtitle1">
-            No data available for the selected time stamp.
+            {translationText[2] || 'No items need restocking,'}
           </Typography>
         </Box>
       )}

@@ -9,7 +9,7 @@ import theme from '../../../theme';
 import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
 
-const SalesReport = ({ isOpen, onClose, doTL }) => {
+const SalesReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [showReportTable, setShowReportTable] = useState(false);
@@ -17,13 +17,11 @@ const SalesReport = ({ isOpen, onClose, doTL }) => {
     const [ translationText, setTranslationText ] = useState([]);
 
     useEffect(() => {
-      if (doTL) {
-        var buttons = ['Cancel', 'Create Report'];
-        TranslateBulk(buttons, setTranslationButtons);
-        var text = ['Enter Start and End Times for Sales Report', 'Start Date and Time', 'End Date and Time'];
-        TranslateBulk(text, setTranslationText);
-      }
-    }, [doTL])
+      var buttons = ['Cancel', 'Create Report'];
+      TranslateBulk(buttons, setTranslationButtons);
+      var text = ['Enter Start and End Times for Sales Report', 'Start Date and Time', 'End Date and Time'];
+      TranslateBulk(text, setTranslationText);
+    }, [])
 
     const handleClose = (event, reason) => {
       if (reason && reason === 'backdropClick') {

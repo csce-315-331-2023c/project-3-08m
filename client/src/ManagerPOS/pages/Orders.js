@@ -36,7 +36,10 @@ const Orders = ({doTL}) => {
     <Button sx={{m:1}}  color="primary" variant="contained" onClick={handleOpenSalesReport}>{translationText[1] || 'Sales Report'}</Button>
     </Box>
       <OrdersTable doTL={doTL} />
-      <SalesReport isOpen={showSalesReport} onClose={handleCloseSalesReport} doTL={doTL} />
+      {
+        showSalesReport &&
+        <SalesReport isOpen={showSalesReport} onClose={handleCloseSalesReport} />
+      }
     </ThemeProvider>
     </div>
   );
