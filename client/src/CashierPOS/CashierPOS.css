@@ -32,14 +32,29 @@
 }
 
 .orderItemAddon {
+  padding-left: 100px;
+  font-size: 20px;
+}
+
+.orderItemName {
+  font-size: 32px;
+}
+
+.totals {
+  text-align: center;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+
+.orderText {
+  padding-top: 30px;
   padding-left: 20px;
 }
 
-.checkout_button {
-  
+.checkout_clear_buttons {
+  text-align: center;
 }
 
 .clear_button {
-  
+  padding-top: 20px;
 }
-  
