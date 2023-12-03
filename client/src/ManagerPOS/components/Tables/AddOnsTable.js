@@ -49,17 +49,7 @@ const handleUpdate = (type, updateVals) => {
   updateAddOns(type, updateVals);
 }
 
-function AddToolbar(props) {
-  const { setAddOns, setRowModes, inAdd, setInAdd, doTL } = props;
-  // const [ inEdit, setInEdit ] = useState(false);
-  const [ translationButton, setTranslationButton ] = useState('');
-
-  useEffect(() => {
-    if (doTL) {
-      TranslateText('Create New Add-On', setTranslationButton);
-    }
-  }, [doTL])
-
+function AddToolbar({ setAddOns, setRowModes, inAdd, setInAdd, translationAdd }) {
   var id = '';
   const handleAdd = () => {
     // console.log(addOns);
@@ -78,7 +68,7 @@ function AddToolbar(props) {
       {/* <div style={{flex: '1 1 0%'}} /> */}
       <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        {translationButton || 'Create New Add-On'}
+        {translationAdd || 'Create New Add-On'}
       </Button>
       </Box>
     </GridToolbarContainer>
@@ -92,6 +82,7 @@ const AddOnsTable = ({doTL}) => {
   const [error, setError] = useState(null);
   const [ inAdd, setInAdd ] = useState(false);
   const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationAdd, setTranslationAdd ] = useState('');
 
   useEffect(() => {
     fetch(serverURL+'/addOns')
@@ -116,6 +107,7 @@ const AddOnsTable = ({doTL}) => {
     if (doTL) {
       var headers = ['Name', 'Price', 'Inventory ID', 'Actions'];
       TranslateBulk(headers, setTranslationHeaders);
+      TranslateText('Create New Add-On', setTranslationAdd);
     }
   }, [doTL])
 
@@ -302,7 +294,7 @@ const AddOnsTable = ({doTL}) => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setAddOns, setRowModes, inAdd, setInAdd, doTL }
+          toolbar: { setAddOns, setRowModes, inAdd, setInAdd, translationAdd }
         }}
         initialState={{
           sorting: {

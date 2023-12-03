@@ -45,15 +45,7 @@ const handleUpdate = (type, updateVals) => {
   updateInventory(type, updateVals);
 }
 
-function AddToolbar(props) {
-  const { setInventory, setRowModes, inAdd, setInAdd, doTL } = props;
-  const [ translationButton, setTranslationButton ] = useState('');
-
-  useEffect(() => {
-    if (doTL) {
-      TranslateText('Create New Inventory Item', setTranslationButton);
-    }
-  }, [doTL])
+function AddToolbar({ setInventory, setRowModes, inAdd, setInAdd, translationAdd }) {
   var id = '';
   const handleAdd = () => {
     if (inAdd) {
@@ -71,7 +63,7 @@ function AddToolbar(props) {
       {/* <div style={{flex: '1 1 0%'}} /> */}
       <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        {translationButton || 'Create New Inventory Item'}
+        {translationAdd || 'Create New Inventory Item'}
       </Button>
       </Box>
     </GridToolbarContainer>
@@ -85,6 +77,7 @@ const InventoryTable = ({doTL}) => {
   const [error, setError] = useState(null);
   const [ inAdd, setInAdd ] = useState(false);
   const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationAdd, setTranslationAdd ] = useState('');
 
   const formatDateTime = (dateTime) => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric'};
@@ -118,6 +111,7 @@ const InventoryTable = ({doTL}) => {
     if (doTL) {
       var headers = ['Name', 'Last Restock Date', 'Amount Remaining', 'Amount Used', 'Minimum Amount', 'Actions'];
       TranslateBulk(headers, setTranslationHeaders);
+      TranslateText('Create New Inventory Item', setTranslationAdd);
     }
   }, [doTL])
 
@@ -334,7 +328,7 @@ const InventoryTable = ({doTL}) => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setInventory, setRowModes, inAdd, setInAdd, doTL }
+          toolbar: { setInventory, setRowModes, inAdd, setInAdd, translationAdd }
         }}
         initialState={{
           sorting: {

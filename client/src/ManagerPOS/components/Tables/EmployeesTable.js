@@ -45,15 +45,7 @@ const handleUpdate = (type, updateVals) => {
   updateEmployee(type, updateVals);
 }
 
-function AddToolbar(props) {
-  const { setEmployees, setRowModes, inAdd, setInAdd, doTL } = props;
-  const [ translationButton, setTranslationButton ] = useState('');
-
-  useEffect(() => {
-    if (doTL) {
-      TranslateText('Create New Employee', setTranslationButton);
-    }
-  },[doTL]);
+function AddToolbar({ setEmployees, setRowModes, inAdd, setInAdd, translationAdd }) {
   var id = '';
   const handleAdd = () => {
     if (inAdd) {
@@ -72,7 +64,7 @@ function AddToolbar(props) {
       {/* <div style={{flex: '1 1 0%'}} /> */}
       <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        {translationButton || 'Create New Employee'}
+        {translationAdd || 'Create New Employee'}
       </Button>
       </Box>
     </GridToolbarContainer>
@@ -86,6 +78,7 @@ const EmployeesTable = ({doTL}) => {
   const [error, setError] = useState(null);
   const [ inAdd, setInAdd ] = useState(false);
   const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationAdd, setTranslationAdd ] = useState('');
 
   // Fetch employees from server
   useEffect(() => {
@@ -116,6 +109,7 @@ const EmployeesTable = ({doTL}) => {
       // console.log("asdf");
       var headers = ['Username', 'Password', 'Name', 'Start Date', 'Salary', 'Position', 'Actions'];
       TranslateBulk(headers, setTranslationHeaders);
+      TranslateText('Create New Employee', setTranslationAdd);
     }
   }, [doTL])
 
@@ -330,7 +324,7 @@ const EmployeesTable = ({doTL}) => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setEmployees, setRowModes, inAdd, setInAdd, doTL }
+          toolbar: { setEmployees, setRowModes, inAdd, setInAdd, translationAdd }
         }}
         initialState={{
           sorting: {

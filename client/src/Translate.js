@@ -435,6 +435,7 @@ export const TranslateText = (text, setTranslation) => {
                     temp.push(text.translatedText);
                 }
                 // console.log(temp);
+                console.log(temp[0]);
                 setTranslation(temp[0]);
                 // return temp;
             }

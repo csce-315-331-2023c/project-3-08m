@@ -14,30 +14,23 @@ import { TranslateBulk, TranslateText } from '../../../Translate';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
-function AddToolbar(props) {
-  const { menuItems, setMenuItems, isOpen, setIsOpen, doTL } = props;
-  const [ translationButton, setTranslationButton ] = useState('');
-
-  useEffect(() => {
-    if (doTL) {
-      TranslateText('Create New Menu Item', setTranslationButton);
-    }
-  }, [doTL])
+const AddToolbar = ({menuItems, setMenuItems, isOpen, setIsOpen, translationAdd}) => {
 
   const handleAdd = () => {
-    console.log('h');
+    // console.log('h');
     setIsOpen({...isOpen, '': true});
   }
 
   if (isOpen === undefined) {
     return <div></div>
   }
+
   return (
     <>
     {isOpen[''] && <EditDialog key={''} id='' menu={menuItems} setMenu={setMenuItems} open={isOpen} setOpen={setIsOpen}/>}
     <GridToolbarContainer>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        {translationButton || 'Create New Menu Item'}
+        {translationAdd || 'Create New Menu Item'}
       </Button>
     </GridToolbarContainer>
     </>
@@ -50,6 +43,7 @@ const MenuTable = ({doTL}) => {
   const [error, setError] = useState(null);
   const [ isOpen, setIsOpen ] = useState({});
   const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationAdd, setTranslationAdd ] = useState('');
 
   useEffect(() => {
     fetch(serverURL+'/menu')
@@ -74,6 +68,7 @@ const MenuTable = ({doTL}) => {
     if (doTL) {
       var headers = ['Name', 'Price', 'Actions'];
       TranslateBulk(headers, setTranslationHeaders);
+      TranslateText('Create New Menu Item', setTranslationAdd);
     }
   }, [doTL])
 
@@ -177,7 +172,7 @@ const MenuTable = ({doTL}) => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { menuItems, setMenuItems, isOpen, setIsOpen, doTL }
+          toolbar: { menuItems, setMenuItems, isOpen, setIsOpen, translationAdd }
         }}
         initialState={{
           sorting: {
