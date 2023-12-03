@@ -1,12 +1,21 @@
 // Menu.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AddOnsTable from '../components/Tables/AddOnsTable';
+import { TranslateText } from '../../Translate';
 
-const AddOns = () => {
+const AddOns = ({doTL}) => {
+  const [ translationText, setTranslationText ] = useState('');
+
+  useEffect(() => {
+    if (doTL) {
+      TranslateText('Add-Ons', setTranslationText);
+    }
+  }, [doTL])
+
   return (
     <div>
-      <h2>AddOns</h2>
-      <AddOnsTable />
+      <h2>{translationText || 'Add-Ons'}</h2>
+      <AddOnsTable doTL={doTL}/>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { Save as SaveIcon, Cancel as CancelIcon, Edit as EditIcon, Delete as DeleteIcon} from '@mui/icons-material';
+import { Save as SaveIcon, Cancel as CancelIcon, Edit as EditIcon, Delete as DeleteIcon, Translate} from '@mui/icons-material';
 import {
   GridRowModes,
   DataGrid,
@@ -12,6 +12,7 @@ import {
 import './table.css';
 import theme from '../../../theme';
 import { ThemeProvider } from '@emotion/react';
+import { TranslateBulk, TranslateText } from '../../../Translate';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -49,8 +50,16 @@ const handleUpdate = (type, updateVals) => {
 }
 
 function AddToolbar(props) {
-  const { setAddOns, setRowModes, inAdd, setInAdd } = props;
+  const { setAddOns, setRowModes, inAdd, setInAdd, doTL } = props;
   // const [ inEdit, setInEdit ] = useState(false);
+  const [ translationButton, setTranslationButton ] = useState('');
+
+  useEffect(() => {
+    if (doTL) {
+      TranslateText('Create New Add-On', setTranslationButton);
+    }
+  }, [doTL])
+
   var id = '';
   const handleAdd = () => {
     // console.log(addOns);
@@ -69,7 +78,7 @@ function AddToolbar(props) {
       {/* <div style={{flex: '1 1 0%'}} /> */}
       <Box sx={{display: 'flex', alignItems: 'right', marginBottom: .5 }}>
       <Button color='primary' startIcon={<Box sx={{mb:.5}}><div>+</div></Box>} onClick={handleAdd}>
-        Create New Add-On
+        {translationButton || 'Create New Add-On'}
       </Button>
       </Box>
     </GridToolbarContainer>
@@ -77,11 +86,12 @@ function AddToolbar(props) {
   )
 }
 
-const AddOnsTable = () => {
+const AddOnsTable = ({doTL}) => {
   const [addOns, setAddOns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [ inAdd, setInAdd ] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
 
   useEffect(() => {
     fetch(serverURL+'/addOns')
@@ -101,6 +111,13 @@ const AddOnsTable = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (doTL) {
+      var headers = ['Name', 'Price', 'Inventory ID', 'Actions'];
+      TranslateBulk(headers, setTranslationHeaders);
+    }
+  }, [doTL])
 
   const preventOutOfFocus = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -187,7 +204,7 @@ const AddOnsTable = () => {
     { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', flex: 1, minWidth: 50, editable: true, type: 'number', align: 'left', headerAlign: 'left'},
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: translationHeaders[0] || 'Name',
       headerClassName: 'super-app-theme--header',
       flex: 2,
       minWidth: 150,
@@ -195,7 +212,7 @@ const AddOnsTable = () => {
     },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: translationHeaders[1] || 'Price',
       headerClassName: 'super-app-theme--header',
       type: 'number',
       flex: 1,
@@ -206,7 +223,7 @@ const AddOnsTable = () => {
     },
     {
       field: 'inventory_id',
-      headerName: 'Inventory ID',
+      headerName: translationHeaders[2] || 'Inventory ID',
       headerClassName: 'super-app-theme--header',
       type: 'number',
       flex: 1,
@@ -218,7 +235,7 @@ const AddOnsTable = () => {
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Actions',
+      headerName: translationHeaders[3] || 'Actions',
       headerClassName: 'super-app-theme--header',
       minWidth: 100,
       cellClassName: 'actions',
@@ -285,7 +302,7 @@ const AddOnsTable = () => {
           toolbar: AddToolbar,
         }}
         slotProps={{
-          toolbar: { setAddOns, setRowModes, inAdd, setInAdd }
+          toolbar: { setAddOns, setRowModes, inAdd, setInAdd, doTL }
         }}
         initialState={{
           sorting: {
