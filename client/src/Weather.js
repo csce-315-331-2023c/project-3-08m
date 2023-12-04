@@ -426,7 +426,7 @@ export const Weather = ({doTL}) => {
                 {/* Third Line */}
                 <div>
                     <Typography variant="string">
-                        {`H: ${weather.min}°F / L: ${weather.max}°F`}
+                        {`H: ${weather.max}°F / L: ${weather.min}°F`}
                     </Typography>
                 </div>
             </Box>
