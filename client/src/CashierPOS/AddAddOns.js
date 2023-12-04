@@ -3,7 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToOrder } from './actions';
 import './AddOns.css';
-import { TranslateBulk } from '../Translate';
+import theme from '../theme';
+import alleyLogo from '../CustomerPOS/assets/the_alley_logo.png';
+import { ThemeProvider } from '@emotion/react';
+import { AppBar, Box, Toolbar } from '@mui/material';
+import { Weather } from '../Weather';
+import { LanguageDialog, TranslateBulk } from '../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -14,11 +19,57 @@ const AddAddOns = () => {
   const orderItems = useSelector((state) => state.orders);
   const addons = useSelector((state) => state.addons);
   const [ translationText, setTranslationText ] = useState([]);
+  const [ translationAddOns, setTranslationAddOns ] = useState([]);
+  const [ doTL, setDoTL ] = useState(true);
+  const [ menuItemAddOns, setMenuItemAddOns ] = useState([]);
 
   useEffect(() => {
-    var text = ['Add-Ons for', 'Save Order']
-    TranslateBulk(text, setTranslationText);
+    const getAddOns = async () => {
+      try {
+        var response = await fetch(serverURL+'/single', {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json; charset = UTF-8"
+            },
+            body: JSON.stringify({'menu_add_ons': itemId})
+        });
+        var res = await response.json();
+        var temp = [];
+        // console.log(res.response);
+        for (var item of res.response) {
+            temp.push(addons.filter((value) => item.id === value.id)[0]);
+        }
+        console.log(temp);
+        setMenuItemAddOns(temp);
+        setDoTL(true);
+      }
+      catch (error) {
+          console.log(error);
+      }
+    }
+    getAddOns();
   }, [])
+
+  useEffect(() => {
+    if (doTL) {
+      var text = ['Add-Ons for', 'Save Order']
+      TranslateBulk(text, setTranslationText);
+      var temp = [];
+      for (const item of menuItemAddOns) {
+        temp.push(item.enName);
+      }
+      console.log(temp);
+      TranslateBulk(temp, setTranslationAddOns);
+      setDoTL(false);
+    }
+  }, [doTL, menuItemAddOns])
+
+  useEffect(() => {
+    for (let i = 0; i < translationAddOns.length; ++i) {
+      menuItemAddOns[i].name = translationAddOns[i];
+    }
+    setMenuItemAddOns([...menuItemAddOns]);
+  }, [translationAddOns])
 
   const [selectedAddOns, setSelectedAddOns] = useState([]);
   const [menuItem, setMenuItem] = useState();
@@ -55,10 +106,26 @@ const AddAddOns = () => {
   };
 
   return (
+    <>
+    <ThemeProvider theme={theme}>
+      <AppBar position='static'>
+        <Toolbar>
+          <Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
+            <Box sx={{ mb: 1, mt: 1 }}>
+              <img src={alleyLogo} alt='The Alley Logo' style={{ maxHeight: 70, maxWidth: '100%'}} />
+            </Box>
+            <Box sx={{ m1:2 }}><Weather doTL={doTL} /></Box>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center'}}>
+            <LanguageDialog setDoTL={setDoTL} />
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </ThemeProvider>
     <div class="addOnPage">
       <h1>{translationText[0] || 'Add Ons for'} {menuItem ? menuItem.name : 'Loading...'}</h1>
       <ul class="addOnList">
-        {addons.map((addOn) => (
+        {menuItemAddOns.map((addOn) => (
           <li key={addOn}>
             <label>
               <input
@@ -75,6 +142,7 @@ const AddAddOns = () => {
         {translationText[1] || 'Save Order'}
       </button>
     </div>
+    </>
   );
 };
 
