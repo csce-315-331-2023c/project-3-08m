@@ -2,71 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchMenuItems, fetchAddOns } from './actions';
+import { TranslateBulk } from '../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-const GenerateMenu = () => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+const GenerateMenu = ({menuItems, addOns}) => {
+  // const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(menuItems == []);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    dispatch(fetchMenuItems(menuItems || []));
+    dispatch(fetchAddOns(addOns || []));
+  }, [menuItems, addOns, dispatch])
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchMenuItemsFromApi = async () => {
-      try {
-        const response = await fetch(`${serverURL}/menu`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        dispatch(fetchMenuItems(data.menu || []));
-      } catch (error) {
-        console.error('Error fetching menu items:', error);
-      }
-    };
-
-    fetchMenuItemsFromApi();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchAddOnsFromApi = async () => {
-      try {
-        const response = await fetch(`${serverURL}/addOns`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        dispatch(fetchAddOns(data.addOns || []));
-      } catch (error) {
-        console.error('Error fetching addons:', error);
-      }
-    };
-
-    fetchAddOnsFromApi();
-  }, [dispatch]);
-
-  useEffect(() => {
-    fetch(serverURL + '/menu')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMenuItems(data.menu);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch menu items:', error);
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
 
   const navigateToAddOns = (item) => {
     navigate(`/cashier/add-ons/${item.id}`);

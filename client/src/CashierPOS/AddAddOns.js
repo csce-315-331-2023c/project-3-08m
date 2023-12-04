@@ -14,7 +14,7 @@ const AddAddOns = () => {
   const addons = useSelector((state) => state.addons);
 
   const [selectedAddOns, setSelectedAddOns] = useState([]);
-  const [menuItem, setMenuItem] = useState(null);
+  const [menuItem, setMenuItem] = useState();
   const navigate = useNavigate();
 
   const handleAddOnSelect = (addOn) => {
@@ -34,6 +34,8 @@ const AddAddOns = () => {
   }, [menuItem]);
 
   useEffect(() => {
+    // console.log(itemId);
+    // console.log(menuItems);
     const selectedMenuItem = menuItems.find((item) => item.id.toString() === itemId);
     if (selectedMenuItem) {
       setMenuItem(selectedMenuItem);

@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TranslateBulk } from '../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 var price = 0;
-const Order = () => {
+const Order = ({menuItems, addons, doTL}) => {
   const dispatch = useDispatch();
-  const menuItems = useSelector((state) => state.menuItems);
-  const addons = useSelector((state) => state.addons);
+  // const menuItems = useSelector((state) => state.menuItems);
+  // const addons = useSelector((state) => state.addons);
   const ordersEntered = useSelector((state) => state.ordersEntered);
+  const [ translationButtons, setTranslationButtons ] = useState([]);
+  const [ translationText, setTranslationText ] = useState([]);
+
+  useEffect(() => {
+    if (doTL) {
+      var buttons = ['Checkout', 'Clear Orders'];
+      TranslateBulk(buttons, setTranslationButtons);
+      var text = ['Subtotal', 'Tax', 'Total'];
+      TranslateBulk(text, setTranslationText);
+    }
+  }, [doTL])
 
   price = 0;
     ordersEntered.forEach((item) => {
@@ -41,7 +53,7 @@ const Order = () => {
       headers: {
           "Content-type": "application/json; charset = UTF-8"
       },
-      body: JSON.stringify({'add': {'price': price, 'addOns': addonsIds, 'menuItems': orderIds}})
+      body: JSON.stringify({'add': {'price': price.toFixed(2), 'addOns': addonsIds, 'menuItems': orderIds}})
     });
 
     dispatch({ type: 'CLEAR_ORDER' });
@@ -53,16 +65,29 @@ const Order = () => {
 
   // Render each order
   const orderElements = ordersEntered.map((item) => {
-    console.log(item);
+    // console.log(item);
+    // console.log(menuItems);
+    let menuItem = menuItems.filter((menu) => menu.id === item.menuItem.id)[0];
+    // console.log(menuItem);
 
     const itemAddons = item.addOnList || [];
+    // console.log(itemAddons);
+    let addOns = addons.filter((addOn) => {
+      for (let i = 0; i < itemAddons.length; ++i) {
+        if (itemAddons[i].id === addOn.id) {
+          return true;
+        }
+      }
+      return false;
+    })
+    // console.log(addOns);
     const orderPrice = item.menuItem.price + itemAddons.reduce((acc, addon) => acc + addon.price, 0);
-    console.log("itemAddons: ", itemAddons);
+    // console.log("itemAddons: ", itemAddons);
     return (
       <div key={item.menuItem.name} className="orderItem">
-        <div className="orderItemName">{item.menuItem.name} ${orderPrice.toFixed(2)}</div>
+        <div className="orderItemName">{menuItem.name} ${orderPrice.toFixed(2)}</div>
         <div className="orderItemAddons">
-          {itemAddons.map((addon) => (
+          {addOns.map((addon) => (
             <div key={addon.id} className="orderItemAddon">
               {addon.name}
             </div>
@@ -83,19 +108,20 @@ const Order = () => {
         <div></div>
       )}
       <div className="totals">
-        <h2>Subtotal: {price.toFixed(2)}</h2>
-        <h2>Tax: {(price * 0.0825).toFixed(2)}</h2>
-        <h2>Total: {(price * 1.0825).toFixed(2)}</h2>
+        <h2>{translationText[0] || 'Subtotal'}: {`$${price.toFixed(2)}`}</h2>
+        <h2>{translationText[1] || 'Tax'}: {`$${(price * 0.0825).toFixed(2)}`}</h2>
+        <h2>{translationText[2] || 'Total'}: {`$${(price * 1.0825).toFixed(2)}`}</h2>
       </div>
       <div class="checkout_clear_buttons">
         <div className='position-relative'>
           <button type="button" class="checkout_button" className="btn btn-success btn-lg" onClick={checkout}>
-            Checkout
+            {translationButtons[0] || 'Checkout'}
           </button>
         </div>
+        <br></br>
         <div className='position-relative'>
           <button type="button" class="clear_button" className="btn btn-danger" onClick={clearOrder}>
-            Clear Orders
+            {translationButtons[1] || 'Clear Orders'}
           </button>
         </div>
       </div>

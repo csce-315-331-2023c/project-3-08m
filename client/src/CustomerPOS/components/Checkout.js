@@ -68,7 +68,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     useEffect(() => {
         var headers = ['Item', 'Add-Ons', 'Price', 'Order Notes', 'Actions'];
         TranslateBulk(headers, setTranslationHeader);
-        var text = ['Checkout', 'No Items Ordered!', 'No Results From Filter', 'Total', 'Order Submitted!', 'No Items To Checkout', 'Order Cancelled!'];
+        var text = ['Checkout', 'No Items Ordered!', 'No Results From Filter', 'Subtotal', 'Tax', 'Total', 'Order Submitted!', 'No Items To Checkout', 'Order Cancelled!'];
         TranslateBulk(text, setTranslationText);
         var buttons = ['Clear Cart', 'Checkout'];
         TranslateBulk(buttons, setTranslationButtons);
@@ -187,7 +187,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                     headers: {
                         "Content-type": "application/json; charset = UTF-8"
                     },
-                    body: JSON.stringify({'add': {'price': price, 'menuItems': menuItemIds, 'addOns': menuItemAddOnIds}})
+                    body: JSON.stringify({'add': {'price': (price*1.0825).toFixed(2), 'menuItems': menuItemIds, 'addOns': menuItemAddOnIds}})
                 });
             }
             catch (error) {
@@ -308,7 +308,13 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                 {/* </Box> */}
                 <br></br>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end'}} >
-                    <h4>{translationText[3] || 'Total'}: {`$${Number(price).toFixed(2)}`}</h4>
+                    <h4>{translationText[3] || 'Subtotal'}: {`$${Number(price).toFixed(2)}`}</h4>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end'}} >
+                    <h4>{translationText[4] || 'Tax'}: {`$${(Number(price)*0.0825).toFixed(2)}`}</h4>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end'}} >
+                    <h4>{translationText[5] || 'Total'}: {`$${(Number(price)*1.0825).toFixed(2)}`}</h4>
                 </Box>
                 <Box sx={{ mb:1}} ></Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between'}} >
@@ -323,12 +329,12 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         {       
             orderMenuItems.length !== 0 ?
             <Dialog open={orderSubmitted}>
-                <DialogTitle>{translationText[4] || 'Order Submitted!'}</DialogTitle>
+                <DialogTitle>{translationText[6] || 'Order Submitted!'}</DialogTitle>
                 <Button onClick={handleOk}>Ok</Button>
             </Dialog>
             :
             <Dialog open={orderSubmitted}>
-                <DialogTitle>{translationText[5] || 'No Items to Checkout!'}</DialogTitle>
+                <DialogTitle>{translationText[7] || 'No Items to Checkout!'}</DialogTitle>
                 <Button onClick={handleOk}>Ok</Button>
             </Dialog>
         }

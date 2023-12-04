@@ -379,12 +379,12 @@ export const Weather = ({doTL}) => {
         }
     }, [doTL])
 
-    useEffect(() => {
-        // console.log('asdf');
-        weather.conditions = translationTextWeather[0];
-        weather.description = translationTextWeather[1];
-        setWeather({...weather});
-    }, [translationTextWeather])
+    // useEffect(() => {
+    //     // console.log('asdf');
+    //     weather.conditions = translationTextWeather[0];
+    //     weather.description = translationTextWeather[1];
+    //     setWeather({...weather});
+    // }, [translationTextWeather])
 
     if (Object.entries(weather).length === 0) {
         return <div></div>; // Added a loading placeholder
@@ -418,7 +418,8 @@ export const Weather = ({doTL}) => {
                 {/* Second Line */}
                 <div>
                     <Typography variant="string">
-                        {`${weather.conditions}`}
+                        {/* {`${weather.conditions}`} */}
+                        {translationTextWeather[0] || weather.conditions}
                     </Typography>
                 </div>
 
@@ -437,7 +438,7 @@ export const Weather = ({doTL}) => {
                     <DialogTitle>{translationText[0] || "Today's Weather"}</DialogTitle>
                     <DialogContent>
                         <Typography>
-                            {`${weather.description}`}
+                            {translationTextWeather[1] || weather.description}
                         </Typography>
                         <Typography>
                             {`${translationText[1] || 'Current Temperature'}: ${weather.curr}°F`}
