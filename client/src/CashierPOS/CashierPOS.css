@@ -58,3 +58,15 @@
 .clear_button {
   padding-top: 20px;
 }
+
+.btn-lg {
+  width: 200px;
+  height: 80px;
+  font-size: 30px;
+}
+
+.btn-danger {
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+}
