@@ -1,10 +1,79 @@
 .addOnPage {
-    text-align: center;
     padding: 20px;
     background-color: CFCFCD;
+    text-align: center;
 }
 
 .addOnList {
     justify-content: center;
     list-style: none;
+    font-size: 25px;
+    padding-left: 40%;
+    text-align: left;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
+
+.addOnListItem {
+    padding-top: 5px;
+}
+
+.addOnCheckBox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+.addOnCheckBoxInput {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.addOnCheckBoxControl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #d7d5d5;
+}
+
+.addOnCheckBox:hover input ~ .addOnCheckBoxControl {
+    background-color: #909090;
+}
+
+.addOnCheckBox input:checked ~ .addOnCheckBoxControl {
+    background-color: #d7d5d5;
+  }
+
+.addOnCheckBox input:checked ~ .addOnCheckBoxControl:after {
+    display: block;
+}
+
+.addOnCheckBoxControl:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+.addOnCheckBoxControl:after {
+    left: 12px;
+    top: -5px;
+    width: 10px;
+    height: 25px;
+    border: solid #2E4647;
+    border-width: 0 4px 4px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }

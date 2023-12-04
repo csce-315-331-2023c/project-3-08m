@@ -126,13 +126,14 @@ const AddAddOns = () => {
       <h1>{translationText[0] || 'Add Ons for'} {menuItem ? menuItem.name : 'Loading...'}</h1>
       <ul class="addOnList">
         {menuItemAddOns.map((addOn) => (
-          <li key={addOn}>
-            <label>
-              <input
+          <li class="addOnListItem" key={addOn}>
+            <label class="addOnCheckBox">
+              <input class="addOnCheckBoxInput"
                 type="checkbox"
                 checked={selectedAddOns.includes(addOn)}
                 onChange={() => handleAddOnSelect(addOn)}
               />
+              <span class="addOnCheckBoxControl"></span>
               {addOn.name}
             </label>
           </li>
