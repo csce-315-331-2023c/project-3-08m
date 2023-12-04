@@ -118,6 +118,14 @@ export default function LoginLanding({onLogin}) {
                 Sign In
               </Button>
               <LoginPage />
+              <Button
+                onClick={() => navigate('/customer')}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 2, }}
+              >
+                Continue as Guest
+              </Button>
               {/* <Box sx={{m:1}}></Box> */}
               {/* ... (Rest of the UI components) */}
             </Box>
