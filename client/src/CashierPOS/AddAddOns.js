@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToOrder } from './actions';
 import './AddOns.css';
+import { TranslateBulk } from '../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
@@ -12,6 +13,12 @@ const AddAddOns = () => {
   const menuItems = useSelector((state) => state.menuItems);
   const orderItems = useSelector((state) => state.orders);
   const addons = useSelector((state) => state.addons);
+  const [ translationText, setTranslationText ] = useState([]);
+
+  useEffect(() => {
+    var text = ['Add-Ons for', 'Save Order']
+    TranslateBulk(text, setTranslationText);
+  }, [])
 
   const [selectedAddOns, setSelectedAddOns] = useState([]);
   const [menuItem, setMenuItem] = useState();
@@ -49,7 +56,7 @@ const AddAddOns = () => {
 
   return (
     <div class="addOnPage">
-      <h1>Add Ons for {menuItem ? menuItem.name : 'Loading...'}</h1>
+      <h1>{translationText[0] || 'Add Ons for'} {menuItem ? menuItem.name : 'Loading...'}</h1>
       <ul class="addOnList">
         {addons.map((addOn) => (
           <li key={addOn}>
@@ -65,7 +72,7 @@ const AddAddOns = () => {
         ))}
       </ul>
       <button type="button" onClick={handleSave}>
-        Save Order
+        {translationText[1] || 'Save Order'}
       </button>
     </div>
   );

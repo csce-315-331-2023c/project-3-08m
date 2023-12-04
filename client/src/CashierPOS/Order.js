@@ -17,7 +17,7 @@ const Order = ({menuItems, addons, doTL}) => {
     if (doTL) {
       var buttons = ['Checkout', 'Clear Orders'];
       TranslateBulk(buttons, setTranslationButtons);
-      var text = ['Subtotal', 'Tax', 'Total'];
+      var text = ['Orders', 'Subtotal', 'Tax', 'Total'];
       TranslateBulk(text, setTranslationText);
     }
   }, [doTL])
@@ -99,7 +99,7 @@ const Order = ({menuItems, addons, doTL}) => {
 
   return (
     <div className="Order">
-      <h1 className='text-center'>Orders</h1>
+      <h1 className='text-center'>{translationText[0] || 'Orders'}</h1>
       {orderElements.length > 0 ? (
         <div className="orderText overflow-auto">
           {orderElements}
@@ -108,9 +108,9 @@ const Order = ({menuItems, addons, doTL}) => {
         <div></div>
       )}
       <div className="totals">
-        <h2>{translationText[0] || 'Subtotal'}: {`$${price.toFixed(2)}`}</h2>
-        <h2>{translationText[1] || 'Tax'}: {`$${(price * 0.0825).toFixed(2)}`}</h2>
-        <h2>{translationText[2] || 'Total'}: {`$${(price * 1.0825).toFixed(2)}`}</h2>
+        <h2>{translationText[1] || 'Subtotal'}: {`$${price.toFixed(2)}`}</h2>
+        <h2>{translationText[2] || 'Tax'}: {`$${(price * 0.0825).toFixed(2)}`}</h2>
+        <h2>{translationText[3] || 'Total'}: {`$${(price * 1.0825).toFixed(2)}`}</h2>
       </div>
       <div class="checkout_clear_buttons">
         <div className='position-relative'>
