@@ -414,6 +414,11 @@ const pool = new Pool({
 
 // REPORT SECTION
 
+/**
+ * Generates excess report
+ * @param {string} timeStamp - time stamp of beginning of excess report
+ * @returns list containing excess report
+ */
 async function excessReport(timeStamp) {
     var report = [];
     try {
@@ -529,6 +534,10 @@ async function excessReport(timeStamp) {
     return report;
 }
 
+/**
+ * Generates restock report
+ * @returns list containing restock report
+ */
 async function restockReport() {
     var report = [];
     try {
@@ -550,6 +559,13 @@ async function restockReport() {
     return report;
 }
 
+/**
+ * Generates popularity report
+ * @param {string} startDateTime - start date
+ * @param {string} endDateTime - end date
+ * @param {int} numMenuItems - number of menu items
+ * @returns list containing popularity report
+ */
 async function menuItemsPopularity(startDateTime, endDateTime, numMenuItems) {
     var report = [];
     try {
@@ -580,6 +596,12 @@ async function menuItemsPopularity(startDateTime, endDateTime, numMenuItems) {
     return report;
 }
 
+/**
+ * Generates sales report
+ * @param {string} startDateTime - start date
+ * @param {string} endDateTime - end date
+ * @returns list containing sales report
+ */
 async function salesReport(startDateTime, endDateTime) {
     var report = {};
     try {
@@ -660,6 +682,11 @@ async function salesReport(startDateTime, endDateTime) {
 
 // MENU-INVENTORY JUNCTION
 
+/**
+ * Gets inventory items required for a menu item
+ * @param {int} id - id
+ * @returns list of inventory items
+ */
 async function getMenuItemInventoryItems(id) {
     var inventoryItems = [];
     try {
@@ -681,6 +708,12 @@ async function getMenuItemInventoryItems(id) {
     }
 }
 
+/**
+ * Updates inventory items associated with menu item
+ * @param {int} id - id
+ * @param {list} newInventoryItems - list of new inventory items
+ * @returns true if function is successful, else false
+ */
 async function updateMenuItemInventoryItems(id, newInventoryItems) {
     try {
         await pool
@@ -707,6 +740,10 @@ async function updateMenuItemInventoryItems(id, newInventoryItems) {
 
 // MENU
 
+/**
+ * Gets menu
+ * @returns list containing the menu
+ */
 async function getMenu() {
     var menu = null;
     // router.post(function() {
@@ -733,6 +770,11 @@ async function getMenu() {
     return menu;
 }
 
+/**
+ * Gets a single menu item
+ * @param {int} id - id
+ * @returns single menu item
+ */
 async function getSingleMenuItem(id) {
     var menuItem = null;
     try {
@@ -752,6 +794,15 @@ async function getSingleMenuItem(id) {
     return menuItem;
 }
 
+/**
+ * Adds a menu item
+ * @param {int} id - item id
+ * @param {string} name - name of item
+ * @param {float} price - price of item
+ * @param {list} inventoryIds - inventory items required to make item
+ * @param {list} addOnIds - add ons possible for item
+ * @returns true if function succeeds, else false
+ */
 async function addMenuItem(id, name, price, inventoryIds, addOnIds) {
     try {
         await pool
@@ -769,6 +820,11 @@ async function addMenuItem(id, name, price, inventoryIds, addOnIds) {
     }
 }
 
+/**
+ * Deletes a menu item
+ * @param {int} id - id
+ * @returns true if function succeeds, else false
+ */
 async function deleteMenuItem(id) {
     try {
         await pool
@@ -791,6 +847,12 @@ async function deleteMenuItem(id) {
     }
 }
 
+/**
+ * Updates menu item name
+ * @param {int} id - id
+ * @param {string} newName - new name 
+ * @returns true if function succeeds, else false
+ */
 async function updateMenuItemName(id, newName) {
     try {
         await pool
@@ -805,6 +867,12 @@ async function updateMenuItemName(id, newName) {
     }
 }
 
+/**
+ * Updates menu item price
+ * @param {int} id - id
+ * @param {float} newPrice - new price 
+ * @returns true if function succeeds, else false
+ */
 async function updateMenuItemPrice(id, newPrice) {
     try {
         await pool
@@ -821,6 +889,11 @@ async function updateMenuItemPrice(id, newPrice) {
 
 // MENU-ADD-ON JUNCTION
 
+/**
+ * Gets add ons possible for a given menu item
+ * @param {int} id - id
+ * @returns list of add ons
+ */
 async function getMenuItemAddOns(id) {
     var addOns = null;
     try {
@@ -841,6 +914,12 @@ async function getMenuItemAddOns(id) {
     return addOns;
 }
 
+/**
+ * Updates add ons possible for menu item
+ * @param {int} id - id
+ * @param {list} newAddOns - list of new add ons 
+ * @returns true if function succeeds, else false
+ */
 async function updateMenuItemAddOns(id, newAddOns) {
     try {
         await pool
@@ -869,6 +948,10 @@ async function updateMenuItemAddOns(id, newAddOns) {
 
 // ADD-ON SECTION
 
+/**
+ * Gets all add ons
+ * @returns list of add ons
+ */
 async function getAddOns() {
     var addOns = [];
     await pool
@@ -881,6 +964,11 @@ async function getAddOns() {
     return addOns;
 }
 
+/**
+ * Gets a single add on
+ * @param {int} id - id
+ * @returns a single add on
+ */
 async function getSingleAddOn(id) {
     var addOn = [];
     await pool
@@ -893,6 +981,14 @@ async function getSingleAddOn(id) {
     return addOn[0];
 }
 
+/**
+ * Adds an add on
+ * @param {int} id - id
+ * @param {string} name - name 
+ * @param {float} price - price
+ * @param {int} inventoryItem - inv item
+ * @returns true if function succeeds, else false
+ */
 async function addAddOn(id, name, price, inventoryItem) {
     try {
         await pool
@@ -908,6 +1004,11 @@ async function addAddOn(id, name, price, inventoryItem) {
     }
 }
 
+/**
+ * Deletes an add on
+ * @param {int} id - id
+ * @returns true if function succeeds, else false
+ */
 async function deleteAddOn(id) {
     try {
         await pool
@@ -926,6 +1027,12 @@ async function deleteAddOn(id) {
     }
 }
 
+/**
+ * Updates add on name
+ * @param {int} id - id
+ * @param {string} newName - new name 
+ * @returns true if function succeeds, else false
+ */
 async function setAddOnName(id, newName) {
     try {
         await pool
@@ -940,6 +1047,12 @@ async function setAddOnName(id, newName) {
     }
 }
 
+/**
+ * Updates add on price
+ * @param {int} id - id
+ * @param {float} newPrice - new price 
+ * @returns true if function succeeds, else false
+ */
 async function setAddOnPrice(id, newPrice) {
     try {
         await pool
@@ -954,6 +1067,12 @@ async function setAddOnPrice(id, newPrice) {
     }
 }
 
+/**
+ * Sets new inventory item for add on
+ * @param {int} id - id
+ * @param {*} newInventoryItemMapping - inventory item id
+ * @returns true if function succeeds, else false
+ */
 async function setAddOnInventoryItem(id, newInventoryItemMapping) {
     try {
         await pool
@@ -970,6 +1089,11 @@ async function setAddOnInventoryItem(id, newInventoryItemMapping) {
 
 // ORDERS SECTION
 
+/**
+ * Gets single order
+ * @param {int} id - id
+ * @returns a single order
+ */
 async function getSingleOrder(id) {
     var order = [];
     await pool
@@ -982,6 +1106,10 @@ async function getSingleOrder(id) {
     return order[0];
 }
 
+/**
+ * Gets all orders
+ * @returns list of orders
+ */
 async function getOrders() {
     var orders = [];
     await pool
@@ -994,6 +1122,13 @@ async function getOrders() {
     return orders;
 }
 
+/**
+ * Adds an order
+ * @param {float} price - price 
+ * @param {list} menuItemIds - list of menu item ids
+ * @param {list} addOnIds - list of add on ids
+ * @returns true if function suceeds, else false
+ */
 async function addOrder(price, menuItemIds, addOnIds) {
     try {
         var id = 0;
@@ -1075,6 +1210,11 @@ async function addOrder(price, menuItemIds, addOnIds) {
     }
 }
 
+/**
+ * Deletes an order
+ * @param {int} id - id 
+ * @returns true if function succeeds, else false
+ */
 async function deleteOrder(id) {
     try {
         await pool
@@ -1110,6 +1250,11 @@ async function deleteOrder(id) {
 
 // EMPLOYEE SECTION
 
+/**
+ * Gets a single employee by id
+ * @param {int} id - id 
+ * @returns a single employee
+ */
 async function getSingleEmployee(id) {
     var employee = [];
     await pool
@@ -1122,6 +1267,10 @@ async function getSingleEmployee(id) {
     return employee[0];
 }
 
+/**
+ * Gets all employees
+ * @returns list of employees
+ */
 async function getEmployees() {
     var employees = [];
     await pool
@@ -1134,6 +1283,17 @@ async function getEmployees() {
     return employees;
 }
 
+/**
+ * Adds an employee
+ * @param {int} id - id
+ * @param {string} userName - username 
+ * @param {string} password - password
+ * @param {string} name - employee name
+ * @param {string} startDate - start date
+ * @param {float} salary - salary
+ * @param {string} position - postiion
+ * @returns true if function succeeds, else false
+ */
 async function addEmployee(id, userName, password, name, startDate, salary, position) {
     try {
         await pool
@@ -1149,6 +1309,11 @@ async function addEmployee(id, userName, password, name, startDate, salary, posi
     }
 }
 
+/**
+ * Deletes an employee by id
+ * @param {int} id - id
+ * @returns true if function suceeds, else false
+ */
 async function deleteEmployee(id) {
     try {
         await pool
@@ -1161,6 +1326,12 @@ async function deleteEmployee(id) {
     }
 }
 
+/**
+ * Updates employee username
+ * @param {int} id 
+ * @param {string} newUsername 
+ * @returns true if function succeeds, else false
+ */
 async function updateEmployeeUsername(id, newUsername) {
     try {
         await pool
@@ -1177,6 +1348,12 @@ async function updateEmployeeUsername(id, newUsername) {
     }
 }
 
+/**
+ * Updates employee password
+ * @param {int} id 
+ * @param {string} newPassword 
+ * @returns true if function succeeds, else false
+ */
 async function updateEmployeePassword(id, newPassword) {
     try {
         await pool
@@ -1193,6 +1370,12 @@ async function updateEmployeePassword(id, newPassword) {
     }
 }
 
+/**
+ * Updates employee name
+ * @param {int} id - id
+ * @param {string} newName - new name 
+ * @returns true if function succeeds, else false
+ */
 async function updateEmployeeName(id, newName) {
     try {
         await pool
@@ -1209,6 +1392,12 @@ async function updateEmployeeName(id, newName) {
     }  
 }
 
+/**
+ * Updates employee start date
+ * @param {int} id - id
+ * @param {string} newStartDate - new start date 
+ * @returns true if function succeeds, else false
+ */
 async function updateEmployeeStartDate(id, newStartDate) {
     try {
         await pool
@@ -1225,6 +1414,12 @@ async function updateEmployeeStartDate(id, newStartDate) {
     }  
 }
 
+/**
+ * Updates employee salary
+ * @param {int} id 
+ * @param {float} newSalary 
+ * @returns true if function succeeds, else false
+ */
 async function updateEmployeeSalary(id, newSalary) {
     try {
         await pool
@@ -1241,6 +1436,12 @@ async function updateEmployeeSalary(id, newSalary) {
     }  
 }
 
+/**
+ * Updates employee position
+ * @param {int} id - id
+ * @param {string} newPosition - new position 
+ * @returns true if function succeeds, else false
+ */
 async function updateEmployeePosition(id, newPosition) {
     try {
         await pool
@@ -1259,6 +1460,11 @@ async function updateEmployeePosition(id, newPosition) {
 
 // SHIFTS SECTION
 
+/**
+ * Gets a single shift by id
+ * @param {int} id - id
+ * @returns a single shift
+ */
 async function getSingleShift(id) {
     var shift = [];
     await pool
@@ -1271,6 +1477,13 @@ async function getSingleShift(id) {
     return shift[0];
 }
 
+/**
+ * Adds a shift
+ * @param {int} id - id 
+ * @param {string} startTime - start time 
+ * @param {string} endTime - end time
+ * @returns true if function succeeds, else false
+ */
 async function addShift(id, startTime, endTime) {
     try {
         await pool
@@ -1286,6 +1499,11 @@ async function addShift(id, startTime, endTime) {
     }
 }
 
+/**
+ * Deletes a shift
+ * @param {int} id - id 
+ * @returns true if function succeeds, else false
+ */
 async function deleteShift(id) {
     try {
         await pool
@@ -1300,6 +1518,12 @@ async function deleteShift(id) {
     }
 }
 
+/**
+ * Updates shift start time
+ * @param {int} id - id
+ * @param {string} newStartTime - new start time 
+ * @returns true if function succeeds, else false
+ */
 async function updateShiftStartTime(id, newStartTime) {
     try {
         await pool
@@ -1316,6 +1540,12 @@ async function updateShiftStartTime(id, newStartTime) {
     }
 }
 
+/**
+ * Updates shift end time
+ * @param {int} id - id
+ * @param {string} newEndTime - new end time 
+ * @returns true if function succeeds, else false
+ */
 async function updateShiftEndTime(id, newEndTime) {
     try {
         await pool
@@ -1332,6 +1562,10 @@ async function updateShiftEndTime(id, newEndTime) {
     }
 }
 
+/**
+ * Gets all shifts
+ * @returns list of shifts
+ */
 async function getAllShifts() {
     var shifts = [];
     await pool
@@ -1346,6 +1580,11 @@ async function getAllShifts() {
 
 // EMPLOYEE SHIFTS JUNCTION TABLE SECTION
 
+/**
+ * Gets all shifts for an employee
+ * @param {int} id - id
+ * @returns list of shifts
+ */
 async function getSingleEmployeeShifts(id) {
     var shifts = [];
     await pool
@@ -1358,6 +1597,10 @@ async function getSingleEmployeeShifts(id) {
     return shifts;
 }
 
+/**
+ * Gets all shifts of all employees
+ * @returns list of shifts
+ */
 async function getAllEmployeeShifts() {
     var shifts = [];
     await pool
@@ -1370,6 +1613,15 @@ async function getAllEmployeeShifts() {
     return shifts;
 }
 
+/**
+ * Adds an employee shift
+ * @param {int} id - id
+ * @param {int} shiftId - shift id 
+ * @param {int} employeeId - employee id
+ * @param {string} month - month
+ * @param {string} dayOfWeek - day
+ * @returns true if function succeeds, else false
+ */
 async function addEmployeeShift(id, shiftId, employeeId, month, dayOfWeek) {
     try {
         await pool
@@ -1385,6 +1637,11 @@ async function addEmployeeShift(id, shiftId, employeeId, month, dayOfWeek) {
     }
 }
 
+/**
+ * Deletes employee shift
+ * @param {int} id 
+ * @returns true if function succeeds, else false
+ */
 async function deleteEmployeeShift(id) {
     try {
         await pool
@@ -1399,6 +1656,12 @@ async function deleteEmployeeShift(id) {
     }
 }
 
+/**
+ * Updates shift id
+ * @param {int} id - id
+ * @param {int} newShiftId - new shift id
+ * @returns true if function succeeds, else false
+ */
 async function updateShiftId(id, newShiftId) {
     try {
         await pool
@@ -1415,6 +1678,12 @@ async function updateShiftId(id, newShiftId) {
     }
 }
 
+/**
+ * Updates employee id
+ * @param {int} id - id
+ * @param {int} newEmployeeId - new employee id 
+ * @returns true if function succeeds, else false
+ */
 async function updateEmployeeId(id, newEmployeeId) {
     try {
         await pool
@@ -1431,6 +1700,12 @@ async function updateEmployeeId(id, newEmployeeId) {
     }
 }
 
+/**
+ * Updates month
+ * @param {int} id - id
+ * @param {string} newMonth - new month 
+ * @returns true if function succeeds, else false
+ */
 async function updateMonth(id, newMonth) {
     try {
         await pool
@@ -1447,6 +1722,12 @@ async function updateMonth(id, newMonth) {
     }
 }
 
+/**
+ * Updates day of week
+ * @param {int} id - id
+ * @param {string} newDayOfWeek - new day of week
+ * @returns true if function succeeds, else false
+ */
 async function updateDayOfWeek(id, newDayOfWeek) {
     try {
         await pool
@@ -1465,6 +1746,11 @@ async function updateDayOfWeek(id, newDayOfWeek) {
 
 // INVENTORY SECTION
 
+/**
+ * Gets a single inventory item by id
+ * @param {int} id - id
+ * @returns a single inventory item
+ */
 async function getSingleInventoryItem(id) {
     var item = [];
     await pool
@@ -1477,6 +1763,10 @@ async function getSingleInventoryItem(id) {
     return item[0];
 }
 
+/**
+ * Gets all inventory items
+ * @returns list of inventory items
+ */
 async function getInventory() {
     var items = [];
     await pool
@@ -1489,6 +1779,16 @@ async function getInventory() {
     return items;
 }
 
+/**
+ * Adds an inventory item
+ * @param {int} id - id
+ * @param {string} name - name of item 
+ * @param {string} lastRestockDate - last restock date of item
+ * @param {float} amountRemaining - amount of item remaining
+ * @param {float} amountUsed - amount of item used
+ * @param {float} minimumAmount - minimum amount of item
+ * @returns true if function succeeds, else false
+ */
 async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amountUsed, minimumAmount) {
     try {
         await pool
@@ -1504,6 +1804,11 @@ async function addInventoryItem(id, name, lastRestockDate, amountRemaining, amou
     }
 }
 
+/**
+ * Deletes an inventory item by id
+ * @param {int} id - id
+ * @returns true if function succeeds, else false
+ */
 async function deleteInventoryItem(id) {
     try {
         await pool
@@ -1516,6 +1821,12 @@ async function deleteInventoryItem(id) {
     }
 }
 
+/**
+ * Updates amount remaining of inventory item
+ * @param {int} id - id
+ * @param {float} newAmountRemaining - new amount remaining
+ * @returns true if function succeeds, else false
+ */
 async function updateInventoryItemAmountRemaining(id, newAmountRemaining) {
     try {
         await pool
@@ -1532,6 +1843,12 @@ async function updateInventoryItemAmountRemaining(id, newAmountRemaining) {
     }
 }
 
+/**
+ * Updates inventory item amount used
+ * @param {int} id - id
+ * @param {float} newAmountUsed - new amount used 
+ * @returns true if function succeeds, else false
+ */
 async function updateInventoryItemAmountUsed(id, newAmountUsed) {
     try {
         await pool
@@ -1548,6 +1865,12 @@ async function updateInventoryItemAmountUsed(id, newAmountUsed) {
     }
 }
 
+/**
+ * Updates inventory item name
+ * @param {int} id - id
+ * @param {string} newName - new name 
+ * @returns true if function succeeds, else false
+ */
 async function updateInventoryItemName(id, newName) {
     try {
         await pool
@@ -1564,6 +1887,12 @@ async function updateInventoryItemName(id, newName) {
     }
 }
 
+/**
+ * Updates inventory item minimum amount
+ * @param {int} id - id
+ * @param {float} newMinimumAmount - new min amount
+ * @returns true if function succeeds, else false
+ */
 async function updateInventoryItemMinimumAmount(id, newMinimumAmount) {
     try {
         await pool
@@ -1580,6 +1909,12 @@ async function updateInventoryItemMinimumAmount(id, newMinimumAmount) {
     }
 }
 
+/**
+ * Updates inventory item last restock date
+ * @param {int} id - id
+ * @param {string} newLastRestockDate - new restock date
+ * @returns true if function succeeds, else false
+ */
 async function updateInventoryItemLastRestockDate(id, newLastRestockDate) {
     try {
         await pool
@@ -1596,6 +1931,13 @@ async function updateInventoryItemLastRestockDate(id, newLastRestockDate) {
     }
 }
 
+/**
+ * Restocks inventory item
+ * @param {int} id - id
+ * @param {string} restockDate - restock date 
+ * @param {float} restockAmount - restock amount
+ * @returns true if function succeeds, else false
+ */
 async function restockInventoryItem(id, restockDate, restockAmount) {
     try {
         var item = [];
@@ -1623,6 +1965,11 @@ async function restockInventoryItem(id, restockDate, restockAmount) {
     }
 }
 
+/**
+ * Uses inventory item
+ * @param {int} id - id
+ * @returns true if function succeeds, else false
+ */
 async function useInventoryItem(id) {
     try {
         var item = getSingleInventoryItem(id);
@@ -1642,6 +1989,11 @@ async function useInventoryItem(id) {
 
 // HELPERS
 
+/**
+ * Gets add ons associated with menu item
+ * @param {int} id - id
+ * @returns list of add ons
+ */
 async function getMenuItemAddOnsNames(id) {
     var names = [];
     try {
@@ -1662,6 +2014,11 @@ async function getMenuItemAddOnsNames(id) {
     return names;
 }
 
+/**
+ * Gets names of inventory items associated with menu item
+ * @param {int} id - id
+ * @returns list of names
+ */
 async function getMenuItemInventoryItemsNames(id) {
     var names = [];
     try {
