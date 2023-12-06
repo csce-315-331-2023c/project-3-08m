@@ -15,7 +15,11 @@ import { useNavigate } from 'react-router-dom';
 import AlleyBackgroundVideo from './AlleyBackgroundVideo';
 import { Height } from '@mui/icons-material';
 
-
+/**
+ * Generates the landing page for the login screen
+ * @param {*} onLogin 
+ * @returns {JSX.Element}
+ */
 export default function LoginLanding({onLogin}) {
     const navigate = useNavigate();
 
