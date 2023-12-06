@@ -179,12 +179,13 @@ const Menu = () => {
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {
           zoom ? 
-          <IconButton aria-label="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>
+          <IconButton aria-label="Zoom Out" alt="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>
           :
-          <IconButton aria-label="Zoom In" onClick={handleZoom} sx={{color: 'white'}}><ZoomIn /></IconButton>
+          <IconButton aria-label="Zoom In" alt="Zoom In" onClick={handleZoom} sx={{color: 'white'}}><ZoomIn /></IconButton>
         }
         <LanguageDialog setDoTL={setDoTL} />
         <IconButton 
+          alt="Checkout"
           onClick={() => setOpenCheckout(true)} 
           aria-label="View Order and Checkout" 
           sx={{ color: 'white' }} // Apply white color to the icon
@@ -211,7 +212,7 @@ const Menu = () => {
           }
           return (
             <div>
-            <button onClick={openDialog(item.id)} className='item-card-btn'>
+            <button onClick={openDialog(item.id)} className='item-card-btn' alt={item.name}>
               <MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
             </button> 
             <Box sx={{ m:3}}></Box>

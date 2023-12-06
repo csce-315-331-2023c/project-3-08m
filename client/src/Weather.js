@@ -410,7 +410,7 @@ export const Weather = ({doTL}) => {
 
     return (
         <>
-            <Box sx={{alignItems: 'center', m: 1 }} onClick={handleBoxClick}>
+            <Box sx={{alignItems: 'center', m: 1 }} onClick={handleBoxClick} alt="Weather">
                 {/* First Line with Icon and Text */}
                 <Box>
                     {/* <Icon height='100%'>
