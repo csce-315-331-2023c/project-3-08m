@@ -61,7 +61,7 @@ function App() {
 /**
  * Provides a tab that links to a page
  * @param {*} props 
- * @returns 
+ * @returns {JSX.Element} Tab
  */
 function LinkTab(props) {
   return (
