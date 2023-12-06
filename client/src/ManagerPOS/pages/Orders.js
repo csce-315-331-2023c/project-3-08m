@@ -6,7 +6,20 @@ import theme from '../../theme';
 import { TranslateBulk, TranslateText } from '../../Translate';
 // import './Orders.css';
 
-
+/**
+ * Orders is a React component that renders an orders management interface.
+ * It includes a title for the orders section, a button to open a sales report, and a table of orders.
+ * The component supports internationalization for the title and button text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed for the title and button text.
+ *
+ * @returns {ReactElement} A component with a title, a button for opening a sales report, and the OrdersTable.
+ *
+ * @example
+ * <Orders doTL={true} />
+ */
 
 const Orders = ({doTL}) => {
   const [showSalesReport, setShowSalesReport] = useState(false);

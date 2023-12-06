@@ -6,6 +6,22 @@ import { TranslateText } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * InventoryCheckbox is a React component that displays a list of inventory items with checkboxes.
+ * It fetches inventory data from a server and allows the user to select inventory items through checkboxes.
+ * The component manages the checked state of each inventory item and supports internationalization for the display text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.isChecked - An object representing the checked state of each inventory item.
+ * @param {Function} props.setIsChecked - A function to update the checked state of the inventory items.
+ *
+ * @returns {ReactElement} A list of checkboxes, each representing an inventory item.
+ *
+ * @example
+ * <InventoryCheckbox isChecked={checkedState} setIsChecked={setCheckedStateFunction} />
+ */
+
 const InventoryCheckbox = ({isChecked, setIsChecked}) => {
     const [ inventory, setInventory ] = useState([]);
     const [ translationText, setTranslationText ] = useState('');

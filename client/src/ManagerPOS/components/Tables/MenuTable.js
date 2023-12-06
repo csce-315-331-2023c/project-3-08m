@@ -14,6 +14,20 @@ import { TranslateBulk, TranslateText } from '../../../Translate';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
+/**
+ * AddToolbar is a functional component that provides a toolbar with an add button for the MenuTable.
+ * It triggers a dialog for adding a new menu item when the add button is clicked.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.menuItems - The current list of menu items.
+ * @param {Function} props.setMenuItems - Function to update the list of menu items.
+ * @param {Object} props.isOpen - Object containing the open state for each menu item's edit dialog.
+ * @param {Function} props.setIsOpen - Function to update the open state for the edit dialogs.
+ * @param {string} props.translationAdd - Translated text for the 'Create New Menu Item' button.
+ *
+ * @returns {ReactElement} A toolbar component with an add button.
+ */
+
 const AddToolbar = ({menuItems, setMenuItems, isOpen, setIsOpen, translationAdd}) => {
 
   const handleAdd = () => {
@@ -36,6 +50,22 @@ const AddToolbar = ({menuItems, setMenuItems, isOpen, setIsOpen, translationAdd}
     </>
   )
 }
+
+/**
+ * MenuTable is a React component that displays a table of menu items.
+ * It handles CRUD operations for menu items, including adding new items, editing existing items, and deleting items.
+ * The component fetches menu items from a server and handles loading and error states.
+ * It also incorporates translation features for internationalization.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed.
+ *
+ * @returns {ReactElement} A DataGrid element containing the menu items.
+ *
+ * @example
+ * <MenuTable doTL={true} />
+ */
 
 const MenuTable = ({doTL}) => {
   const [menuItems, setMenuItems] = useState([]);

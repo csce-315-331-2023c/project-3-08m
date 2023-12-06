@@ -9,6 +9,21 @@ import { TranslateBulk } from '../../../Translate';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 console.log(serverURL);
 
+/**
+ * OrdersTable is a React component that displays a table of orders.
+ * It fetches order data from a server and renders it in a table format.
+ * The component handles loading and error states and supports internationalization for column headers.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed for the table headers.
+ *
+ * @returns {ReactElement} A DataGrid element containing the orders data.
+ *
+ * @example
+ * <OrdersTable doTL={true} />
+ */
+
 const OrdersTable = ({doTL}) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);

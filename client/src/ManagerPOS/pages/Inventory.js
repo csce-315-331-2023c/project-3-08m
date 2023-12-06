@@ -6,6 +6,21 @@ import RestockReport from '../components/Reports/RestockReport';
 import theme from '../../theme';
 import { TranslateBulk } from '../../Translate';
 
+/**
+ * Inventory is a React component that renders an inventory management interface.
+ * It includes a title for the inventory section, buttons to open the Excess and Restock reports, 
+ * and a table of inventory items. The component supports internationalization for the title and button text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed for the title and button text.
+ *
+ * @returns {ReactElement} A component with a title, buttons for opening Excess and Restock reports, and the InventoryTable.
+ *
+ * @example
+ * <Inventory doTL={true} />
+ */
+
 const Inventory = ({doTL}) => {
   const [showExcessReport, setShowExcessReport] = useState(false);
   const [showRestockReport, setShowRestockReport] = useState(false);

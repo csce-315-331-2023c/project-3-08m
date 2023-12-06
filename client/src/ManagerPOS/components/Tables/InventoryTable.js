@@ -16,6 +16,14 @@ import { TranslateBulk, TranslateText } from '../../../Translate';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * Handles updating various inventory item details in the database.
+ * This function manages formatting the update values and making an asynchronous request to the server for updating the inventory.
+ *
+ * @param {string} type - The type of update operation (e.g., 'last_restock_date').
+ * @param {Object} updateVals - The values to be updated, structured as an object.
+ */
+
 const handleUpdate = (type, updateVals) => {
   console.log(type);
   if (type === 'last_restock_date') {
@@ -70,6 +78,21 @@ function AddToolbar({ setInventory, setRowModes, inAdd, setInAdd, translationAdd
     </ThemeProvider>
   )
 }
+
+/**
+ * InventoryTable is a React component that renders a table of inventory items.
+ * It supports CRUD operations, including adding new inventory items, editing existing ones, and deleting them.
+ * The component handles data fetching, loading states, and error states. It also incorporates translation features for internationalization.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed.
+ *
+ * @returns {ReactElement} A DataGrid element containing the inventory data.
+ *
+ * @example
+ * <InventoryTable doTL={true} />
+ */
 
 const InventoryTable = ({doTL}) => {
   const [inventory, setInventory] = useState([]);

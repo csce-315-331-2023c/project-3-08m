@@ -8,6 +8,21 @@ import { TranslateBulk } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * ExcessReportTable is a React component that renders a table to display excess report data.
+ * It fetches data based on the provided timestamp and displays it in a DataGrid. The component also handles loading and error states.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Date} props.timeStamp - The timestamp for which the report data should be fetched.
+ * @param {boolean} props.isOpen - A boolean to determine if the table should be open or closed.
+ * @param {function} props.onClose - A function to be called to close the table.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the ExcessReportTable or null if the table is not open.
+ *
+ * @example
+ * <ExcessReportTable timeStamp={new Date()} isOpen={true} onClose={() => {}} />
+ */
 
 const ExcessReportTable = ({ timeStamp, isOpen, onClose }) => {
   const [excessReportData, setExcessReport] = useState([]);
