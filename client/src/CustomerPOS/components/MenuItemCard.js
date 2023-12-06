@@ -2,6 +2,11 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+/**
+ * The Menu Item card display for the Menu
+ * @param {props} props - the props needed for the Menu Card to display correctly 
+ * @returns the Menu Item displayed in a card format
+ */
 function MenuItemCard({ title, price, imageUrl }) {
   return (
     <Box sx={{

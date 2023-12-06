@@ -16,18 +16,10 @@ import AccountButton from '../AccountButton';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
-// const MenuItem = ({ name, price }) => (
-//   // let [isOpen, setIsOpen] = useState(false);
-//   // <button onClick={}>
-//   <div className="menu-item">
-//     <img src={defaultDrinkImage} alt="Default Drink"className='menu-image' />
-//     <h3>{name}</h3>
-//     <div className="menu-price">{`$${price.toFixed(2)}`}</div>
-//     {/* Likes functionality can be added if you have that data */}
-//   </div>
-//   // </button>
-// );
-
+/**
+ * The Menu for the Customer GUI.
+ * @returns html for the Menu and associated dialogs
+ */
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [ isOpen, setIsOpen ] = useState({});
@@ -43,6 +35,7 @@ const Menu = () => {
 
   useEffect(() => {
     var abortController = new AbortController();
+    // gets the meu and add ons
     const getMenu = async () => {
       try {
         var response = await fetch(serverURL+'/menu', {signal: abortController.signal});
@@ -72,6 +65,7 @@ const Menu = () => {
   // console.log(menuItems);
   // console.log(addOns);
 
+  // translates the menu and add ons
   useEffect(() => {
     if (doTL) {
       var temp = [];
@@ -89,6 +83,7 @@ const Menu = () => {
     }
   }, [doTL])
 
+  // sets open boolean for each menu item dialog to false.
   useEffect(() => {
     var open = {};
     for (const item of menuItems) {
@@ -97,6 +92,7 @@ const Menu = () => {
     setIsOpen(open);
   }, [menuItems]);
 
+  // sets the name of each menu item to its translation.
   useEffect(() => {
     for (let i = 0; i < translationMenu.length; ++i) {
       menuItems[i].name = translationMenu[i];
@@ -104,6 +100,7 @@ const Menu = () => {
     setMenuItems([...menuItems]);
   }, [translationMenu])
 
+  // sets the name of each add on to its translation.
   useEffect(() => {
     for (let i = 0; i < translationAddOns.length; ++i) {
       addOns[i].name = translationAddOns[i];
@@ -111,6 +108,11 @@ const Menu = () => {
     setAddOns([...addOns]);
   }, [translationAddOns])
 
+  /**
+   * Imports all images in a directory
+   * @param {require.context} r - the context of the directory to import from
+   * @returns a dictionary mapping the name of the image file to the image.
+   */
   const importAll = (r) => {
     let images = {};
     r.keys().map((item, index) => { images[item.replace('./','')] = r(item); });
@@ -129,6 +131,11 @@ const Menu = () => {
   //   return <div></div>
   // }
 
+  /**
+   * Sets the isOpen state to true for a menu item
+   * @param {String} id - the id of the menu item that was clicked
+   * @returns void
+   */
   const openDialog = (id) => () => {
     setIsOpen({...isOpen, [id]: true});
   }
@@ -136,6 +143,7 @@ const Menu = () => {
   // console.log(menuItems);
   // console.log(isOpen);
 
+  // loading
   for (const item of menuItems) {
     if (isOpen[item.id] === undefined) {
       return <div></div>
@@ -180,6 +188,7 @@ const Menu = () => {
         {/* <button> */}
         {menuItems.map((item, i) => {
           let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
+          // if no image set to default
           if (!(menuPicture in images)) {
             menuPicture = 'boba.png';
           }

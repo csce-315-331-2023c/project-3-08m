@@ -7,6 +7,11 @@ import { TranslateBulk } from "../../Translate";
 
 // const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * The Edit Dialog for an order item.  Used in Checkout
+ * @param {props} props - the props needed for the Edit Dialog to work correctly 
+ * @returns the Edit Dialog for an order item
+ */
 export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns, setTotalPrice, open, setIsOpen, addOns, allNotes, setAllNotes}) => {
     const [ selected, setSelected ] = useState({});
     const [ price, setPrice ] = useState(Number(row.price.substring(1)));
@@ -16,6 +21,7 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
     const [ translationText, setTranslationText ] = useState([]);
     const [ translationButtons, setTranslationButtons ] = useState([]);
 
+    // gets the selected add-ons for that order item
     useEffect( () => {
         // orderMenuAddOns[row.id] should contain an array of addOns
         // use item.id to get the id
@@ -25,6 +31,7 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
         setSelected({...selected});
     }, []);
 
+    // translations
     useEffect(() => {
         var text = ['Order Notes', 'Add Notes to your Order!'];
         TranslateBulk(text, setTranslationText);
@@ -32,10 +39,20 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
         TranslateBulk(buttons, setTranslationButtons);
     }, [])
 
+    /**
+     * Closes the Edit Dialog for an order item.
+     * @param {String} id - the id of the order item whose dialog needs to be closed
+     * @returns void
+     */
     const handleClose = (id) => () => {
         setIsOpen({...open, [id]: false});
     }
 
+    /**
+     * Saves the Order Item and closes its Edit Dialog
+     * @param {String} id - the id of the order item that was changed
+     * @returns void
+     */
     const handleSave = (id) => () => {
         var newSelected = [];
         for (const item of addOns) {
@@ -67,13 +84,17 @@ export const EditDialog = ({row, totalPrice, orderMenuAddOns, setOrderMenuAddOns
         setIsOpen({...open, [id]: false});
     }
 
+    /**
+     * Updates the notes on change of text.
+     * @param {event} event 
+     */
     const handleNotes = (event) => {
         // console.log(event.target.value);
         setNotes(event.target.value);
     }
 
     // console.log(row);
-
+    // loading
     if (row === undefined) {
         return <div></div>
     }
