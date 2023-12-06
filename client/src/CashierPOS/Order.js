@@ -5,6 +5,14 @@ import { TranslateBulk } from '../Translate';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 var price = 0;
+
+/**
+ * Generates the order text, totals, and checkout/clear buttons for the cashier POS
+ * @param {*} menuItems
+ * @param {*} addons
+ * @param {*} doTL 
+ * @returns {JSX.Element} for order text, totals, and checkout/clear buttons
+ */
 const Order = ({menuItems, addons, doTL}) => {
   const dispatch = useDispatch();
   // const menuItems = useSelector((state) => state.menuItems);
