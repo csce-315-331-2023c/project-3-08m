@@ -13,13 +13,15 @@ import { BrowserRouter } from 'react-router-dom';
 //   document.getElementById('root')
 // );
 ReactDOM.render(
+  <html lang="en">
   <React.StrictMode>
     <Provider store={store}> {/* Wrap your app in the Provider */}
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </html>,
   document.getElementById('root')
 );
 

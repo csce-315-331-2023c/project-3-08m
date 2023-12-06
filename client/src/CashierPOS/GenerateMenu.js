@@ -45,14 +45,16 @@ const GenerateMenu = ({menuItems, addOns}) => {
       <div>
         <ul>
           {menuItems.map((item) => (
-            <button
-              class="menu_button"
-              type="button"
-              key={item.id}
-              onClick={() => handleMenuItemClick(item)}
-            >
-              {item.name}
-            </button>
+            <li>
+              <button
+                class="menu_button"
+                type="button"
+                key={item.id}
+                onClick={() => handleMenuItemClick(item)}
+              >
+                {item.name}
+              </button>
+            </li>
           ))}
         </ul>
       </div>
