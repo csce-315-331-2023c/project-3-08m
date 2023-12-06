@@ -2,6 +2,10 @@ import React from 'react';
 import { Box} from '@mui/material';
 import logoOverlay from './alley_overlay_logo.svg';
 
+/**
+ * Provides a YouTube video background for the Alley page
+ * @returns {JSX.Element} Alley background video
+ */
 const AlleyBackgroundVideo = () => {
 
   return (

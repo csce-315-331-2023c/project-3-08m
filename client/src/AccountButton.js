@@ -6,6 +6,10 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { TranslateBulk } from './Translate';
 
+/**
+ * Provides a button for the user to access their account
+ * @returns {JSX.Element} Account button
+ */
 function AccountButton() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [ translationText, setTranslationText] = useState([]);

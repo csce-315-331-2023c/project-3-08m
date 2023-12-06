@@ -16,7 +16,10 @@ import { Navigate } from 'react-router-dom';
 
 
 
-
+/**
+ * The root app component that contains all other components and routes to them
+ * @returns {JSX.Element} App
+ */
 function App() {
   // const navigate = useNavigate();
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,6 +58,11 @@ function App() {
   // );
 }
 
+/**
+ * Provides a tab that links to a page
+ * @param {*} props 
+ * @returns 
+ */
 function LinkTab(props) {
   return (
     <Tab
@@ -64,6 +72,10 @@ function LinkTab(props) {
   );
 }
 
+/**
+ * Provides a landing page for the application
+ * @returns {JSX.Element} Landing page
+ */
 const LandingPage = () => {
   return (
     <div>
