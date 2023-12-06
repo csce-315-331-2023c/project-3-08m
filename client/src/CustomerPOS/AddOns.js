@@ -14,6 +14,11 @@ import { TranslateBulk } from '../Translate';
 
 // const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * The Dialog that opens upon selecting a menu item.
+ * @param {props} props - the props needed for the dialog to work correctly
+ * @returns the dialog
+ */
 export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuItemAddOns, totalPrice, setTotalPrice, notes, addOns}) {
     // const [ addOns, setAddOns ] = useState([]);
     const [ price, setPrice ] = useState(menuItem.price);
@@ -25,6 +30,7 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
 
     const [ selectedAddOns, setSelectedAddOns ] = useState({});
 
+    // translates text on screen
     useEffect(() => {
         var text = ['Order Notes', 'Add Notes to your Order!'];
         TranslateBulk(text, setTranslationText);
@@ -32,10 +38,20 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
         TranslateBulk(buttons, setTranslationButtons);
     }, []);
 
+    /**
+     * sets the open state of a dialog to false.
+     * @param {String} id - the id of the menu item with the open dialog
+     * @returns void
+     */
     const handleClose = (id) => () => {
         setOpen({...open, [id]: false});
     }
 
+    /**
+     * Adds a menu item, its selected add ons, and its notes to the order
+     * @param {String} id 
+     * @returns void
+     */
     const handleAdd = (id) => () => {
         orderMenuItems.push(menuItem);
         var orderItemAddOns = [];
@@ -52,11 +68,16 @@ export function AddOnDialog({menuItem, open, setOpen, orderMenuItems, orderMenuI
         setOpen({...open, [id]: false});
     }
 
+    /**
+     * Updates the notes on change in text.
+     * @param {event} event 
+     */
     const handleNotes = (event) => {
         setOrderNotes(event.target.value);
     }
 
     // console.log(price);
+    // loading
     if (price === undefined) {
         return <div></div>
     }

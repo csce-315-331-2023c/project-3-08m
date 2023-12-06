@@ -285,6 +285,11 @@ const langAbbrevs2 = {
 
 // const dropDownSymbol = 'V';
 
+/**
+ * The language dialog popup used in the header.
+ * @param {Function} setDoTL - a function that changes the state of the translation boolean for a rerender
+ * @returns void
+ */
 export function LanguageDialog({setDoTL}) {
     let [isOpen, setIsOpen] = useState(false);
     const [ translationText, setTranslationText ] = useState([]);
@@ -363,10 +368,20 @@ export function LanguageDialog({setDoTL}) {
     );
 }
 
+/**
+ * Gets the translation language stored in sessionStorage
+ * @returns the language or 'en' if null
+ */
 const GetTranslateLanguage = () => {
     return (sessionStorage.getItem("language") !== null) ? sessionStorage.getItem("language") : 'en';
 }
 
+/**
+ * Calls the Google Translate API to translate the text in textArray (if any) if the language is not English
+ * and changes the state of the variable that holds the translations.
+ * @param {Array} textArray - the text to be translated
+ * @param {Function} setTranslation - the function that changes the state variable holding the array of translations for rerendering
+ */
 export const TranslateBulk = (textArray, setTranslation) => {
     var tLang = GetTranslateLanguage();
     const translate = () => {
@@ -413,6 +428,12 @@ export const TranslateBulk = (textArray, setTranslation) => {
     // return translations;
 };
 
+/**
+ * Calls the Google Translate API to translate 'text' (if any) if the language is not English
+ * and changes the state of the variable that holds the translation.
+ * @param {String} text - the text to be translated
+ * @param {Function} setTranslation - the function that sets the state variable that holds the translation for rerendering
+ */
 export const TranslateText = (text, setTranslation) => {
     // var translation = text;
     var tLang = GetTranslateLanguage();

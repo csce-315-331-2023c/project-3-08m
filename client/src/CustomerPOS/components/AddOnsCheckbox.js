@@ -4,12 +4,19 @@ import { TranslateBulk } from '../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * The Add-Ons checkboxes used in the Add-Ons Dialog and the Edit Dialog.
+ * If Edit Dialog, automatically checks the previously seleccted Add-Ons.
+ * @param {props} props - the props needed for the checkbox to work correctly
+ * @returns the checkboxes of the Add-Ons associated with the menu item.
+ */
 export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTotalPrice, allAddOns}) => {
     const [ addOns, setAddOns ] = useState([]);
     // const [ doTL, setDoTL ] = useState(false);
     // const [ translation, setTranslation ] = useState([]);
     const [ translationText, setTranslationText ] = useState([]);
 
+    // gets the add ons associated with the menu item.
     useEffect(() => {
         const getAddOns = async (id) => {
             try {
@@ -41,11 +48,17 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
         getAddOns(menuId);
     }, []);
 
+    // translates the screen text.
     useEffect(() => {
         var text = ['Add-Ons'];
         TranslateBulk(text, setTranslationText);
     }, []);
 
+    /**
+     * Updates the selected state and updates the checkbox's check
+     * @param {String} id - the id of the add-on that was clicked
+     * @param {Double} price - the price of the add-on
+     */
     const toggleCheck = (id, price) => {
         console.log(price);
         console.log(selected);
@@ -72,6 +85,7 @@ export const AddOnsCheckbox = ({menuId, selected, setSelected, totalPrice, setTo
     }
 
     // console.log(addOns);
+    // loading
     if (addOns === undefined || addOns.length === 0) {
         return <div></div>
     }

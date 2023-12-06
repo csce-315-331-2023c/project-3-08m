@@ -9,6 +9,11 @@ import { useNavigate } from 'react-router-dom';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * The Dialog that opens when selecting the Checkout Icon in the header.
+ * @param {props} props - the props needed for the Checkout Dialog to work correctly
+ * @returns the Checkout Dialog
+ */
 export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItemsAddOns, setOrderMenuItemAddOns, price, setPrice, isOpen, setIsOpen, notes, setNotes, addOns}) => {
     const [ isEditOpen, setIsEditOpen ] = useState({});
     const [ rows, setRows ] = useState([]);
@@ -21,7 +26,12 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
     const navigate = useNavigate();
 
     // console.log(notes);
-
+    /**
+     * Deletes an order item from the order and rerenders the order
+     * @param {String} id - the id of the order item (not menu item).
+     * @param {Double} subPrice - the price of the order item.
+     * @returns void
+     */
     const handleDelete = (id, subPrice) => () => {
         // console.log(id);
         var newMenuItems = [];
@@ -61,10 +71,16 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         console.log(newRows);
     }
 
+    /**
+     * Sets the open boolean of clicked order item to true.
+     * @param {String} id - the id of the order item to be edited
+     * @returns void
+     */
     const handleEdit = (id) => () => {
         setIsEditOpen({...isEditOpen, [id]: true});
     }
 
+    // translations
     useEffect(() => {
         var headers = ['Item', 'Add-Ons', 'Price', 'Order Notes', 'Actions'];
         TranslateBulk(headers, setTranslationHeader);
@@ -74,6 +90,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         TranslateBulk(buttons, setTranslationButtons);
     }, []);
 
+    // updates column names to their translations
     useEffect(() => {
         const columns = [
             {
@@ -133,6 +150,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setCols(columns);
     }, [translationHeader, rows]);
     
+    // sets the rows of the order
     useEffect (() => {
         const r = [];
         for (let i = 0; i < orderMenuItems.length; ++i) {
@@ -163,7 +181,12 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setRows(r);
     }, [orderMenuItems, orderMenuItemsAddOns, notes]);
 
+    /**
+     * The sends the order to the database if there are order items.  Otherwise, opens the zero dialog
+     * @returns void
+     */
     const checkout = () => {
+        // if no order items
         if (orderMenuItems.length === 0) {
             setOrderSubmitted(true);
             return;
@@ -179,7 +202,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             }
             menuItemAddOnIds.push(addOnIds);
         }
-        
+        // sends the order to the databse via post request
         const sendOrder = async () => {
             try {
                 await fetch(serverURL+'/updateOrders', {
@@ -198,6 +221,12 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setOrderSubmitted(true);
     }
 
+    /**
+     * Handles the clicking of ok in the zero dialog and the submit dialog.
+     * if zero dialog, closes the dialog.
+     * if sumbit dialog, resets the customer gui and sends to login screen.
+     * @returns void
+     */
     const handleOk = () => {
         if (orderMenuItems.length === 0) {
             setOrderSubmitted(false);
@@ -214,18 +243,27 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         navigate('/login');
     }
 
+    /**
+     * opens the Clear Checkout dialog
+     */
     const handleCancel = () => {
+        // console.log('hi');
         setCancelOpen(true);
     }
 
+    /**
+     * clears the order and closes the checkoug dialog
+     */
     const handleCancelOk = () => {
         setPrice(0);
         setOrderMenuItemAddOns([]);
         setOrderMenuItems([]);
         setNotes([]);
+        setCancelOpen(false);
         setIsOpen(false);
     }
 
+    // loading
     for (let i = 0; i < orderMenuItems.length; ++i) {
         if (isEditOpen[i] === undefined) {
             return <div></div>
@@ -339,10 +377,9 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
             </Dialog>
         }
             <Dialog open={cancelOpen}>
-                <DialogTitle>{translationText[6] || 'Order Cancelled!'}</DialogTitle>
+                <DialogTitle>{translationText[8] || 'Order Cancelled!'}</DialogTitle>
                 <Button onClick={handleCancelOk}>Ok</Button>
             </Dialog>
-        
         {
             rows.map((item) => {
                 return (
