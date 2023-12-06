@@ -14,6 +14,10 @@ import { LanguageDialog, TranslateBulk, TranslateText } from '../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * Generates the cashier page
+ * @returns {JSX.Element} for cashier page
+ */
 const CashierPOS = () => {
   const [ doTL, setDoTL ] = useState(true);
   const [ translationText, setTranslationText ] = useState('');
