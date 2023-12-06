@@ -4,6 +4,10 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:9000";
 
+/**
+ * Generates the login page
+ * @returns {JSX.Element} Login page
+ */
 export default function LoginPage() {
     const signInWithGitHub = () => {
         // window.location.href = '/login/github';
