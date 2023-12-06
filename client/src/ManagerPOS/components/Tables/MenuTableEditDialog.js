@@ -7,6 +7,14 @@ import { TranslateBulk } from "../../../Translate";
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * Handles the update operation for menu items. It makes an asynchronous call to the server 
+ * to update menu item details based on the specified type and update values.
+ *
+ * @param {string} type - The type of update operation (e.g., 'add', 'delete').
+ * @param {Object} updateVals - The values to be updated, structured as an object.
+ */
+
 export const handleUpdate = (type, updateVals) => {
     console.log(type);
     const updateMenu = async (type, updateVals) => {
@@ -30,6 +38,31 @@ export const handleUpdate = (type, updateVals) => {
     }
     updateMenu(type, updateVals);
 }
+
+/**
+ * EditDialog is a React component that displays a dialog for editing or adding a menu item.
+ * It fetches menu item details, add-ons, and inventory from the server, and allows for editing these details.
+ * The dialog supports internationalization for labels and buttons.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.menu - The current list of menu items.
+ * @param {Function} props.setMenu - Function to update the list of menu items.
+ * @param {string} props.id - The ID of the menu item being edited or an empty string for a new item.
+ * @param {Object} props.open - Object containing the open state for the dialog.
+ * @param {Function} props.setOpen - Function to update the open state of the dialog.
+ *
+ * @returns {ReactElement} A dialog component for editing or adding a menu item.
+ *
+ * @example
+ * <EditDialog 
+ *     menu={currentMenu} 
+ *     setMenu={setMenuFunction} 
+ *     id={currentItemId} 
+ *     open={dialogOpenState} 
+ *     setOpen={setDialogOpenState} 
+ * />
+ */
 
 export const EditDialog = ({menu, setMenu, id, open, setOpen}) => {
     const [ addOns, setAddOns ] = useState([]);

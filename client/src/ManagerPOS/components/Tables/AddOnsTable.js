@@ -20,6 +20,14 @@ const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 // console.log(process.env.SERVER_URL);
 // console.log(serverURL);
 
+/**
+ * Handles updating various types of add-on data in the database.
+ * Based on the provided type, it formats the data accordingly and sends a request to the server.
+ * 
+ * @param {string} type - The type of update operation (e.g., 'last_restock_date').
+ * @param {Object} updateVals - The values to be updated, structured as an object.
+ */
+
 const handleUpdate = (type, updateVals) => {
   console.log(type);
   if (type === 'last_restock_date') {
@@ -75,6 +83,21 @@ function AddToolbar({ setAddOns, setRowModes, inAdd, setInAdd, translationAdd })
     </ThemeProvider>
   )
 }
+
+/**
+ * AddOnsTable is a React component that displays a table of add-ons.
+ * It fetches add-on data from a server, handles loading and error states, and allows for add-on CRUD operations.
+ * This component supports internationalization for headers and text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean that determines if translation should be performed.
+ *
+ * @returns {ReactElement} A DataGrid element containing the add-ons data.
+ *
+ * @example
+ * <AddOnsTable doTL={true} />
+ */
 
 const AddOnsTable = ({doTL}) => {
   const [addOns, setAddOns] = useState([]);

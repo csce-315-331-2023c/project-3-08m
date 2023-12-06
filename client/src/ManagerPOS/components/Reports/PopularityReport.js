@@ -9,6 +9,22 @@ import theme from '../../../theme';
 import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
 
+/**
+ * PopularityReport is a React component that provides a user interface for generating a popularity report.
+ * The report is based on the start and end times, and the number of items specified by the user.
+ * It displays a dialog for the user to enter these parameters and shows the report table upon submission.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean to determine if the dialog should be open or closed.
+ * @param {function} props.onClose - A function to be called when the dialog needs to be closed.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the form for generating a popularity report or null if the dialog is not open.
+ *
+ * @example
+ * <PopularityReport isOpen={true} onClose={() => {}} />
+ */
+
 const PopularityReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());

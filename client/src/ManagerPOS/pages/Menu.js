@@ -6,6 +6,21 @@ import { Box, Button, ThemeProvider } from '@mui/material';
 import theme from '../../theme';
 import { TranslateBulk } from '../../Translate';
 
+/**
+ * Menu is a React component that renders a menu management interface.
+ * It includes a title for the menu, a button to open a popularity report, and a table of menu items.
+ * The component supports internationalization for the title and button text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed for the title and button text.
+ *
+ * @returns {ReactElement} A component with a title, a button for opening a popularity report, and the MenuTable.
+ *
+ * @example
+ * <Menu doTL={true} />
+ */
+
 const Menu = ({doTL}) => {
   const [showPopularityReport, setShowPopularityReport] = useState(false);
   const [ translationText, setTranslationText ] = useState([]);

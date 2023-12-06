@@ -14,6 +14,20 @@ import Inventory from './pages/Inventory';
 import Menu from './pages/Menu';
 import AddOns from './pages/AddOns';
 import AccountButton from '../AccountButton';
+
+/**
+ * ManagerPOS is a React component that serves as the main interface for the manager's point of sale (POS) system.
+ * It provides navigation to different sections like Employees, Orders, Inventory, Menu, and Add-Ons through a tabbed interface.
+ * The component also supports language translation and includes an account button for user management.
+ *
+ * @component
+ *
+ * @returns {ReactElement} The main POS interface with navigation and routed content for each section.
+ *
+ * @example
+ * <ManagerPOS />
+ */
+
 const ManagerPOS = () => {
   const [selectedTab, setSelectedTab] = useState('/manager/employees');
   const [ doTL, setDoTL ] = useState(true);

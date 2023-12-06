@@ -8,6 +8,32 @@ import { TranslateBulk } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * PopularityReportTable is a React component that renders a data table for displaying popularity report data.
+ * The report data is fetched based on the start and end times, and the number of items specified.
+ * This component handles the fetching of data, loading states, and error states.
+ * Additionally, it utilizes translation features for internationalization.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Date} props.startTime - The start time for the popularity report.
+ * @param {Date} props.endTime - The end time for the popularity report.
+ * @param {number} props.numItems - The number of items to display in the report.
+ * @param {boolean} props.isOpen - A boolean to determine if the table should be open or closed.
+ * @param {function} props.onClose - A function to be called to close the table.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the PopularityReportTable or null if the table is not open.
+ *
+ * @example
+ * <PopularityReportTable 
+ *    startTime={new Date()}
+ *    endTime={new Date()}
+ *    numItems={5}
+ *    isOpen={true} 
+ *    onClose={() => {}} 
+ * />
+ */
+
 
 const PopularityReportTable = ({ startTime, endTime, numItems, isOpen, onClose }) => {
   const [popularityReportData, setShowPopularityReport] = useState([]);

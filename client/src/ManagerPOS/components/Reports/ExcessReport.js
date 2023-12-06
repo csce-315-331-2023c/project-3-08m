@@ -9,6 +9,21 @@ import theme from '../../../theme';
 import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
 
+/**
+ * ExcessReport is a React component that presents a dialog for creating an excess report.
+ * It allows users to select a start date and time, and displays a report table based on the selected date.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean to determine if the dialog should be open or closed.
+ * @param {function} props.onClose - A function to be called when the dialog needs to be closed.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the ExcessReport form or null if the dialog is not open.
+ *
+ * @example
+ * <ExcessReport isOpen={true} onClose={() => {}} />
+ */
+
 const ExcessReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [showReportTable, setShowReportTable] = useState(false);

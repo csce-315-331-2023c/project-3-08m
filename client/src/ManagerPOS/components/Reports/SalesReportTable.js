@@ -8,6 +8,28 @@ import { TranslateBulk } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * SalesReportTable is a React component that displays a sales report table. 
+ * It fetches and shows data based on the given start and end times. 
+ * The component handles the loading and error states and supports internationalization for headers and text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Date} props.startTime - The start time for generating the sales report.
+ * @param {Date} props.endTime - The end time for generating the sales report.
+ * @param {boolean} props.isOpen - A boolean to determine if the table should be open or closed.
+ * @param {function} props.onClose - A function to be called to close the table.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the SalesReportTable or null if the table is not open.
+ *
+ * @example
+ * <SalesReportTable 
+ *    startTime={new Date('2023-01-01')} 
+ *    endTime={new Date('2023-01-31')} 
+ *    isOpen={true} 
+ *    onClose={() => {}} 
+ * />
+ */
 
 const SalesReportTable = ({ startTime, endTime, isOpen, onClose }) => {
   const [salesReportData, setSalesReport] = useState([]);

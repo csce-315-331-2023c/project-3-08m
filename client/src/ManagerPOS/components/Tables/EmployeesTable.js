@@ -16,6 +16,14 @@ import { TranslateBulk, TranslateText } from '../../../Translate';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * Handles the updating of employee information based on a specified type.
+ * This function primarily deals with updating employee data such as start dates, and communicates with the server for database updates.
+ *
+ * @param {string} type - The type of update operation (e.g., 'start_date', 'delete').
+ * @param {Object} updateVals - The values to be updated, structured as an object.
+ */
+
 const handleUpdate = (type, updateVals) => {
   console.log(type);
   if (type === 'start_date') {
@@ -71,6 +79,21 @@ function AddToolbar({ setEmployees, setRowModes, inAdd, setInAdd, translationAdd
     </ThemeProvider>
   )
 }
+
+/**
+ * EmployeesTable is a React component that renders a table of employees.
+ * It handles CRUD operations for employee data, including fetching from and updating data to a server.
+ * The component supports row editing, adding new employees, and deleting existing ones. It also supports internationalization for headers and button text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed.
+ *
+ * @returns {ReactElement} A DataGrid element containing the employees data.
+ *
+ * @example
+ * <EmployeesTable doTL={true} />
+ */
 
 const EmployeesTable = ({doTL}) => {
   const [employees, setEmployees] = useState([]);

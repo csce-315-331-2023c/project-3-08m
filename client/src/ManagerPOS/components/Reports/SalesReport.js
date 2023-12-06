@@ -9,6 +9,22 @@ import theme from '../../../theme';
 import { TranslateBulk } from '../../../Translate';
 // import './Reports.css';
 
+/**
+ * SalesReport is a React component that renders a user interface for generating a sales report.
+ * It allows users to select start and end dates and, upon submission, displays a table with the sales report.
+ * The component handles state for date selection, loading the report table, and includes internationalization support with translation features.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean to determine if the dialog should be open or closed.
+ * @param {function} props.onClose - A function to be called when the dialog needs to be closed.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the form for generating a sales report or null if the dialog is not open.
+ *
+ * @example
+ * <SalesReport isOpen={true} onClose={() => {}} />
+ */
+
 const SalesReport = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());

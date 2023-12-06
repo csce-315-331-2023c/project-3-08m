@@ -7,6 +7,21 @@ import { TranslateBulk } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * RestockReport is a React component that provides a user interface for generating a restock report.
+ * The component fetches data related to items that may need restocking, handles loading and error states,
+ * and displays this data in a table format. It also incorporates translation features for internationalization.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean to determine if the dialog should be open or closed.
+ * @param {function} props.onClose - A function to be called when the dialog needs to be closed.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the RestockReport table or null if the dialog is not open.
+ *
+ * @example
+ * <RestockReport isOpen={true} onClose={() => {}} />
+ */
 
 const RestockReport = ({isOpen, onClose }) => {
   const [restockReportData, setRestockReport] = useState([]);

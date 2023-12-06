@@ -6,6 +6,22 @@ import { TranslateText } from '../../../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * AddOnsCheckbox is a React component that displays a list of add-ons with checkboxes.
+ * It fetches add-on data from a server and allows the user to select add-ons through checkboxes.
+ * The component manages the checked state of each add-on and supports internationalization for the display text.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.isChecked - An object representing the checked state of each add-on.
+ * @param {Function} props.setIsChecked - A function to update the checked state of the add-ons.
+ *
+ * @returns {ReactElement} A list of checkboxes, each representing an add-on.
+ *
+ * @example
+ * <AddOnsCheckbox isChecked={checkedState} setIsChecked={setCheckedStateFunction} />
+ */
+
 const AddOnsCheckbox = ({isChecked, setIsChecked}) => {
     const [ addOns, setAddOns ] = useState([]);
     const [ translationText, setTranslationText ] = useState('');
