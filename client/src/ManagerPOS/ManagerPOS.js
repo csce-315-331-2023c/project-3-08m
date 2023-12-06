@@ -78,12 +78,13 @@ const ManagerPOS = () => {
       document.body.style.zoom = "100%";
     }
     else {
-      document.body.style.zoom = "250%";
+      document.body.style.zoom = "200%";
     }
     setZoom(!zoom);
   }
 
   return (
+    <div style={{overflow: 'auto'}}>
     <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Toolbar>
@@ -118,6 +119,7 @@ const ManagerPOS = () => {
         <Route path="/" element={<Employees doTL={doTL} />} />
       </Routes>
     </ThemeProvider>
+    </div>
   );
 };
 
