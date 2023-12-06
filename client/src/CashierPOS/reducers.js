@@ -1,6 +1,12 @@
 // reducers.js
 import { FETCH_MENU_ITEMS, UPDATE_MENU_ITEMS, UPDATE_ADDONS, CLEAR_MENU_ITEMS, CLEAR_ADDONS, FETCH_ADDONS, ADD_ITEM_TO_ORDER, CLEAR_ORDER } from './actions';
 
+/**
+ * Redux reducer for menu items
+ * @param {*} state 
+ * @param {*} action 
+ * @returns {Array}
+ */
 const menuItemsReducer = (state = [], action) => {
   switch (action.type) {
     case FETCH_MENU_ITEMS:
@@ -13,6 +19,12 @@ const menuItemsReducer = (state = [], action) => {
   }
 };
 
+/**
+ * Redux reducer for add-ons
+ * @param {*} state 
+ * @param {*} action 
+ * @returns {Array}
+ */
 const addonsReducer = (state = [], action) => {
   switch (action.type) {
     case FETCH_ADDONS:
@@ -25,6 +37,12 @@ const addonsReducer = (state = [], action) => {
   }
 };
 
+/**
+ * Redux reducer for orders
+ * @param {*} state 
+ * @param {*} action 
+ * @returns {Array}
+ */
 const orderReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_ITEM_TO_ORDER':
