@@ -1,11 +1,12 @@
 // ManagerPOS.js
 import React, { useEffect, useState } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import { AppBar, Toolbar, Tabs, Button, Box, ThemeProvider} from '@mui/material';
+import { AppBar, Toolbar, Tabs, Button, Box, ThemeProvider, IconButton} from '@mui/material';
 import theme from '../theme';
 import alleyLogo from '../CustomerPOS/assets/the_alley_logo.png';
 import { LanguageDialog, TranslateBulk } from '../Translate';
 // import { NavLink, Routes, Route } from 'react-router-dom';
+import { ZoomOut, ZoomIn } from '@mui/icons-material';
 
 // Import your page components
 import Employees from './pages/Employees';
@@ -14,6 +15,7 @@ import Inventory from './pages/Inventory';
 import Menu from './pages/Menu';
 import AddOns from './pages/AddOns';
 import AccountButton from '../AccountButton';
+import { Weather } from '../Weather';
 
 /**
  * ManagerPOS is a React component that serves as the main interface for the manager's point of sale (POS) system.
@@ -32,6 +34,7 @@ const ManagerPOS = () => {
   const [selectedTab, setSelectedTab] = useState('/manager/employees');
   const [ doTL, setDoTL ] = useState(true);
   const [ translationButtons, setTranslationButtons ] = useState([]);
+  const [ zoom, setZoom ] = useState(false);
 
   useEffect(() => {
     if (doTL) {
@@ -70,6 +73,16 @@ const ManagerPOS = () => {
     </Button>
   );
 
+  const handleZoom = () => {
+    if (zoom) {
+      document.body.style.zoom = "100%";
+    }
+    else {
+      document.body.style.zoom = "250%";
+    }
+    setZoom(!zoom);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
@@ -78,12 +91,19 @@ const ManagerPOS = () => {
           <Box sx={{mb:2, mt:2, flexGrow: 2, justifyContent: 'space-between'}}>
             <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
           </Box>
+          {/* <Box sx={{ ml:2 }}><Weather doTL={doTL} /></Box> */}
           </Box>
           {navButton(translationButtons[0] || 'Employees', '/manager/employees')}
           {navButton(translationButtons[1] || 'Orders', '/manager/orders')}
           {navButton(translationButtons[2] || 'Inventory', '/manager/inventory')}
           {navButton(translationButtons[3] || 'Menu', '/manager/menu')}
           {navButton(translationButtons[4] || 'Add-ons', '/manager/add-ons')}
+          {
+            zoom ? 
+            <IconButton aria-label="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>
+            :
+            <IconButton aria-label="Zoom In" onClick={handleZoom} sx={{color: 'white'}}><ZoomIn /></IconButton>
+          }
           <LanguageDialog setDoTL={setDoTL} />
           <AccountButton />
         </Toolbar>

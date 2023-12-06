@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './Menu.css'; // Make sure to create a CSS file with this name
-import defaultDrinkImage from './assets/boba.svg';
 import { TranslateBulk, LanguageDialog } from '../Translate';
 import { AddOnDialog } from './AddOns';
 import MenuItemCard from './components/MenuItemCard';
@@ -11,6 +10,7 @@ import alleyLogo from './assets/the_alley_logo.png';
 import theme from '../theme';
 import { Weather } from '../Weather';
 import AccountButton from '../AccountButton';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
@@ -32,6 +32,7 @@ const Menu = () => {
   const [ translationMenu, setTranslationMenu ] = useState([]);
   const [ translationAddOns, setTranslationAddOns ] = useState([]);
   const [ addOns, setAddOns ] = useState([]);
+  const [ zoom, setZoom ] = useState(false);
 
   useEffect(() => {
     var abortController = new AbortController();
@@ -140,6 +141,16 @@ const Menu = () => {
     setIsOpen({...isOpen, [id]: true});
   }
 
+  const handleZoom = () => {
+    if (zoom) {
+      document.body.style.zoom = "100%";
+    }
+    else {
+      document.body.style.zoom = "250%";
+    }
+    setZoom(!zoom);
+  }
+
   // console.log(menuItems);
   // console.log(isOpen);
 
@@ -166,6 +177,12 @@ const Menu = () => {
 
       {/* Right Side: Icon Buttons */}
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {
+          zoom ? 
+          <IconButton aria-label="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>
+          :
+          <IconButton aria-label="Zoom In" onClick={handleZoom} sx={{color: 'white'}}><ZoomIn /></IconButton>
+        }
         <LanguageDialog setDoTL={setDoTL} />
         <IconButton 
           onClick={() => setOpenCheckout(true)} 
@@ -184,7 +201,7 @@ const Menu = () => {
     <Box sx={{ m:3}}></Box>
       {/* <LanguageDialog />
       <Button onClick={() => setOpenCheckout(true)}>View Order and Checkout</Button> */}
-      <div className="menu">
+      <div className="menu" style={{overflow: 'auto'}}>
         {/* <button> */}
         {menuItems.map((item, i) => {
           let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
