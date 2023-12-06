@@ -6,6 +6,12 @@ import { TranslateBulk } from '../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * Generates the menu buttons for the cashier POS
+ * @param {*} menuItems
+ * @param {*} addOns
+ * @returns {JSX.Element} for menu buttons
+ */
 const GenerateMenu = ({menuItems, addOns}) => {
   // const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(menuItems == []);
