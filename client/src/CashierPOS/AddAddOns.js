@@ -12,6 +12,10 @@ import { LanguageDialog, TranslateBulk } from '../Translate';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
+/**
+ * Generates the add-ons page for the cashier POS
+ * @returns {JSX.Element} for add-ons page
+ */
 const AddAddOns = () => {
   const { itemId } = useParams();
   const dispatch = useDispatch();
