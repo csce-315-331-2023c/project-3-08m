@@ -6,7 +6,7 @@ const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 /**
  * The Add-Ons checkboxes used in the Add-Ons Dialog and the Edit Dialog.
- * If Edit Dialog, automatically checks the previously seleccted Add-Ons.
+ * If Edit Dialog, automatically checks the previously selected Add-Ons.
  * @param {props} props - the props needed for the checkbox to work correctly
  * @returns the checkboxes of the Add-Ons associated with the menu item.
  */
