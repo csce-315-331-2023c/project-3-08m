@@ -14,6 +14,11 @@ var today = `${year}-${month}-${day}`;
 const API_KEY = "AJ9C85JYEPDC8Q6S8VDNKMA64";
 const API_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/77840/" + today + "?key=" + API_KEY + "&iconSet=icons2";
 
+/**
+ * Generates the weather text and icon for the weather dialog
+ * @param {*} response 
+ * @returns {JSX.Element} for weather text and icon
+ */
 function processWeatherData(response) {
     var day = response.days[0];
     var min = day.tempmin;
@@ -331,6 +336,11 @@ function processWeatherData(response) {
     return {min, max, curr, conditions, icon, description, svg, feelslike, feelslikemax, feelslikemin, humidity};
 }
 
+/**
+ * Processes the weather data from the API call to be used in the Weather component
+ * @param {*} param0 
+ * @returns {JSX.Element} for the weather component
+ */
 export const Weather = ({doTL}) => {
     const [ weather, setWeather ] = useState({});
     const [open, setOpen] = useState(false);
