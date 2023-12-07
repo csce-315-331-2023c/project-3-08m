@@ -123,7 +123,7 @@ export default function LoginLanding({onLogin}) {
               </Button>
               <LoginPage />
               <Button
-                onClick={() => navigate('/customer')}
+                onClick={() => navigate('/menu_board')}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 2, }}

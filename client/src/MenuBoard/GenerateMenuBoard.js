@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import MenuItemCard from '../CustomerPOS/components/MenuItemCard';
 import '../CustomerPOS/Menu.css';
-import { Box } from '@mui/material';
 import { TranslateBulk, LanguageDialog } from '../Translate';
 import { AddOnDialog } from './components/AddOnDialog';
+import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider, Badge} from '@mui/material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import alleyLogo from '../CustomerPOS/assets/the_alley_logo.png';
+import theme from '../theme';
+import { Weather } from '../Weather';
+import AccountButton from '../AccountButton';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+const clientURL = process.env.REACT_APP_CLIENT_URL || 'http://localhost:3000';
 
 const GenerateMenuBoard = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -15,6 +22,9 @@ const GenerateMenuBoard = () => {
   const [ translationAddOns, setTranslationAddOns ] = useState([]);
   const [ doTL, setDoTL ] = useState(false);
   const [ isOpen, setIsOpen ] = useState({});
+  const [ zoom, setZoom ] = useState(false);
+  const [ orderMenuItems, setOrderMenuItems ] = useState([]);
+  const [ openCheckout, setOpenCheckout ] = useState(false);
 
   useEffect(() => {
     const getMenu = async () => {
@@ -94,6 +104,16 @@ const GenerateMenuBoard = () => {
 
   const images = importAll(require.context('../CustomerPOS/assets', false, /\.(png|jpe?g|svg)$/));
 
+  const handleZoom = () => {
+    if (zoom) {
+      document.body.style.zoom = "100%";
+    }
+    else {
+      document.body.style.zoom = "250%";
+    }
+    setZoom(!zoom);
+  }
+
   const openDialog = (id) => () => {
     setIsOpen({...isOpen, [id]: true});
   }
@@ -106,6 +126,34 @@ const GenerateMenuBoard = () => {
 
   return (
     <div>
+      <ThemeProvider theme={theme}>
+      <AppBar position="static">
+      <Toolbar>
+      {/* Left Side: Image and Weather Component */}
+      <Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
+        <a href={clientURL}>
+          <Box sx={{ mb: 1, mt: 1 }}>
+            <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
+          </Box>
+        </a>
+        <Box sx={{ ml:2 }}><Weather doTL={doTL} /></Box>
+        
+      </Box>
+
+      {/* Right Side: Icon Buttons */}
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {
+          zoom ? 
+          <IconButton aria-label="Zoom Out" alt="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>
+          :
+          <IconButton aria-label="Zoom In" alt="Zoom In" onClick={handleZoom} sx={{color: 'white'}}><ZoomIn /></IconButton>
+        }
+        <LanguageDialog setDoTL={setDoTL} />
+        <AccountButton />
+      </Box>
+    </Toolbar>
+    </AppBar>
+    </ThemeProvider>
       <div className="menu">
         {
           menuItems.map((item) => {
