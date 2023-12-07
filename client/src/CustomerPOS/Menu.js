@@ -11,6 +11,7 @@ import theme from '../theme';
 import { Weather } from '../Weather';
 import AccountButton from '../AccountButton';
 import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
@@ -34,6 +35,7 @@ const Menu = () => {
   const [ translationAddOns, setTranslationAddOns ] = useState([]);
   const [ addOns, setAddOns ] = useState([]);
   const [ zoom, setZoom ] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     var abortController = new AbortController();
@@ -180,6 +182,12 @@ const Menu = () => {
 
       {/* Right Side: Icon Buttons */}
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Button
+          onClick={() => navigate('/menu_board')}
+          sx={{color: 'white'}}
+        >
+          Menu
+        </Button>
         {
           zoom ? 
           <IconButton aria-label="Zoom Out" alt="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>

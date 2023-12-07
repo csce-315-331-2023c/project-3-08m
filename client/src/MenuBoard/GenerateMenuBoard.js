@@ -10,6 +10,7 @@ import theme from '../theme';
 import { Weather } from '../Weather';
 import AccountButton from '../AccountButton';
 import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
@@ -23,8 +24,7 @@ const GenerateMenuBoard = () => {
   const [ doTL, setDoTL ] = useState(false);
   const [ isOpen, setIsOpen ] = useState({});
   const [ zoom, setZoom ] = useState(false);
-  const [ orderMenuItems, setOrderMenuItems ] = useState([]);
-  const [ openCheckout, setOpenCheckout ] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getMenu = async () => {
@@ -70,17 +70,17 @@ const GenerateMenuBoard = () => {
     if (doTL) {
       var temp = [];
       for (const item of menuItems) {
-        temp.push(item.name);
+        temp.push(item.enName);
       }
       TranslateBulk(temp, setTranslationMenu);
       temp = [];
       for (const item of addOns) {
-        temp.push(item.name);
+        temp.push(item.enName);
       }
       TranslateBulk(temp, setTranslationAddOns);
       setDoTL(false);
     }
-  }, [doTL])
+  }, [doTL, menuItems, addOns])
 
   useEffect(() => {
     for (let i = 0; i < translationMenu.length; ++i) {
@@ -142,6 +142,12 @@ const GenerateMenuBoard = () => {
 
       {/* Right Side: Icon Buttons */}
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Button
+          onClick={() => navigate('/customer')}
+          sx={{color: 'white'}}
+        >
+          Order
+        </Button>
         {
           zoom ? 
           <IconButton aria-label="Zoom Out" alt="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>
