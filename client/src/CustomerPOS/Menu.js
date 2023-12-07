@@ -182,12 +182,12 @@ const Menu = () => {
 
       {/* Right Side: Icon Buttons */}
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Button
+        {/* <Button
           onClick={() => navigate('/menu_board')}
           sx={{color: 'white'}}
         >
           Menu
-        </Button>
+        </Button> */}
         {
           zoom ? 
           <IconButton aria-label="Zoom Out" alt="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>

@@ -142,12 +142,12 @@ const GenerateMenuBoard = () => {
 
       {/* Right Side: Icon Buttons */}
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Button
+        {/* <Button
           onClick={() => navigate('/customer')}
           sx={{color: 'white'}}
         >
           Order
-        </Button>
+        </Button> */}
         {
           zoom ? 
           <IconButton aria-label="Zoom Out" alt="Zoom Out" onClick={handleZoom} sx={{color: 'white'}}><ZoomOut /></IconButton>

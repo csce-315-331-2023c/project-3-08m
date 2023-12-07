@@ -240,7 +240,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
         setNotes([]);
         setOrderSubmitted(false);
         setIsOpen(false);
-        navigate('/login');
+        // navigate('/login');
     }
 
     /**
