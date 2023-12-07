@@ -31,7 +31,12 @@ function App() {
   // };
 
   return (
-    
+    <>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>The Alley POS Systems</title>
+    </head>
     <Routes>  
       <Route path="/manager/*" element={<ManagerPOS />} />
       <Route path="/cashier/*" element={<CashierPOS />} />
@@ -45,6 +50,7 @@ function App() {
       <Route path="*" element={<LoginLanding />} />
       <Route path="/login" element={<LoginLanding />} />
     </Routes>
+    </>
   );
 
   // return (
@@ -78,7 +84,7 @@ function LinkTab(props) {
  */
 const LandingPage = () => {
   return (
-    <html lang='en'>
+    // <html lang='en'>
     <div>
       <nav>
         <ul>
@@ -110,29 +116,29 @@ const LandingPage = () => {
         <Route path="/login/*" element={<LoginPage />} />
       </Routes>
     </div>
-    {/* // <div>
-    //   <AppBar position="static">
-    //     <Toolbar>
-    //       <Tabs aria-label="navigation tabs">
-    //         <LinkTab label="Manager" to="/manager" />
-    //         <LinkTab label="Cashier" to="/cashier" />
-    //         <LinkTab label="Menu Board" to="/menu_board" />
-    //         <LinkTab label="Customer" to="/customer" />
-    //       </Tabs>
-    //     </Toolbar>
-    //   </AppBar>
+    // {/* // <div>
+    // //   <AppBar position="static">
+    // //     <Toolbar>
+    // //       <Tabs aria-label="navigation tabs">
+    // //         <LinkTab label="Manager" to="/manager" />
+    // //         <LinkTab label="Cashier" to="/cashier" />
+    // //         <LinkTab label="Menu Board" to="/menu_board" />
+    // //         <LinkTab label="Customer" to="/customer" />
+    // //       </Tabs>
+    // //     </Toolbar>
+    // //   </AppBar>
 
-    //   <Routes>
-    //     <Route path="/manager/*" element={<ManagerPOS />} />
-    //     <Route path="/cashier/*" element={<CashierPOS />} />
-    //     <Route path="/cashier/add-ons" element={<AddAddOns />} />
-    //     <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
-    //     <Route path="/menu_board" element={<MenuBoard />} />
-    //     <Route path="/customer" element={<CustomerPOS />} />
-    //     <Route path="/checkout" element={<Checkout />} />
-    //   </Routes>
-    // </div> */}
-    </html>
+    // //   <Routes>
+    // //     <Route path="/manager/*" element={<ManagerPOS />} />
+    // //     <Route path="/cashier/*" element={<CashierPOS />} />
+    // //     <Route path="/cashier/add-ons" element={<AddAddOns />} />
+    // //     <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
+    // //     <Route path="/menu_board" element={<MenuBoard />} />
+    // //     <Route path="/customer" element={<CustomerPOS />} />
+    // //     <Route path="/checkout" element={<Checkout />} />
+    // //   </Routes>
+    // // </div> */}
+    // </html>
   );
 }
 
