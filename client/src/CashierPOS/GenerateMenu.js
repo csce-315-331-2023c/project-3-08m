@@ -43,9 +43,7 @@ const GenerateMenu = ({menuItems, addOns}) => {
   return (
     <div>
       <div>
-        <ul>
           {menuItems.map((item) => (
-            <li>
               <button
                 class="menu_button"
                 type="button"
@@ -54,9 +52,7 @@ const GenerateMenu = ({menuItems, addOns}) => {
               >
                 {item.name}
               </button>
-            </li>
           ))}
-        </ul>
       </div>
     </div>
   );
