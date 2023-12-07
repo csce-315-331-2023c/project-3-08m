@@ -195,6 +195,7 @@ const MenuTable = ({doTL}) => {
     <Box sx={{ width: '100%', '& .super-app-theme--header': {
       backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
       <DataGrid
+        experimentalFeatures={{ariaV7: true}}
         // onCellEditStop={handleEdit}
         rows={menuItems}
         columns={columns}

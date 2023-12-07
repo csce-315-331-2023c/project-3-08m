@@ -310,6 +310,7 @@ export const CheckoutDialog = ({orderMenuItems, setOrderMenuItems, orderMenuItem
                     <DataGrid 
                         columns={cols}
                         rows={rows}
+                        experimentalFeatures={{ariaV7: true}}
                         // hideFooter
                         // hideFooterPagination
                         hideFooterSelectedRowCount
