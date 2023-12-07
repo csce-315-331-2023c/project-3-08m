@@ -15,6 +15,7 @@ import AccountButton from '../AccountButton';
 import { ZoomOut, ZoomIn } from '@mui/icons-material';
 
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+const clientURL = process.env.REACT_APP_CLIENT_URL || 'http://localhost:3000';
 
 /**
  * Generates the cashier page
@@ -104,9 +105,11 @@ const CashierPOS = () => {
         <AppBar position='static'>
           <Toolbar>
             <Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
-              <Box sx={{ mb: 1, mt: 1 }}>
-                <img src={alleyLogo} alt='The Alley Logo' style={{ maxHeight: 70, maxWidth: '100%'}} />
-              </Box>
+              <a href={clientURL}>
+                <Box sx={{ mb: 1, mt: 1 }}>
+                  <img src={alleyLogo} alt='The Alley Logo' style={{ maxHeight: 70, maxWidth: '100%'}} />
+                </Box>
+              </a>
               <Box sx={{ m1:2 }}><Weather doTL={doTL} /></Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center'}}>

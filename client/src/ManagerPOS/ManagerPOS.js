@@ -17,6 +17,8 @@ import AddOns from './pages/AddOns';
 import AccountButton from '../AccountButton';
 import { Weather } from '../Weather';
 
+const clientURL = process.env.REACT_APP_CLIENT_URL || 'http://localhost:3000';
+
 /**
  * ManagerPOS is a React component that serves as the main interface for the manager's point of sale (POS) system.
  * It provides navigation to different sections like Employees, Orders, Inventory, Menu, and Add-Ons through a tabbed interface.
@@ -89,9 +91,11 @@ const ManagerPOS = () => {
       <AppBar position="static">
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-          <Box sx={{mb:2, mt:2, flexGrow: 2, justifyContent: 'space-between'}}>
-            <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-          </Box>
+          <a href={clientURL}>
+            <Box sx={{mb:2, mt:2, flexGrow: 2, justifyContent: 'space-between'}}>
+              <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
+            </Box>
+          </a>
           {/* <Box sx={{ ml:2 }}><Weather doTL={doTL} /></Box> */}
           </Box>
           {navButton(translationButtons[0] || 'Employees', '/manager/employees')}

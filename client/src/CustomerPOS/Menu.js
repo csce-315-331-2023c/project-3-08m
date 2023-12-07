@@ -15,6 +15,7 @@ import { ZoomIn, ZoomOut } from '@mui/icons-material';
 // const serverURL = 'http://localhost:9000';
 // const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+const clientURL = process.env.REACT_APP_CLIENT_URL || 'http://localhost:3000';
 
 /**
  * The Menu for the Customer GUI.
@@ -168,9 +169,11 @@ const Menu = () => {
       <Toolbar>
       {/* Left Side: Image and Weather Component */}
       <Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
-        <Box sx={{ mb: 1, mt: 1 }}>
-          <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-        </Box>
+        <a href={clientURL}>
+          <Box sx={{ mb: 1, mt: 1 }}>
+            <img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
+          </Box>
+        </a>
         <Box sx={{ ml:2 }}><Weather doTL={doTL} /></Box>
         
       </Box>
