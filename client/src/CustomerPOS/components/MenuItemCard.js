@@ -37,11 +37,11 @@ function MenuItemCard({ title, price, imageUrl }) {
         alignItems: 'flex-start',
       }}>
         <Box sx={{ m: 2 }} />
-        <Typography variant="h6" component="h3" sx={{ m: 0, color: '#333', fontWeight: 'bold' }}>
+        <Typography variant="h6" component="h3" sx={{ m: 0, color: '#0000000', fontWeight: 'bold' }}>
           {title}
       </Typography>
         {/* <Box sx={{ m: 1 }} /> */}
-        <Typography variant="body1" sx={{ color: '#888' }}>
+        <Typography variant="body1" sx={{ color: '#0000000000' }}>
           {price}
         </Typography>
         <Box sx={{ m: 2 }} />
