@@ -78,6 +78,7 @@ function LinkTab(props) {
  */
 const LandingPage = () => {
   return (
+    <html lang='en'>
     <div>
       <nav>
         <ul>
@@ -131,6 +132,7 @@ const LandingPage = () => {
     //     <Route path="/checkout" element={<Checkout />} />
     //   </Routes>
     // </div>
+    </html>
   );
 }
 

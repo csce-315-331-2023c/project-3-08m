@@ -44,7 +44,7 @@ function AccountButton() {
 
   return (
     <div>
-      <IconButton onClick={handleMenu} color="inherit" alt="Account">
+      <IconButton onClick={handleMenu} color="inherit" aria-label="Account">
         <AccountCircle />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
