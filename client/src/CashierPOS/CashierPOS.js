@@ -100,6 +100,12 @@ const CashierPOS = () => {
   }
 
   return (
+    <>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>The Alley POS Systems</title>
+    </head>
     <div>
       <ThemeProvider theme={theme}>
         <AppBar position='static'>
@@ -139,6 +145,7 @@ const CashierPOS = () => {
         <Route path="/cashier/add-ons/:itemId" element={<AddAddOns />} />
       </Routes>
     </div>
+    </>
   );
 };
 
