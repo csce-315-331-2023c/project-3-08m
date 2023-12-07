@@ -110,7 +110,7 @@ const LandingPage = () => {
         <Route path="/login/*" element={<LoginPage />} />
       </Routes>
     </div>
-    // <div>
+    {/* // <div>
     //   <AppBar position="static">
     //     <Toolbar>
     //       <Tabs aria-label="navigation tabs">
@@ -131,7 +131,7 @@ const LandingPage = () => {
     //     <Route path="/customer" element={<CustomerPOS />} />
     //     <Route path="/checkout" element={<Checkout />} />
     //   </Routes>
-    // </div>
+    // </div> */}
     </html>
   );
 }
