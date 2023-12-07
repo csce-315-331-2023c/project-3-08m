@@ -335,6 +335,7 @@ const EmployeesTable = ({doTL}) => {
       backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
       <DataGrid
         // onCellEditStop={handleEdit}
+        experimentalFeatures={{ariaV7}}
         editMode='row'
         rowModesModel={rowModes}
         onRowModesModelChange={handleRowModesModelChange}
